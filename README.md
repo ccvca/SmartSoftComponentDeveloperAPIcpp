@@ -12,47 +12,21 @@ Please find documentation on SmartSoft component structures in [Schlegel2004]. W
 
 ### Component Communication Patterns
 
-* Send (Client/Server interaction)
-
-  One-way communication.  
-  Outside view: [Schlegel2004, pp. 85-88]
-
-* Query (Client/Server interaction)
-
-  Two-way request/response (request/response).  
-  Outside view: [Schlegel2004, pp. 88-96]
-
-* Push (Publisher/Subscriber interaction)
-
-  1-n distribution.  
-  Outside view: [Schlegel2004, pp. 96-99]
-
-* Event (Publisher/Subscriber)
-
-  1-n asynchronous conditioned notification  
-  Outside view: [Schlegel2004, pp. 103-112]
+| Pattern-name     | Short Description | Outside-view |
+|------------------|-------------------|-----------|
+| **SendPattern** (Client/Server) | *One-way communication* | see [Schlegel2004, pp. 85-88] |
+| **QueryPattern** (Client/Server) | *Two-way request/response* | see [Schlegel2004, pp. 88-96] |
+| **PushPattern** (Client/Server)| *1-n distribution* |  see [Schlegel2004, pp. 96-99] |
+| **EventPattern** (Client/Server) | *1-n asynchronous conditioned notification* | see [Schlegel2004, pp. 103-112] |
 
 ### Coordination and Configuration Patterns
 
-* Parameter (Master/Slave)
-
-  Run-time configuration of components, see [Stampfer2016]  
-  Outside view: [Lutz2014]
-
-* State (Master/Slave)
-
-  Lifecycle management and (de)activation  
-  Outside view: [Schlegel2011]
-
-* Dynamic Wiring (Master/Slave)
-
-  Dynamic connection wiring at run-time  
-  Outside view: [Schlegel2004, p. 11]
-
-* Monitoring (Master/Slave)
-
-  Run-time monitoring and introspection of components [Stampfer2016]  
-  Outside view: [Lotz2011]
+| Pattern-name     | Short Description | Outside view |
+|------------------|-------------------|-----------|
+| **Parameter** (Master/Slave) | *Run-time configuration of components, see [Stampfer2016]* | see [Lutz2014] |
+| **State** (Master/Slave) | *Lifecycle management and (de)activation* | see [Schlegel2011] |
+| **DynamicWiring** (Master/Slave) | *Dynamic connection wiring at run-time* | see [Schlegel2004, p. 11] |
+| **Monitoring** (Master/Slave) | *Run-time monitoring and introspection of components [Stampfer2016]* | see [Lotz2011] |
 
 ## Installation
 
