@@ -136,7 +136,10 @@ public:
  *    - <b>QIDType</b>: the QueryId that should be implemented for each middleware by subclassing IQueryId
  */
 template<class RequestType, class AnswerType, class QIDType>
-class IQueryServerPattern : public IServerPattern, public IInputSubject< QueryServerInputType<RequestType,QIDType> > {
+class IQueryServerPattern
+	:	public IServerPattern
+	,	public IInputSubject< QueryServerInputType<RequestType,QIDType> >
+{
 public:
     /** Default constructor.
      *

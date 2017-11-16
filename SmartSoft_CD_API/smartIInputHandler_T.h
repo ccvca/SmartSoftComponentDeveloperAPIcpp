@@ -58,7 +58,7 @@ template <class InputType>
 class IInputSubject;
 
 /** This template class implements the <b>Observer</b> part of the Observer design pattern for
- *  implementing a generic data-input-handler (i.e. data upcall handler).
+ *  implementing a generic data-input-handler (i.e. input-data-upcall handler).
  *
  *  This class implements the <b>Observer</b> part of the Observer design pattern.
  *  All the communication-patterns that receive input-data can implement the counterpart
@@ -157,10 +157,12 @@ protected:
 public:
 	/** Default constructor
 	 */
-	IInputSubject() {  }
+	IInputSubject()
+	{  }
 	/** Default destructor
 	 */
-	virtual ~IInputSubject() {  }
+	virtual ~IInputSubject()
+	{  }
 };
 
 

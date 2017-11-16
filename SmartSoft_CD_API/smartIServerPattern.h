@@ -46,8 +46,7 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTISERVERPATTERN_H_
 #define SMARTSOFT_INTERFACES_SMARTISERVERPATTERN_H_
 
-#include "smartIShutdownObserver.h"
-#include "smartIComponent.h"
+#include "smartICommunicationPattern.h"
 
 namespace Smart {
 
@@ -65,10 +64,8 @@ namespace Smart {
  * triggered from within the on_shutdown() method and from within
  * the destructor.
  */
-class IServerPattern : public IShutdownObserver {
+class IServerPattern : public ICommunicationPattern {
 protected:
-	/// the internal pointer to a component (can be used in derived classes)
-	IComponent* component;
 	/// the current serviceName (can be used in derived classes)
 	std::string serviceName;
 
@@ -104,8 +101,7 @@ public:
      *  @param serviceName name of the service
      */
 	IServerPattern(IComponent* component, const std::string& serviceName)
-	:	IShutdownObserver(component)
-	,	component(component)
+	:	ICommunicationPattern(component)
 	,	serviceName(serviceName)
 	{  }
 

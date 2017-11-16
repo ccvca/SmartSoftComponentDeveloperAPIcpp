@@ -47,9 +47,8 @@
 #define SMARTSOFT_INTERFACES_SMARTICLIENTPATTERN_H_
 
 #include "smartIStatusCode.h"
-#include "smartIComponent.h"
+#include "smartICommunicationPattern.h"
 
-#include <iostream>
 #include <string>
 
 namespace Smart {
@@ -63,10 +62,8 @@ namespace Smart {
  * This provides a thread-save implementation of blocking-call
  * management.
  */
-class IClientPattern : public IShutdownObserver {
+class IClientPattern : public ICommunicationPattern {
 protected:
-	/// the internal pointer to the component (can be used in derived classes)
-	IComponent *component;
 	/// the server-name used for the last connection (can be used in derived classes)
 	std::string connectionServerName;
 	/// the service-name used for the last connection (can be used in derived classes)
@@ -93,8 +90,7 @@ public:
      * @param component  the management class of the component
      */
 	IClientPattern(IComponent *component)
-	:	IShutdownObserver(component)
-	,	component(component)
+	:	ICommunicationPattern(component)
 	,	connectionServerName("")
 	,	connectionServiceName("")
 	,	is_blocking(true)
@@ -113,8 +109,7 @@ public:
      * @param service    name of the service (i.e. the port-name of the component to connect to)
      */
 	IClientPattern(IComponent *component, const std::string& server, const std::string& service)
-	:	IShutdownObserver(component)
-	,	component(component)
+	:	ICommunicationPattern(component)
 	,	connectionServerName(server)
 	,	connectionServiceName(service)
 	,	is_blocking(true)
