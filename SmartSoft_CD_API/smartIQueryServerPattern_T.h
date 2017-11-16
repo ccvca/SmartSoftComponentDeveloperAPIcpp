@@ -46,6 +46,7 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTIQUERYSERVERPATTERN_T_H_
 #define SMARTSOFT_INTERFACES_SMARTIQUERYSERVERPATTERN_T_H_
 
+#include "smartIInputHandler_T.h"
 #include "smartIServerPattern.h"
 #include "smartIQueryStatus.h"
 
@@ -55,6 +56,13 @@ namespace Smart {
 template<class RequestType, class AnswerType, class QIDType>
 class IQueryServerPattern;
 
+/// struct used by IQueryServerHandler and IQueryServerPattern internally
+template<class RequestType, class QIDType>
+struct QueryServerInputType {
+	RequestType request;
+	QIDType query_id;
+};
+
 /** Handler Class for QueryServer for incoming requests.
  *
  *  Used by the QueryServer to handle incoming queries.
@@ -63,11 +71,20 @@ class IQueryServerPattern;
  *  to this handler.
  */
 template<class RequestType, class AnswerType, class QIDType>
-class IQueryServerHandler
+class IQueryServerHandler : IInputHandler< QueryServerInputType<RequestType,QIDType> >
 {
 protected:
 	/// use this pointer in your derived class to call <b>"server->answer(...)"</b>
 	IQueryServerPattern<RequestType,AnswerType,QIDType>* server;
+
+	/** implements IInputHandler
+	 *
+	 *  This handler method delegates the call to the handleQuery handler, thereby
+	 *  extracting the input attributes from the composed QueryServerInputType
+	 */
+	virtual void handle_input(const QueryServerInputType<RequestType,QIDType>& input) {
+		this->handleQuery(input.query_id, input.request);
+	}
 
 public:
 	/** Default constructor
@@ -79,11 +96,15 @@ public:
 	 * @param server the pointer to the QueryServer whose queries need to be processed.
 	 *
 	 */
-	IQueryServerHandler(IQueryServerPattern<RequestType,AnswerType,QIDType>* server);
+	IQueryServerHandler(IQueryServerPattern<RequestType,AnswerType,QIDType>* server)
+	:	IInputHandler< QueryServerInputType<RequestType,QIDType> >(server)
+	,	server(server)
+	{  }
 
 	/** Default destructor
 	 */
-	virtual ~IQueryServerHandler() {  }
+	virtual ~IQueryServerHandler()
+	{  }
 
   /** Handler method for an incoming query request.
    *
@@ -101,7 +122,8 @@ public:
    *  a processing pattern.
    *
    *  @param id       id of new query
-   *  @param request the request itself */
+   *  @param request the request itself
+   */
   virtual void handleQuery(const QIDType &id, const RequestType& request) = 0;
 };
 
@@ -114,23 +136,7 @@ public:
  *    - <b>QIDType</b>: the QueryId that should be implemented for each middleware by subclassing IQueryId
  */
 template<class RequestType, class AnswerType, class QIDType>
-class IQueryServerPattern : public IServerPattern {
-	/// allows calling the set_handler() method
-	friend class IQueryServerHandler<RequestType,AnswerType,QIDType>;
-protected:
-	/// pinter to the internal handler
-	IQueryServerHandler<RequestType,AnswerType,QIDType>* handler;
-
-	/** internal upcall method used by an instance of an IQueryServerHandler to register itself
-	 *
-	 *  An instance of an IQueryServerHandler will use this method to register
-	 *  itself. This is possible because the IQueryServerHandler is a friend of
-	 *  the IQueryServerPattern.
-	 */
-	void set_handler(IQueryServerHandler<RequestType,AnswerType,QIDType>* handler) {
-		this->handler = handler;
-	}
-
+class IQueryServerPattern : public IServerPattern, public IInputSubject< QueryServerInputType<RequestType,QIDType> > {
 public:
     /** Default constructor.
      *
@@ -142,7 +148,6 @@ public:
      */
 	IQueryServerPattern(IComponent* component, const std::string& service)
 	:	IServerPattern(component, service)
-	,	handler(0)
 	{  }
 
     /** Destructor.
@@ -169,16 +174,6 @@ public:
      */
     virtual StatusCode answer(const QIDType& id, const AnswerType& answer) = 0;
 };
-
-////////////////////////////////////////////////////////////
-// default implementation of IQueryServerHandler constructor
-////////////////////////////////////////////////////////////
-template<class RequestType, class AnswerType, class QIDType>
-inline IQueryServerHandler<RequestType,AnswerType,QIDType>::IQueryServerHandler(IQueryServerPattern<RequestType,AnswerType,QIDType>* server)
-:	server(server)
-{
-	server->set_handler(this);
-}
 
 } /* namespace Smart */
 

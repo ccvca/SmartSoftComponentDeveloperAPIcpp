@@ -43,137 +43,144 @@
 //
 //===================================================================================
 
-#ifndef SMARTSOFT_INTERFACES_SMARTISHUTDOWNOBSERVER_H_
-#define SMARTSOFT_INTERFACES_SMARTISHUTDOWNOBSERVER_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTIINPUTHANDLER_H_
+#define SMARTSOFT_INTERFACES_SMARTIINPUTHANDLER_H_
 
 #include <list>
+
 // C++11 mutex
 #include <mutex>
 
 namespace Smart {
 
 // forward declaration
-class IShutdownSubject;
+template <class InputType>
+class IInputSubject;
 
-
-/** This class implements the <b>Observer</b> part of the Observer design pattern for
- * implementing a uniform shutdown procedure for all component's resources.
+/** This template class implements the <b>Observer</b> part of the Observer design pattern for
+ *  implementing a generic data-input-handler (i.e. data upcall handler).
  *
- * An IComponent implements the counter-part IShutdownSubject interface that will trigger all
- * attached IShutdownObserver instances just before the IComponent finally shuts down.
- * Each communication pattern (clients and servers) attached to an IComponent should implement
- * IShutdownObserver interface (i.e. the on_shutdown() method) thus providing individual
- * cleanup strategies.
+ *  This class implements the <b>Observer</b> part of the Observer design pattern.
+ *  All the communication-patterns that receive input-data can implement the counterpart
+ *  IInputSubject which can be used by this handler for receiving the input-data.
+ *  Therefore the abstract method handle_input() needs to be implemented in derived classes.
  */
-class IShutdownObserver {
-private:
-	IShutdownSubject *subject;
+template <class InputType>
+class IInputHandler {
+protected:
+	/// this is the subject-pointer (can be used in derived classes)
+	IInputSubject<InputType> *subject;
 public:
 	/** The default constructor.
 	 *
 	 * This constructor will call <b>subject->attach(this)</b> to start observing the given subject.
 	 *
-	 * @param subject the subject (also called model) that this Observer is going to observe
+	 * @param subject the subject (also called model) that this handler is going to observe
 	 */
-	IShutdownObserver(IShutdownSubject *subject);
+	IInputHandler(IInputSubject<InputType> *subject);
 
 	/** The default destructor.
 	 *
 	 * This destructor will call <b>subject->detach(this)</b> to stop observing the given subject.
 	 */
-	virtual ~IShutdownObserver();
+	virtual ~IInputHandler();
 
-	/** This is the main update method that will be automatically called from the given subject
-	 *  each time the subject undergoes a notable change.
+	/** This is the main input-handler method that will be automatically called from the given subject
+	 *  each time the subject receives input-data.
 	 *
-	 *  This method should be implemented in derived classes to provide an individual shutdown
-	 *  (i.e. cleanup) strategy/procedure.
+	 *  This method should be implemented in derived classes to provide a data-handling procedure.
+	 *
+	 *  @param input the input-data reference
 	 */
-	virtual void on_shutdown() = 0;
+	virtual void handle_input(const InputType& input) = 0;
 };
 
-/** This class implements the <b>Subject</b> (also called Model) part of the Observer design pattern for
- * implementing a uniform shutdown procedure for all component's resources.
+
+/** This template class implements the <b>Subject</b> (also called Model) part of the Observer design pattern for
+ * implementing delegation of handling incoming data.
  *
- * An IComponent implements this interface to trigger all attached IShutdownObserver instances
- * just before the IComponent finally shuts down.
- * Each communication pattern (clients and servers) and all user-defined Tasks attached to an IComponent
- * should implement the counter-part IShutdownObserver interface (i.e. the on_shutdown() method) thus
- * providing individual cleanup procedures/strategies.
+ * All Communication-Patterns that internally receive input data (e.g. IPushClient, or IQueryServer) can implement
+ * this interface to allow the definition of upcall-handlers for handling input-data.
  */
-class IShutdownSubject {
+template <class InputType>
+class IInputSubject {
 	/// allows calling protected attach() and detach() methods
-	friend class IShutdownObserver;
+	friend class IInputHandler<InputType>;
 private:
 	std::mutex observers_mutex;
 	// implement Observer design pattern
-	std::list<IShutdownObserver*> observers;
+	std::list<IInputHandler<InputType>*> observers;
 protected:
-
-	/** Attach an IShutdownObserver instance.
+	/** Attach an IInputHandler<InputType> instance.
 	 *
 	 * This method should be called from within the constructor
-	 * of an IShutdownObserver instance. This is possible because
-	 * the IShutdownObserver is defined as a <i>friend class</i>
-	 * of IShutdownSubject.
+	 * of an IInputHandler instance. This is possible because
+	 * the IInputHandler is defined as a <i>friend class</i>
+	 * of IInputSubject.
 	 */
-	virtual void attach(IShutdownObserver* observer){
+	virtual void attach(IInputHandler<InputType> *handler)
+	{
 		std::unique_lock<std::mutex> lock (observers_mutex);
-		observers.push_back(observer);
+		observers.push_back(handler);
 	}
 
-	/** Detach an IShutdownObserver instance.
+	/** Detach an IInputHandler<InputType> instance.
 	 *
 	 * This method should be called from within the destructor
-	 * of an IShutdownObserver instance. This is possible because
-	 * the IShutdownObserver is defined as a <i>friend class</i>
-	 * of IShutdownSubject.
+	 * of an IInputHandler instance. This is possible because
+	 * the IInputHandler is defined as a <i>friend class</i>
+	 * of IInputSubject.
 	 */
-	virtual void detach(IShutdownObserver* observer) {
+	virtual void detach(IInputHandler<InputType> *handler)
+	{
 		std::unique_lock<std::mutex> lock (observers_mutex);
-		observers.remove(observer);
+		observers.remove(handler);
 	}
 
-	/** Notifies all attached IShutdownObserver instances about an upcoming shutdown.
+	/** Notifies all attached IInputHandler instances about incoming data.
 	 *
-	 *  An instance of IComponent should call this method just before the component
-	 *  itself cleans-up its own internal resources. In this way, all the attached
-	 *  entities (such as client- and server-ports, as well as tasks) can clean-up
-	 *  their individual internal resources before the component invalidates its own
-	 *  internal resources. This effectively prevents nullpointer exceptions.
+	 *  An instance of IInputSubject should call this method each time new
+	 *  data arrives. This method then delegates the input-data-handling
+	 *  to all attached IInputHandler instances.
+	 *
+	 *  @param input the input-data reference
 	 */
-	virtual void notify_sutdown() {
+	virtual bool notify_input(const InputType& input)
+	{
 		std::unique_lock<std::mutex> lock (observers_mutex);
 		for(auto it=observers.begin(); it!=observers.end(); it++) {
-			(*it)->on_shutdown();
+			(*it)->handle_input(input);
 		}
+		return !observers.empty();
 	}
 
 public:
 	/** Default constructor
 	 */
-	IShutdownSubject() {  }
-
+	IInputSubject() {  }
 	/** Default destructor
 	 */
-	virtual ~IShutdownSubject() {  }
+	virtual ~IInputSubject() {  }
 };
 
 
 ///////////////////////////////////////////////////////////
-// default implementation of IShutdownObserver constructor
+// default implementation of IInputHandler constructor
 // and destructor
 //////////////////////////////////////////////////////////
-inline IShutdownObserver::IShutdownObserver(IShutdownSubject *subject)
+template <class InputType>
+inline IInputHandler<InputType>::IInputHandler(IInputSubject<InputType> *subject)
 :	subject(subject)
 {
 	subject->attach(this);
 }
-inline IShutdownObserver::~IShutdownObserver()
+
+template <class InputType>
+inline IInputHandler<InputType>::~IInputHandler()
 {
 	subject->detach(this);
 }
 
 } /* namespace Smart */
 
-#endif /* SMARTSOFT_INTERFACES_SMARTISHUTDOWNOBSERVER_H_ */
+#endif /* SMARTSOFT_INTERFACES_SMARTIINPUTHANDLER_H_ */

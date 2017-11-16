@@ -47,6 +47,7 @@
 #define SMARTSOFT_INTERFACES_SMARTIPUSHCLIENTPATTERN_T_H_
 
 #include "smartIClientPattern.h"
+#include "smartIInputHandler_T.h"
 
 namespace Smart {
 
@@ -59,7 +60,7 @@ namespace Smart {
  *
  */
 template <class DataType>
-class IPushClientPattern : public IClientPattern {
+class IPushClientPattern : public IClientPattern, public IInputSubject<DataType> {
 public:
     /** Constructor (not wired with service provider and not exposed as port).
      *  connect() / disconnect() can always be used to change
