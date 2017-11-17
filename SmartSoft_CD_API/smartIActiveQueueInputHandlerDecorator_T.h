@@ -43,11 +43,12 @@
 //
 //===================================================================================
 
-#ifndef SMARTSOFT_INTERFACES_SMARTIPROCESSINGPATTERNS_H_
-#define SMARTSOFT_INTERFACES_SMARTIPROCESSINGPATTERNS_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTIACTIVEQUEUEINPITHANDLERDECORATOR_H_
+#define SMARTSOFT_INTERFACES_SMARTIACTIVEQUEUEINPITHANDLERDECORATOR_H_
 
 #include "smartITask.h"
 #include "smartIInputHandler_T.h"
+#include "smartIQueryServerPattern_T.h"
 
 // C++11 includes
 #include <mutex>
@@ -55,11 +56,20 @@
 
 namespace Smart {
 
+/** This class decorates a passive IInputHandler and makes it active (with an active internal queue)
+ *
+ *  This class implements the <b>Decorator</b> design pattern to decorate
+ *  a passive IInputHandler by making it active. Internally an active FIFO
+ *  queue is created that stores all incoming input-handling requests. An
+ *  internal Thread processes this queue by iteratively calling the
+ *  process_queue_entry() method.
+ */
 template <class InputType>
 class IActiveQueueInputHandlerDecorator : public IInputHandler<InputType> {
 private:
 	std::mutex input_mutex;
 	std::condition_variable_any input_cond_var;
+	bool cancelled;
 	// input-requests list
 	std::list<InputType> input_list;
 protected:
@@ -73,25 +83,41 @@ protected:
 	virtual void process_queue_entry() {
 		std::unique_lock<std::mutex> lock (input_mutex);
 		if(input_list.empty()) input_cond_var.wait(lock);
+		if(cancelled == true) return;
 		inner_handler->handle_input(input_list.front());
 		input_list.pop_front();
 	}
 
+	virtual void cancel_processing() {
+		std::unique_lock<std::mutex> lock (input_mutex);
+		cancelled = true;
+		input_cond_var.notify_all();
+	}
+
+	virtual bool processing_cancelled() {
+		std::unique_lock<std::mutex> lock (input_mutex);
+		return cancelled;
+	}
+
 public:
-	IActiveQueueInputHandlerDecorator(IInputSubject<InputType> *subject, IInputHandler<InputType> *inner_handler)
-	:	IInputHandler<InputType>(subject)
+	IActiveQueueInputHandlerDecorator(IInputHandler<InputType> *inner_handler)
+	:	IInputHandler<InputType>(inner_handler->subject)
 	,	inner_handler(inner_handler)
+	,	cancelled(false)
 	{
 		// detach the inner-handler as its handle method will be called by this decorator
-		this->subject->detach(inner_handler);
+		this->inner_handler->detach_self();
 	}
 	virtual ~IActiveQueueInputHandlerDecorator()
 	{
 		// gave the handling responsibility back to the inner-handler
-		this->subject->attach(inner_handler);
+		this->inner_handler->attach_self();
 	}
 };
 
+template<class RequestType, class AnswerType, class QIDType>
+using IActiveQueueQueryServerHandlerDecorator = IActiveQueueInputHandlerDecorator< QueryServerInputType<RequestType,QIDType> >;
+
 } /* namespace Smart */
 
-#endif /* SMARTSOFT_INTERFACES_SMARTIPROCESSINGPATTERNS_H_ */
+#endif /* SMARTSOFT_INTERFACES_SMARTIACTIVEQUEUEINPITHANDLERDECORATOR_H_ */

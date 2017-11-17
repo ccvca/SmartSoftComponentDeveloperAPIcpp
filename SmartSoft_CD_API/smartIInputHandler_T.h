@@ -57,6 +57,10 @@ namespace Smart {
 template <class InputType>
 class IInputSubject;
 
+// forward declaration
+template <class InputType>
+class IActiveQueueInputHandlerDecorator;
+
 /** This template class implements the <b>Observer</b> part of the Observer design pattern for
  *  implementing a generic data-input-handler (i.e. input-data-upcall handler).
  *
@@ -67,9 +71,27 @@ class IInputSubject;
  */
 template <class InputType>
 class IInputHandler {
+	/// allows acessing protected members
+	friend class IActiveQueueInputHandlerDecorator<InputType>;
 protected:
 	/// this is the subject-pointer (can be used in derived classes)
 	IInputSubject<InputType> *subject;
+
+	/** calls subject->attach(this);
+	 *
+	 *  This method encapsulates the <b>attachment</b> of itself to the
+	 *  IInputSubject. This is useful as this method can be called
+	 *  from within the IActiveQueueInputHandlerDecorator.
+	 */
+	void attach_self();
+	/** calls subject->detach(this);
+	 *
+	 *  This method encapsulates the <b>detachment</b> of itself from the
+	 *  IInputSubject. This is useful as this method can be called
+	 *  from within the IActiveQueueInputHandlerDecorator.
+	 */
+	void detach_self();
+
 public:
 	/** The default constructor.
 	 *
@@ -77,13 +99,20 @@ public:
 	 *
 	 * @param subject the subject (also called model) that this handler is going to observe
 	 */
-	IInputHandler(IInputSubject<InputType> *subject);
+	IInputHandler(IInputSubject<InputType> *subject)
+	:	subject(subject)
+	{
+		this->attach_self();
+	}
 
 	/** The default destructor.
 	 *
 	 * This destructor will call <b>subject->detach(this)</b> to stop observing the given subject.
 	 */
-	virtual ~IInputHandler();
+	virtual ~IInputHandler()
+	{
+		this->detach_self();
+	}
 
 	/** This is the main input-handler method that will be automatically called from the given subject
 	 *  each time the subject receives input-data.
@@ -167,18 +196,17 @@ public:
 
 
 ///////////////////////////////////////////////////////////
-// default implementation of IInputHandler constructor
-// and destructor
+// default implementation of IInputHandler attachment
+// and detachment methods
 //////////////////////////////////////////////////////////
 template <class InputType>
-inline IInputHandler<InputType>::IInputHandler(IInputSubject<InputType> *subject)
-:	subject(subject)
+inline void IInputHandler<InputType>::attach_self()
 {
 	subject->attach(this);
 }
 
 template <class InputType>
-inline IInputHandler<InputType>::~IInputHandler()
+inline void IInputHandler<InputType>::detach_self()
 {
 	subject->detach(this);
 }

@@ -71,7 +71,7 @@ struct QueryServerInputType {
  *  to this handler.
  */
 template<class RequestType, class AnswerType, class QIDType>
-class IQueryServerHandler : IInputHandler< QueryServerInputType<RequestType,QIDType> >
+class IQueryServerHandler : public IInputHandler< QueryServerInputType<RequestType,QIDType> >
 {
 protected:
 	/// use this pointer in your derived class to call <b>"server->answer(...)"</b>
