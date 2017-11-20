@@ -88,21 +88,38 @@ public:
      *
      *  The svc() method has to be provided (i.e. overloaded) by the user
      *  and it implements the activity of the task object.
+     *
+     *  @return 0 for all OK or -1 otherwise
      */
     virtual int svc (void) = 0;
 
     /** Creates and starts a new thread (if not yet started)
      *
+     *  A new thread is spawned if no thread has been spawned yet before
+     *  for this instance.
+     *
+     *  @return 0 on success (and if thread has already been started) or -1 on failure
      */
     virtual int open () = 0;
 
-    /** Closes the currently active thread (if it was started before)
+    /** Stops the currently active thread (if it was started before)
+     *
+     *  The internal thread is signaled to stop. If wait_till_stopped
+     *  is set to true then the call to this method blocks until the
+     *  internal thread has actually exited (typically using
+     *  thread.join() internally).
+     *
+     *  @param wait_till_stopped waits until the thread has been exited
+     *
+     *  @return 0 on success or -1 on failure
      */
     virtual int close () = 0;
 
     /** Tests whether the thread has been signaled to stop.
      *
      * This method allows to implement cooperative thread stopping.
+     *
+     * @return true if stop was called or false otherwise.
      */
     virtual bool test_canceled() = 0;
 };

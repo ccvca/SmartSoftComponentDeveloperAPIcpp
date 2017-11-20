@@ -66,8 +66,8 @@ struct QueryServerInputType {
 /** Handler Class for QueryServer for incoming requests.
  *
  *  Used by the QueryServer to handle incoming queries.
- *  The user should provide the handleQuery() method by
- *  subclassing and providing an instance of an IQueryServerPattern
+ *  The user should implement the handleQuery() method by
+ *  subclassing and providing a pointer to an IQueryServerPattern
  *  to this handler.
  */
 template<class RequestType, class AnswerType, class QIDType>

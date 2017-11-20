@@ -58,7 +58,7 @@ template <class InputType>
 class IInputSubject;
 
 // forward declaration
-template <class InputType>
+template <class InputType, class TaskImpl>
 class IActiveQueueInputHandlerDecorator;
 
 /** This template class implements the <b>Observer</b> part of the Observer design pattern for
@@ -72,7 +72,8 @@ class IActiveQueueInputHandlerDecorator;
 template <class InputType>
 class IInputHandler {
 	/// allows acessing protected members
-	friend class IActiveQueueInputHandlerDecorator<InputType>;
+	template <class InnerType, class TaskImpl>
+	friend class IActiveQueueInputHandlerDecorator;
 protected:
 	/// this is the subject-pointer (can be used in derived classes)
 	IInputSubject<InputType> *subject;
