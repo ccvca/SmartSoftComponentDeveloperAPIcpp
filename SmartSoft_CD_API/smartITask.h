@@ -55,7 +55,7 @@ namespace Smart {
  *
  * ITasks should be used to implement user-level threads within a component.
  * ITasks are managed by the provided IComponent instance. For example,
- * during component shutdown, the ITask are automatically triggered to close().
+ * during component shutdown, the ITask are automatically triggered to stop().
  * In this way, user-threads can properly shutdown and clean-up their local resources
  * such as e.g. closing internally used device drivers. Please overload the on_shutdown()
  * upcall method in case you need to perform individual cleanup procedures.
@@ -67,11 +67,11 @@ protected:
 
 	/** Default implementation of the IShutdownObserver interface
 	 *
-	 * 	The default shutdown procedure is to call the close() method which triggers
+	 * 	The default shutdown procedure is to call the stop() method which triggers
 	 * 	the thread to stop and awaits until it is closed using the internal join method.
 	 */
 	virtual void on_shutdown() {
-		this->close();
+		this->stop();
 	}
 public:
 	/// Default constructor
@@ -100,7 +100,7 @@ public:
      *
      *  @return 0 on success (and if thread has already been started) or -1 on failure
      */
-    virtual int open () = 0;
+    virtual int start() = 0;
 
     /** Stops the currently active thread (if it was started before)
      *
@@ -113,7 +113,7 @@ public:
      *
      *  @return 0 on success or -1 on failure
      */
-    virtual int close () = 0;
+    virtual int stop(const bool wait_till_stopped=true) = 0;
 
     /** Tests whether the thread has been signaled to stop.
      *

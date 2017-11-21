@@ -51,6 +51,7 @@
 // SmartSoft includes
 #include "smartIStatusCode.h"
 #include "smartIShutdownObserver.h"
+#include "smartITimerManager.h"
 
 namespace Smart {
 
@@ -122,10 +123,22 @@ public:
 	 * The component name is a read-only value that is set once at component
 	 * startup. This name serves as a parent namespace for all component's
 	 * communication ports.
+	 *
+	 * @return the component name
 	 */
 	inline std::string getName() const {
 		return componentName;
 	}
+
+	/** get timer-manager for registering timer-handlers
+	 *
+	 *  An instance of an ITimerManager is instantiated by an IComponent.
+	 *  An ITimerManager allows activation of ITimerHandler instances
+	 *  that are triggered (once or repeatedly) after a given time period.
+	 *
+	 *  @return a pointer to the ITimerManager
+	 */
+	virtual ITimerManager* getTimerManager() = 0;
 };
 
 } /* namespace Smart */

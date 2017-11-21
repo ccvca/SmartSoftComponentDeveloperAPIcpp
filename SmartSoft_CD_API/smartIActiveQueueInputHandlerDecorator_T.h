@@ -64,10 +64,10 @@ namespace Smart {
  *  internal Thread processes this queue by iteratively calling the
  *  process_queue_entry() method.
  */
-template <class InputType, class TaskImpl>
+template <class InputType>
 class IActiveQueueInputHandlerDecorator
 :	public IInputHandler<InputType>
-,	public TaskImpl
+,	virtual public ITask
 {
 private:
 	std::mutex input_mutex;
@@ -147,7 +147,7 @@ protected:
 	 */
 	virtual void on_shutdown() {
 		this->cancel_processing();
-		TaskImpl::on_shutdown();
+		this->stop();
 	}
 
 	/** this is the TaskImpl thread method
@@ -177,14 +177,14 @@ public:
 	 */
 	IActiveQueueInputHandlerDecorator(IComponent *component, IInputHandler<InputType> *inner_handler)
 	:	IInputHandler<InputType>(inner_handler->subject)
-	,	TaskImpl(component)
+	,	ITask(component)
 	,	inner_handler(inner_handler)
 	,	cancelled(false)
 	{
 		// detach the inner-handler as its handle method will be called by this decorator
 		this->inner_handler->detach_self();
 		// start task-processing
-		this->open();
+		this->start();
 	}
 
 	/** Default destructor
@@ -196,7 +196,7 @@ public:
 	virtual ~IActiveQueueInputHandlerDecorator()
 	{
 		// stop task processing
-		this->close();
+		this->stop();
 		// give the handling responsibility back to the inner-handler
 		this->inner_handler->attach_self();
 	}
@@ -205,8 +205,8 @@ public:
 /** This class is a specialization of an IActiveQueueInputHandlerDecorator that simplifies
  * making an IQueryServerHandler active.
  */
-template<class RequestType, class AnswerType, class QIDType, class TaskImpl>
-using IActiveQueueQueryServerHandlerDecorator = IActiveQueueInputHandlerDecorator< QueryServerInputType<RequestType,QIDType>, TaskImpl >;
+template<class RequestType, class AnswerType, class QIDType>
+using IActiveQueueQueryServerHandlerDecorator = IActiveQueueInputHandlerDecorator< QueryServerInputType<RequestType,QIDType> >;
 
 } /* namespace Smart */
 
