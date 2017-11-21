@@ -47,9 +47,9 @@
 #define SMARTSOFT_INTERFACES_SMARTIMANAGEDTASK_H_
 
 #include "smartITask.h"
-#include "smartITaskTriggerObserver.h"
 #include "smartITaskInteractionObserver.h"
 
+#include "smartTaskTriggerObserver.h"
 
 #include <iostream>
 
@@ -58,8 +58,8 @@ namespace Smart {
 
 class IManagedTask
 :	virtual public ITask
-,	public ITaskTriggerObserver
-,	public ITaskInteractionSubject
+,	public TaskTriggerObserver
+,	public TaskInteractionSubject
 {
 protected:
 	virtual void on_shutdown() {
@@ -82,16 +82,16 @@ protected:
 			// call one task iteration
 			if(this->on_execute() != 0) stop = true;
 
-			if(!stop) ITaskInteractionSubject::notify_all_tasks();
+			if(!stop) TaskInteractionSubject::notify_all_tasks();
 		}
 
 		return this->on_exit();
 	}
 public:
-	IManagedTask(IComponent *component, ITaskTriggerSubject *trigger)
+	IManagedTask(IComponent *component, TaskTriggerSubject *trigger=0)
 	:	ITask(component) // virtual base
-	,	ITaskTriggerObserver(trigger)
-	,	ITaskInteractionSubject()
+	,	TaskTriggerObserver(trigger)
+	,	TaskInteractionSubject()
 	{ }
 	virtual ~IManagedTask()
 	{ }

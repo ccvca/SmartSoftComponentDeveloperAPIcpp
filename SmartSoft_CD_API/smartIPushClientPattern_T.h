@@ -60,7 +60,7 @@ namespace Smart {
  *
  */
 template <class DataType>
-class IPushClientPattern : public IClientPattern, public IInputSubject<DataType> {
+class IPushClientPattern : public IClientPattern, public InputSubject<DataType> {
 public:
     /** Constructor (not wired with service provider and not exposed as port).
      *  connect() / disconnect() can always be used to change

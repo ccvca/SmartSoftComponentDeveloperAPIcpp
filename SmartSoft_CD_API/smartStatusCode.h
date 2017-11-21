@@ -43,8 +43,8 @@
 //
 //===================================================================================
 
-#ifndef SMARTSOFT_INTERFACES_SMARTISTATUSCODE_H_
-#define SMARTSOFT_INTERFACES_SMARTISTATUSCODE_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTSTATUSCODE_H_
+#define SMARTSOFT_INTERFACES_SMARTSTATUSCODE_H_
 
 #include <string>
 
@@ -213,4 +213,4 @@ inline std::ostream &operator<<(std::ostream &os, const StatusCode &status)
 
 } /* namespace Smart */
 
-#endif /* SMARTSOFT_INTERFACES_SMARTISTATUSCODE_H_ */
+#endif /* SMARTSOFT_INTERFACES_SMARTSTATUSCODE_H_ */

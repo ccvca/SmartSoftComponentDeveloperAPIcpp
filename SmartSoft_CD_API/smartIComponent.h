@@ -49,7 +49,7 @@
 #include <string>
 
 // SmartSoft includes
-#include "smartIStatusCode.h"
+#include "smartStatusCode.h"
 #include "smartIShutdownObserver.h"
 #include "smartITimerManager.h"
 
@@ -68,7 +68,7 @@ namespace Smart {
  *  examples.
  *
  */
-class IComponent : public IShutdownSubject {
+class IComponent : public ShutdownSubject {
 protected:
 	/// the internal blocking flag
 	bool is_blocking;

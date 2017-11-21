@@ -55,7 +55,7 @@ namespace Smart {
 
 // forward declaration
 template <class InputType>
-class IInputSubject;
+class InputSubject;
 
 // forward declaration
 template <class InputType, class TaskImpl>
@@ -76,7 +76,7 @@ class IInputHandler {
 	friend class IActiveQueueInputHandlerDecorator;
 protected:
 	/// this is the subject-pointer (can be used in derived classes)
-	IInputSubject<InputType> *subject;
+	InputSubject<InputType> *subject;
 
 	/** calls subject->attach(this);
 	 *
@@ -100,7 +100,7 @@ public:
 	 *
 	 * @param subject the subject (also called model) that this handler is going to observe
 	 */
-	IInputHandler(IInputSubject<InputType> *subject)
+	IInputHandler(InputSubject<InputType> *subject)
 	:	subject(subject)
 	{
 		this->attach_self();
@@ -133,7 +133,7 @@ public:
  * this interface to allow the definition of upcall-handlers for handling input-data.
  */
 template <class InputType>
-class IInputSubject {
+class InputSubject {
 	/// allows calling protected attach() and detach() methods
 	friend class IInputHandler<InputType>;
 private:
@@ -187,11 +187,11 @@ protected:
 public:
 	/** Default constructor
 	 */
-	IInputSubject()
+	InputSubject()
 	{  }
 	/** Default destructor
 	 */
-	virtual ~IInputSubject()
+	virtual ~InputSubject()
 	{  }
 };
 

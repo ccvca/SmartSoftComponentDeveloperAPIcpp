@@ -46,7 +46,7 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTTASKTRIGGEROBSERVER_H_
 #define SMARTSOFT_INTERFACES_SMARTTASKTRIGGEROBSERVER_H_
 
-#include <smartIStatusCode.h>
+#include <smartStatusCode.h>
 
 #include <list>
 #include <chrono>
@@ -56,35 +56,43 @@
 namespace Smart {
 
 // forward declaration
-class ITaskTriggerSubject;
+class TaskTriggerSubject;
 
 
-class ITaskTriggerObserver {
-	friend class ITaskTriggerSubject;
+class TaskTriggerObserver {
+	friend class TaskTriggerSubject;
 private:
 	bool trigger_cancelled;
+	bool signalled;
 	std::mutex observer_mutex;
 	std::condition_variable_any trigger_cond_var;
 
+protected:
+	TaskTriggerSubject *subject;
+
 	virtual void signalTrigger() {
 		std::unique_lock<std::mutex> lock(observer_mutex);
+		signalled = true;
 		trigger_cond_var.notify_all();
 	}
 
-protected:
-	ITaskTriggerSubject *subject;
-
-	void cancelTrigger() {
+	virtual void cancelTrigger() {
 		std::unique_lock<std::mutex> lock(observer_mutex);
 		trigger_cancelled = true;
+		trigger_cond_var.notify_all();
 	}
 
 	virtual StatusCode waitOnTrigger() {
 		std::unique_lock<std::mutex> lock(observer_mutex);
+		if(subject == 0) return SMART_NOTACTIVATED;
 		if(trigger_cancelled == true) {
 			return SMART_CANCELLED;
 		} else {
-			trigger_cond_var.wait(lock);
+			if(signalled == true) {
+				signalled = false;
+			} else {
+				trigger_cond_var.wait(lock);
+			}
 			return SMART_OK;
 		}
 	}
@@ -92,25 +100,30 @@ protected:
 	template<typename TimeValue>
 	StatusCode waitOnTrigger(const std::chrono::duration<TimeValue> &timeout) {
 		std::unique_lock<std::mutex> lock(observer_mutex);
+		if(subject == 0) return SMART_NOTACTIVATED;
 		if(trigger_cancelled == true) {
 			return SMART_CANCELLED;
 		} else {
-			trigger_cond_var.wait_for(lock, timeout);
+			if(signalled == true) {
+				signalled = false;
+			} else {
+				trigger_cond_var.wait_for(lock, timeout);
+			}
 			return SMART_OK;
 		}
 	}
 
 public:
-	ITaskTriggerObserver(ITaskTriggerSubject *subject);
-	virtual ~ITaskTriggerObserver();
+	TaskTriggerObserver(TaskTriggerSubject *subject);
+	virtual ~TaskTriggerObserver();
 };
 
 
-class ITaskTriggerSubject {
-	friend class ITaskTriggerObserver;
+class TaskTriggerSubject {
+	friend class TaskTriggerObserver;
 private:
 	std::mutex subject_mutex;
-	std::list<ITaskTriggerObserver*> observers;
+	std::list<TaskTriggerObserver*> observers;
 protected:
 	void trigger_all_tasks() {
 		std::unique_lock<std::mutex> lock(subject_mutex);
@@ -119,33 +132,38 @@ protected:
 		}
 	}
 
-	void attach(ITaskTriggerObserver *observer) {
+	void attach(TaskTriggerObserver *observer) {
 		std::unique_lock<std::mutex> lock(subject_mutex);
 		observers.push_back(observer);
 	}
-	void detach(ITaskTriggerObserver *observer) {
+	void detach(TaskTriggerObserver *observer) {
 		std::unique_lock<std::mutex> lock(subject_mutex);
 		observers.remove(observer);
 	}
 public:
-	ITaskTriggerSubject()
+	TaskTriggerSubject()
 	{ }
-	virtual ~ITaskTriggerSubject()
+	virtual ~TaskTriggerSubject()
 	{ }
 
 };
 
 
 
-inline ITaskTriggerObserver::ITaskTriggerObserver(ITaskTriggerSubject *subject)
+inline TaskTriggerObserver::TaskTriggerObserver(TaskTriggerSubject *subject)
 :	subject(subject)
 ,	trigger_cancelled(false)
+,	signalled(false)
 {
-	this->subject->attach(this);
+	if(subject != 0) {
+		this->subject->attach(this);
+	}
 }
-inline ITaskTriggerObserver::~ITaskTriggerObserver()
+inline TaskTriggerObserver::~TaskTriggerObserver()
 {
-	this->subject->detach(this);
+	if(subject != 0) {
+		this->subject->detach(this);
+	}
 }
 
 } /* namespace Smart */

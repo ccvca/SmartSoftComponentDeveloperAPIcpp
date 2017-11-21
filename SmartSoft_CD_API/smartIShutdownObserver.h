@@ -53,7 +53,7 @@
 namespace Smart {
 
 // forward declaration
-class IShutdownSubject;
+class ShutdownSubject;
 
 
 /** This class implements the <b>Observer</b> part of the Observer design pattern for
@@ -67,7 +67,7 @@ class IShutdownSubject;
  */
 class IShutdownObserver {
 private:
-	IShutdownSubject *subject;
+	ShutdownSubject *subject;
 public:
 	/** The default constructor.
 	 *
@@ -75,7 +75,7 @@ public:
 	 *
 	 * @param subject the subject (also called model) that this Observer is going to observe
 	 */
-	IShutdownObserver(IShutdownSubject *subject);
+	IShutdownObserver(ShutdownSubject *subject);
 
 	/** The default destructor.
 	 *
@@ -101,7 +101,7 @@ public:
  * should implement the counter-part IShutdownObserver interface (i.e. the on_shutdown() method) thus
  * providing individual cleanup procedures/strategies.
  */
-class IShutdownSubject {
+class ShutdownSubject {
 	/// allows calling protected attach() and detach() methods
 	friend class IShutdownObserver;
 private:
@@ -152,11 +152,13 @@ protected:
 public:
 	/** Default constructor
 	 */
-	IShutdownSubject() {  }
+	ShutdownSubject()
+	{  }
 
 	/** Default destructor
 	 */
-	virtual ~IShutdownSubject() {  }
+	virtual ~ShutdownSubject()
+	{  }
 };
 
 
@@ -164,7 +166,7 @@ public:
 // default implementation of IShutdownObserver constructor
 // and destructor
 //////////////////////////////////////////////////////////
-inline IShutdownObserver::IShutdownObserver(IShutdownSubject *subject)
+inline IShutdownObserver::IShutdownObserver(ShutdownSubject *subject)
 :	subject(subject)
 {
 	subject->attach(this);

@@ -46,7 +46,7 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTICLIENTPATTERN_H_
 #define SMARTSOFT_INTERFACES_SMARTICLIENTPATTERN_H_
 
-#include "smartIStatusCode.h"
+#include "smartStatusCode.h"
 #include "smartICommunicationPattern.h"
 
 #include <string>

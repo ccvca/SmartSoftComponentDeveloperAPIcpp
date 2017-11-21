@@ -48,7 +48,7 @@
 
 #include "smartIInputHandler_T.h"
 #include "smartIServerPattern.h"
-#include "smartIQueryStatus.h"
+#include "smartQueryStatus.h"
 
 namespace Smart {
 
@@ -138,7 +138,7 @@ public:
 template<class RequestType, class AnswerType, class QIDType>
 class IQueryServerPattern
 	:	public IServerPattern
-	,	public IInputSubject< QueryServerInputType<RequestType,QIDType> >
+	,	public InputSubject< QueryServerInputType<RequestType,QIDType> >
 {
 public:
     /** Default constructor.

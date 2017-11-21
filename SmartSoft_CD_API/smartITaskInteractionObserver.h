@@ -52,7 +52,7 @@
 namespace Smart {
 
 // forward declaration
-class ITaskInteractionSubject;
+class TaskInteractionSubject;
 
 class ITaskInteractionObserver {
 public:
@@ -61,12 +61,12 @@ public:
 	virtual ~ITaskInteractionObserver()
 	{ }
 
-	virtual void update_from(ITaskInteractionSubject *subject) = 0;
+	virtual void update_from(TaskInteractionSubject *subject) = 0;
 };
 
 
 
-class ITaskInteractionSubject {
+class TaskInteractionSubject {
 	friend class ITaskTriggerObserver;
 private:
 	std::mutex subject_mutex;
@@ -81,9 +81,9 @@ protected:
 	}
 
 public:
-	ITaskInteractionSubject()
+	TaskInteractionSubject()
 	{ }
-	virtual ~ITaskInteractionSubject()
+	virtual ~TaskInteractionSubject()
 	{ }
 
 	virtual void attach(ITaskInteractionObserver *observer) {

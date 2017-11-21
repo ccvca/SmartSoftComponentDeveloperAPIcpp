@@ -47,7 +47,7 @@
 #define SMARTSOFT_INTERFACES_SMARTINPUTTASKTRIGGER_H_
 
 #include "smartIInputHandler_T.h"
-#include "smartITaskTriggerObserver.h"
+#include "smartTaskTriggerObserver.h"
 
 
 namespace Smart {
