@@ -88,11 +88,10 @@ protected:
 		if(trigger_cancelled == true) {
 			return SMART_CANCELLED;
 		} else {
-			if(signalled == true) {
-				signalled = false;
-			} else {
+			if(signalled == false) {
 				trigger_cond_var.wait(lock);
 			}
+			signalled = false;
 			return SMART_OK;
 		}
 	}
@@ -104,11 +103,12 @@ protected:
 		if(trigger_cancelled == true) {
 			return SMART_CANCELLED;
 		} else {
-			if(signalled == true) {
-				signalled = false;
-			} else {
-				trigger_cond_var.wait_for(lock, timeout);
+			if(signalled == false) {
+				if(trigger_cond_var.wait_for(lock, timeout)==std::cv_status::timeout) {
+					return SMART_TIMEOUT;
+				}
 			}
+			signalled = false;
 			return SMART_OK;
 		}
 	}
