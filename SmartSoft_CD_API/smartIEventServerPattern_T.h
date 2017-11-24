@@ -53,9 +53,9 @@ namespace Smart {
 
 /// struct used by IEventHandler and IEventClientPattern internally
 template<class ActivationType, class EventType, class UpdateType>
-struct EventTestInputType {
-	ActivationType &param;
-	EventType &event;
+struct TestEventType {
+	ActivationType *param;
+	EventType *event;
 	UpdateType status;
 };
 
@@ -64,7 +64,7 @@ struct EventTestInputType {
  */
 template<class ActivationType, class EventType, class UpdateType>
 class EventTestHandler
-:	public IInputHandler< EventTestInputType<ActivationType,EventType,UpdateType> >
+:	public IInputHandler< TestEventType<ActivationType,EventType,UpdateType> >
 {
 protected:
 	/** implements IInputHandler
@@ -72,12 +72,12 @@ protected:
 	 *  This handler method delegates the call to the handleQuery handler, thereby
 	 *  extracting the input attributes from the composed QueryServerInputType
 	 */
-	virtual void handle_input(const EventTestInputType<ActivationType,EventType,UpdateType>& input) {
-		this->testEvent(input.param, input.event, input.status);
+	virtual void handle_input(const TestEventType<ActivationType,EventType,UpdateType>& input) {
+		this->testEvent(*input.param, *input.event, input.status);
 	}
 public:
-	EventTestHandler(InputSubject< EventTestInputType<ActivationType,EventType,UpdateType> >* subject)
-	:	IInputHandler< EventTestInputType<ActivationType,EventType,UpdateType> >(subject)
+	EventTestHandler(InputSubject< TestEventType<ActivationType,EventType,UpdateType> >* subject)
+	:	IInputHandler< TestEventType<ActivationType,EventType,UpdateType> >(subject)
 	{  }
   virtual ~EventTestHandler() {  }
 
@@ -135,7 +135,7 @@ public:
 template<class ActivationType, class EventType, class UpdateType, class EventIdType>
 class IEventServerPattern
 :	public IServerPattern
-,	public InputSubject< EventTestInputType<ActivationType,EventType,UpdateType> >
+,	public InputSubject< TestEventType<ActivationType,EventType,UpdateType> >
 {
 public:
     /** Default constructor.
