@@ -43,8 +43,8 @@
 //
 //===================================================================================
 
-#ifndef SMARTISENDCLIENTPATTERN_T_H_
-#define SMARTISENDCLIENTPATTERN_T_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTISENDCLIENTPATTERN_T_H_
+#define SMARTSOFT_INTERFACES_SMARTISENDCLIENTPATTERN_T_H_
 
 #include "smartIClientPattern.h"
 
@@ -64,65 +64,38 @@ namespace Smart {
 template <class DataType>
 class ISendClientPattern : public IClientPattern {
 public:
-	ISendClientPattern();
-	virtual ~ISendClientPattern();
-
-    /** Connect this service requestor to the denoted service provider. An
-     *  already established connection is first disconnected.
+    /** Constructor (not wired with a service provider).
+     *  connect() / disconnect() can always be used to change
+     *  the status of the connection.
      *
-     *  It is no problem to change the connection to a service provider at any
-     *  point of time irrespective of any calls to send().
-     *
-     *  @param server   name of the server
-     *  @param service  name of the service
-     *
-     *  @return status code
-     *   - SMART_OK                  : everything is OK and connected to the specified service.
-     *   - SMART_SERVICEUNAVAILABLE  : the specified service is currently not available and the
-     *                                 requested connection can not be established. Service
-     *                                 requestor is now not connected to any service provider.
-     *   - SMART_INCOMPATIBLESERVICE : the specified service provider is not compatible (wrong communication
-     *                                 pattern or wrong communication objects) to this service requestor and
-     *                                 can therefore not be connected. Service requestor is now not connected
-     *                                 to any service provider.
-     *   - SMART_ERROR_COMMUNICATION : communication problems, service requestor is now not connected to any
-     *                                 service provider.
-     *   - SMART_ERROR               : something went wrong, service requestor is now not connected to any
-     *                                 service provider.
+     *  @param component  the management class of the component
      */
-    StatusCode connect(const std::string& server, const std::string& service);
+	ISendClientPattern(IComponent* component)
+	:	IClientPattern(component)
+	{  }
 
-    /** Disconnect the service requestor from the service provider.
+    /** Connection Constructor (implicitly wiring with specified service provider).
+     *  Connects to the denoted service and blocks until the connection
+     *  has been established. Blocks infinitely if denoted service becomes
+     *  unavailable since constructor performs retries. Blocking is useful to
+     *  simplify startup of components which have mutual dependencies.
+     *  connect() / disconnect() can always be used to change
+     *  the status of the instance.
      *
-     *  It is no problem to change the connection to a service provider at any
-     *  point of time irrespective of any calls to send().
-     *
-     *  @return status code
-     *   - SMART_OK                  : everything is OK and service requestor is disconnected from
-     *                                 the service provider.
-     *   - SMART_ERROR_COMMUNICATION : something went wrong at the level of the intercomponent
-     *                                 communication. At least the service requestor is in the
-     *                                 disconnected state irrespective of the service provider
-     *                                 side clean up procedures.
-     *   - SMART_ERROR               : something went wrong. Again at least the service requestor
-     *                                 is in the disconnected state.
+     * @param component  the management class of the component
+     * @param server     name of the server (i.e. the component-name to connect to)
+     * @param service    name of the service (i.e. the port-name of the component to connect to)
      */
-    StatusCode disconnect();
+	ISendClientPattern(IComponent* component, const std::string& server, const std::string& service)
+	:	IClientPattern(component, server, service)
+	{  }
 
-    /** Allow or abort and reject blocking calls.
+    /** Destructor.
      *
-     *  If blocking is set to false all blocking calls return with SMART_CANCELLED. This can be
-     *  used to abort blocking calls. Since this pattern currently does not have any blocking
-     *  member functions, currently without effect.
-     *
-     *  @param b (blocking)  true/false
-     *
-     *  @return status code
-     *   - SMART_OK                  : new mode set
-     *   - SMART_ERROR               : something went wrong
+     *  The destructor calls disconnect().
      */
-    StatusCode blocking(const bool b);
-
+	virtual ~ISendClientPattern()
+	{  }
 
     /** Perform a one-way communication. Appropriate status codes make
      *  sure that the information has been transferred.
@@ -135,9 +108,9 @@ public:
      *    - SMART_ERROR_COMMUNICATION : communication problems, data not transmitted
      *    - SMART_ERROR               : something went wrong, data not transmitted
      */
-    StatusCode send(const DataType& data);
+    StatusCode send(const DataType& data) = 0;
 };
 
 } /* namespace Smart */
 
-#endif /* SMARTISENDCLIENTPATTERN_T_H_ */
+#endif /* SMARTSOFT_INTERFACES_SMARTISENDCLIENTPATTERN_T_H_ */

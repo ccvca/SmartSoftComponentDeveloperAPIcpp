@@ -137,8 +137,8 @@ public:
  */
 template<class RequestType, class AnswerType, class QIDType>
 class IQueryServerPattern
-	:	public IServerPattern
-	,	public InputSubject< QueryServerInputType<RequestType,QIDType> >
+:	public IServerPattern
+,	public InputSubject< QueryServerInputType<RequestType,QIDType> >
 {
 public:
     /** Default constructor.
