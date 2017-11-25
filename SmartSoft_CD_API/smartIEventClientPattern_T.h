@@ -289,69 +289,7 @@ public:
      *                                <I>event</I> not valid.
      *     </p>
      */
-    virtual StatusCode getEvent(const EventIdType &id, EventType& event) = 0;
-
-    /** Blocking call which waits for the event to fire and then consumes the event.
-     *
-     *  This method consumes an event. Returns immediately if an unconsumed event is
-     *  available. Blocks otherwise till event becomes available. If method is called
-     *  concurrently from several threads with the same <I>id</I> and method is blocking,
-     *  then every call returns with the same <I>event</I> once the event fired. If there is
-     *  however already an unconsumed event available, then only one out of the concurrent
-     *  calls consumes the event and the other calls return with appropriate status codes.
-     *
-     *  @param id of the event activation
-     *  @param event is set to the returned event if fired (Communication Object)
-     *
-     *  - <b>single mode</b>:
-     *      <p>
-     *      Since an event in single mode fires only once, return immediately
-     *      if the event is already consumed. Also return immediately with an
-     *      available and unconsumed event and consume it. Otherwise wait until
-     *      the event fires.
-     *      </p>
-     *      <p>
-     *      <b>Returns status code</b>:
-     *      </p>
-     *      <p>
-     *        - SMART_OK            : event fired and event is consumed and returned.
-     *        - SMART_PASSIVE       : event fired and got consumed already. Returns immediately without
-     *                                valid event since it can not fire again in single mode.
-     *        - SMART_CANCELLED     : waiting for the event to fire has been aborted or blocking is not
-     *                                not allowed anymore. Therefore no valid <I>event</I> is returned.
-     *        - SMART_DISCONNECTED  : client is disconnected or got disconnected while waiting and
-     *                                therefore no valid <I>event</I> is returned and the activation
-     *                                identifier <I>id</I> is also not valid any longer due to
-     *                                automatic deactivation.
-     *        - SMART_NOTACTIVATED  : got deactivated while waiting and therefore <I>event</I> not valid and
-     *                                also <I>id</I> not valid any longer.
-     *        - SMART_WRONGID       : there is no activation available with this <I>id</I> and therefore
-     *                                <I>event</I> not valid.
-     *      </p>
-     *
-     *  - <b>continuous mode</b>:
-     *     <p>
-     *     Returns immediately if an unconsumed event is
-     *     available. Returns the newest unconsumed event since
-     *     activation. Otherwise waits until the event fires again.
-     *     </p>
-     *     <p>
-     *     <b>Returns status code</b>:
-     *     </p>
-     *     <p>
-     *        - SMART_OK            : unconsumed event is available and event is consumed and returned.
-     *                                Due to the overwriting behavior, only the latest event is available.
-     *        - SMART_CANCELLED     : blocking is not allowed anymore therefore blocking call has been aborted and
-     *                                <I>event</I> is not valid.
-     *        - SMART_DISCONNECTED  : got disconnected while waiting and therefore <I>event</I> not valid and
-     *                                also <I>id</I> not valid any longer due to automatic deactivation.
-     *        - SMART_NOTACTIVATED  : got deactivated while waiting and therefore <I>event</I> not valid and
-     *                                also <I>id</I> not valid any longer.
-     *        - SMART_WRONGID       : there is no activation available with this <I>id</I> and therefore
-     *                                <I>event</I> not valid.
-     *     </p>
-     */
-    virtual StatusCode getEvent(const EventIdType &id, EventType& event, const std::chrono::milliseconds &timeout) = 0;
+    virtual StatusCode getEvent(const EventIdType &id, EventType& event, const std::chrono::steady_clock::duration &timeout=std::chrono::duration_values::zero()) = 0;
 
     /** Blocking call which waits for the next event.
      *
@@ -408,64 +346,7 @@ public:
      *                              <I>event</I> not valid.
      *    </p>
      */
-    virtual StatusCode getNextEvent(const EventIdType &id, EventType& event) = 0;
-
-    /** Blocking call which waits for the next event.
-     *
-     *  This methods waits for the <I>next</I> arriving event to make sure that only events arriving
-     *  after entering the method are considered. Method consumes event. An old event that has been
-     *  fired is ignored (in contrary to getEvent()). If method is called concurrently from several
-     *  threads with the same <I>id</I>, then every call returns with the same <I>event</I> once the
-     *  event fired.
-     *
-     *  @param id of the event activation
-     *  @param event is set to the returned event if fired (Communication Object)
-     *
-     *  - <b>single mode</b>:
-     *    <p>
-     *    In single mode one misses the event if it fired before entering this member function.
-     *    </p>
-     *    <p>
-     *    <b>Returns status code</b>:
-     *    </p>
-     *    <p>
-     *      - SMART_OK            : event fired while waiting for the event and event is consumed
-     *                              and returned
-     *      - SMART_PASSIVE       : event already fired between activation and calling this member
-     *                              function and is therefore missed or event has already been
-     *                              consumed and can not fire again in single mode. Does not block
-     *                              indefinitely and returns no valid <I>event</I>.
-     *      - SMART_CANCELLED     : event not yet fired and waiting for the event has been aborted or
-     *                              blocking is not allowed anymore. No valid <I>event</I> is returned.
-     *      - SMART_DISCONNECTED  : got disconnected while waiting and therefore <I>event</I> not valid
-     *                              and also <I>id</I> not valid any longer due to automatic deactivation.
-     *      - SMART_NOTACTIVATED  : got deactivated while waiting and therefore <I>event</I> not valid and
-     *                              also <I>id</I> not valid any longer.
-     *      - SMART_WRONGID       : there is no activation available with this <I>id</I> and therefore
-     *                              <I>event</I> not valid.
-     *    </p>
-     *
-     *  - <b>continuous mode</b>:
-     *    <p>
-     *    Makes sure that only events fired after entering this member function are considered.
-     *    </p>
-     *    <p>
-     *    <b>Returns status code</b>:
-     *    </p>
-     *    <p>
-     *      - SMART_OK            : event fired while waiting for the event and event is consumed
-     *                              and returned
-     *      - SMART_CANCELLED     : waiting for the next event has been aborted or blocking is not
-     *                              allowed anymore. No valid <I>event</I> is returned.
-     *      - SMART_DISCONNECTED  : got disconnected while waiting and therefore <I>event</I> not valid
-     *                              and also <I>id</I> not valid any longer due to automatic deactivation.
-     *      - SMART_NOTACTIVATED  : got deactivated while waiting and therefore <I>event</I> not valid and
-     *                              also <I>id</I> not valid any longer.
-     *      - SMART_WRONGID       : there is no activation available with this <I>id</I> and therefore
-     *                              <I>event</I> not valid.
-     *    </p>
-     */
-    virtual StatusCode getNextEvent(const EventIdType &id, EventType& event, const std::chrono::milliseconds &timeout) = 0;
+    virtual StatusCode getNextEvent(const EventIdType &id, EventType& event, const std::chrono::steady_clock::duration &timeout=std::chrono::duration_values::zero()) = 0;
 };
 
 } /* namespace Smart */

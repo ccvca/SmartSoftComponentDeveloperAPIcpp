@@ -96,8 +96,7 @@ protected:
 		}
 	}
 
-	template<typename TimeValue>
-	StatusCode waitOnTrigger(const std::chrono::duration<TimeValue> &timeout) {
+	virtual StatusCode waitOnTrigger(const std::chrono::steady_clock::duration &timeout) {
 		std::unique_lock<std::mutex> lock(observer_mutex);
 		if(subject == 0) return SMART_NOTACTIVATED;
 		if(trigger_cancelled == true) {

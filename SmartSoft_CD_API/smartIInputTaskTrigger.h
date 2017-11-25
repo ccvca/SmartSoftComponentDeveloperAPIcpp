@@ -55,7 +55,7 @@ namespace Smart {
 template <class InputType>
 class IInputTaskTrigger
 :	public IInputHandler<InputType>
-,	public ITaskTriggerSubject
+,	public TaskTriggerSubject
 {
 protected:
 	/** This is the main input-handler method that will be automatically called from the given subject

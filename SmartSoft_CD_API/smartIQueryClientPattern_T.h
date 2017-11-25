@@ -189,39 +189,7 @@ public:
      *                           not valid any longer.
      *
      */
-    virtual StatusCode queryReceiveWait(const QIDType& id, AnswerType& answer) = 0;
-
-    /** Wait until the answer arrives or the timeout time expires (whatever comes first).
-     *
-     *  Blocking call to fetch the answer belonging to the given identifier. Waits until
-     *  the answer is received or the timeout time expires.
-     *
-     *  @warning
-     *    It is not allowed to call queryReceive(), queryReceiveWait() or queryDiscard() concurrently
-     *    with the <I>same</I> query id (which is not a restriction since it makes no sense !)
-     *
-     *  @param id       provides the identifier of the query
-     *  @param answer   is set to the answer returned from the server if it was available
-     *  @param timeout the time to blocking wait (at most) until either the answer arrives or the timeout time expires
-     *
-     *  @return status code:
-     *    - SMART_OK           : everything is ok and <I>answer</I> contains the answer
-     *    - SMART_TIMEOUT      : timeout occurred, the id is still valid and the answer can be fetched later
-     *    - SMART_WRONGID      : no pending query with this identifier available, therefore no
-     *                           valid <I>answer</I> returned.
-     *    - SMART_CANCELLED    : blocking call is not allowed or is not allowed anymore and therefore
-     *                           blocking call is aborted and no valid <I>answer</I> is returned. The
-     *                           query identifier <I>id</I> keeps valid and one can either again call
-     *                           queryReceive(), queryReceiveWait() or discard the answer by calling
-     *                           queryDiscard().
-     *    - SMART_DISCONNECTED : blocking call is aborted and the answer belonging to <I>id</I> can not
-     *                           be received anymore since client got disconnected. <I>id</I> is not valid
-     *                           any longer and <I>answer</I> contains no valid answer.
-     *    - SMART_ERROR        : something went wrong, <I>answer</I> contains no answer and <I>id</I> is
-     *                           not valid any longer.
-     *
-     */
-    virtual StatusCode queryReceiveWait(const QIDType& id, AnswerType& answer, const std::chrono::microseconds &timeout) = 0;
+    virtual StatusCode queryReceiveWait(const QIDType& id, AnswerType& answer, const std::chrono::steady_clock::duration &timeout=std::chrono::duration_values::zero()) = 0;
 
     /** Discard the pending answer with the identifier <I>id</I>
      *

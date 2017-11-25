@@ -54,19 +54,21 @@ class ITimerManager {
 public:
 	typedef long TimerId;
 
-	enum TimerType {
-		ONESHOT_TIMER,
-		PERIODIC_TIMER
-	};
-
 	ITimerManager() { }
 	virtual ~ITimerManager() { }
 
-	virtual TimerId scheduleTimer(ITimerHandler *handler, const std::chrono::milliseconds &interval, const TimerType &type=PERIODIC_TIMER) = 0;
+	virtual TimerId scheduleTimer(
+			ITimerHandler *handler,
+			const std::chrono::steady_clock::duration &first_time,
+			const std::chrono::steady_clock::duration &interval=std::chrono::steady_clock::duration::zero()
+		) = 0;
 
 	virtual int cancelTimer(const TimerId& id) = 0;
 
-	virtual int resetTimerInterval(const TimerId& id, const std::chrono::milliseconds &interval) = 0;
+	virtual int resetTimerInterval(
+			const TimerId& id,
+			const std::chrono::steady_clock::duration &interval
+		) = 0;
 
 	virtual int cancelTimersOf(ITimerHandler *handler) = 0;
 

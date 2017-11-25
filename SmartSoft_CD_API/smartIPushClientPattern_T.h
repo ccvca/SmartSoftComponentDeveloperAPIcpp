@@ -174,30 +174,7 @@ public:
      *                                 to a server.
      *   - SMART_ERROR               : something went completely wrong and no valid data returned.
      */
-    virtual  StatusCode getUpdateWait(DataType& d) = 0;
-
-    /** Blocking call which waits until the next update is received or the timeout time expires (whatever comes first).
-     *
-     *  Blocking is aborted with the appropriate status if either the
-     *  server gets deactivated, the client gets unsubscribed or disconnected,
-     *  if blocking is not allowed any more at the client or if timeout occurs.
-     *
-     *  @param d is set to the newest currently available data
-     *  @param timeout the time to blocking wait (at most) until either new data arrives or the timeout time expires
-     *
-     *  @return status code
-     *   - SMART_OK                  : everything is ok and just received data is returned.
-     *   - SMART_TIMEOUT             : timeout occurred, no data has been received yet
-     *   - SMART_CANCELLED           : blocking is not allowed or is not allowed anymore. Waiting for the
-     *                                 next update is aborted and no valid data is returned.
-     *   - SMART_NOTACTIVATED        : the server is currently not active and does therefore not provide updates
-     *                                 at the expected rate. No valid data returned.
-     *   - SMART_UNSUBSCRIBED        : returns immediately without data if the client is not subscribed.
-     *   - SMART_DISCONNECTED        : returns immediately without data since client is even not connected
-     *                                 to a server.
-     *   - SMART_ERROR               : something went completely wrong and no valid data returned.
-     */
-    virtual  StatusCode getUpdateWait(DataType& d, const std::chrono::microseconds &timeout) = 0;
+    virtual  StatusCode getUpdateWait(DataType& d, const std::chrono::steady_clock::duration &timeout=std::chrono::duration_values::zero()) = 0;
 };
 
 } /* namespace Smart */

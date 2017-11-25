@@ -73,6 +73,14 @@ protected:
 	virtual void on_shutdown() {
 		this->stop();
 	}
+
+    /** Tests whether the thread has been signaled to stop.
+     *
+     * This method allows to implement cooperative thread stopping.
+     *
+     * @return true if stop was called or false otherwise.
+     */
+    virtual bool test_canceled() = 0;
 public:
 	/// Default constructor
 	ITask(IComponent *component)
@@ -114,14 +122,6 @@ public:
      *  @return 0 on success or -1 on failure
      */
     virtual int stop(const bool wait_till_stopped=true) = 0;
-
-    /** Tests whether the thread has been signaled to stop.
-     *
-     * This method allows to implement cooperative thread stopping.
-     *
-     * @return true if stop was called or false otherwise.
-     */
-    virtual bool test_canceled() = 0;
 };
 
 } /* namespace Smart */

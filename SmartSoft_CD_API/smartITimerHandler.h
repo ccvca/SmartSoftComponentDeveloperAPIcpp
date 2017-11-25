@@ -55,7 +55,7 @@ public:
 	ITimerHandler() { }
 	virtual ~ITimerHandler() { }
 
-	virtual void timerExpired(const std::chrono::time_point<std::chrono::system_clock> &abs_time) = 0;
+	virtual void timerExpired(const std::chrono::system_clock::time_point &abs_time) = 0;
 
 	virtual void timerCancelled() = 0;
 	virtual void timerDeleted() = 0;
