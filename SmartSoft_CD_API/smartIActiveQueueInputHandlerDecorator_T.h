@@ -183,8 +183,6 @@ public:
 	{
 		// detach the inner-handler as its handle method will be called by this decorator
 		this->inner_handler->detach_self();
-		// start task-processing
-		this->start();
 	}
 
 	/** Default destructor
@@ -195,8 +193,6 @@ public:
 	 */
 	virtual ~IActiveQueueInputHandlerDecorator()
 	{
-		// stop task processing
-		this->stop();
 		// give the handling responsibility back to the inner-handler
 		this->inner_handler->attach_self();
 	}

@@ -174,7 +174,7 @@ public:
      *                                 to a server.
      *   - SMART_ERROR               : something went completely wrong and no valid data returned.
      */
-    virtual  StatusCode getUpdateWait(DataType& d, const std::chrono::steady_clock::duration &timeout=std::chrono::duration_values::zero()) = 0;
+    virtual  StatusCode getUpdateWait(DataType& d, const std::chrono::steady_clock::duration &timeout=std::chrono::steady_clock::duration::zero()) = 0;
 };
 
 } /* namespace Smart */

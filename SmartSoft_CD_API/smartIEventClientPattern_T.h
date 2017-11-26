@@ -289,7 +289,7 @@ public:
      *                                <I>event</I> not valid.
      *     </p>
      */
-    virtual StatusCode getEvent(const EventIdType &id, EventType& event, const std::chrono::steady_clock::duration &timeout=std::chrono::duration_values::zero()) = 0;
+    virtual StatusCode getEvent(const EventIdType &id, EventType& event, const std::chrono::steady_clock::duration &timeout=std::chrono::steady_clock::duration::zero()) = 0;
 
     /** Blocking call which waits for the next event.
      *
@@ -346,7 +346,7 @@ public:
      *                              <I>event</I> not valid.
      *    </p>
      */
-    virtual StatusCode getNextEvent(const EventIdType &id, EventType& event, const std::chrono::steady_clock::duration &timeout=std::chrono::duration_values::zero()) = 0;
+    virtual StatusCode getNextEvent(const EventIdType &id, EventType& event, const std::chrono::steady_clock::duration &timeout=std::chrono::steady_clock::duration::zero()) = 0;
 };
 
 } /* namespace Smart */

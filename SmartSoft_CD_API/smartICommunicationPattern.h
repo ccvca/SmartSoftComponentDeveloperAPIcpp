@@ -60,7 +60,7 @@ namespace Smart {
 class ICommunicationPattern : public IShutdownObserver {
 protected:
 	/// the internal pointer to the component (can be accessed in derived classes)
-	IComponent *component;
+	IComponent *icomponent;
 
 public:
     /** Default Constructor initializing an IShutdownObserver
@@ -69,7 +69,7 @@ public:
      */
 	ICommunicationPattern(IComponent *component)
 	:	IShutdownObserver(component)
-	,	component(component)
+	,	icomponent(component)
 	{  }
 
 	/** Default Destructor

@@ -81,6 +81,16 @@ protected:
      * @return true if stop was called or false otherwise.
      */
     virtual bool test_canceled() = 0;
+
+    /** Blocks execution of the calling thread during the span of time specified by rel_time.
+     *
+     *  Thread-sleeping is sometimes platform-specific. This method encapsulates the
+     *  blocking sleep. Calling this method blocks the execution of the calling thread
+     *  for a time specified by rel_time.
+     *
+     *  @param rel_time relative time duration for the thread to sleep
+     */
+    virtual void sleep_for(const std::chrono::steady_clock::duration &rel_time) = 0;
 public:
 	/// Default constructor
 	ITask(IComponent *component)

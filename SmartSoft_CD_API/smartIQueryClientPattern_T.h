@@ -189,7 +189,7 @@ public:
      *                           not valid any longer.
      *
      */
-    virtual StatusCode queryReceiveWait(const QIDType& id, AnswerType& answer, const std::chrono::steady_clock::duration &timeout=std::chrono::duration_values::zero()) = 0;
+    virtual StatusCode queryReceiveWait(const QIDType& id, AnswerType& answer, const std::chrono::steady_clock::duration &timeout=std::chrono::steady_clock::duration::zero()) = 0;
 
     /** Discard the pending answer with the identifier <I>id</I>
      *
