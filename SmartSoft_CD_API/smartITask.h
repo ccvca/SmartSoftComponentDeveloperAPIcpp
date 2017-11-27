@@ -62,9 +62,6 @@ namespace Smart {
  */
 class ITask : public IShutdownObserver {
 protected:
-	/// internal pointer to the component
-	IComponent *component;
-
 	/** Default implementation of the IShutdownObserver interface
 	 *
 	 * 	The default shutdown procedure is to call the stop() method which triggers
@@ -93,14 +90,13 @@ protected:
     virtual void sleep_for(const std::chrono::steady_clock::duration &rel_time) = 0;
 public:
 	/// Default constructor
-	ITask(IComponent *component)
+	ITask(IComponent *component = 0)
 	:	IShutdownObserver(component)
-	,	component(component)
-	{  }
+	{ }
 
 	/// Default destructor
 	virtual ~ITask()
-	{  }
+	{ }
 
     /** Method which runs in a separate thread if activated.
      *

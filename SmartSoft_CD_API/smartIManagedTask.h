@@ -51,8 +51,6 @@
 
 #include "smartTaskTriggerObserver.h"
 
-#include <iostream>
-
 
 namespace Smart {
 

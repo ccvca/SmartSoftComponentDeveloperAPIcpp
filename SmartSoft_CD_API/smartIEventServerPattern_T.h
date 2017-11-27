@@ -63,7 +63,7 @@ struct TestEventType {
  *
  */
 template<class ActivationType, class EventType, class UpdateType>
-class EventTestHandler
+class IEventTestHandler
 :	public IInputHandler< TestEventType<ActivationType,EventType,UpdateType> >
 {
 protected:
@@ -76,10 +76,10 @@ protected:
 		this->testEvent(*input.param, *input.event, input.status);
 	}
 public:
-	EventTestHandler(InputSubject< TestEventType<ActivationType,EventType,UpdateType> >* subject)
+	IEventTestHandler(InputSubject< TestEventType<ActivationType,EventType,UpdateType> >* subject)
 	:	IInputHandler< TestEventType<ActivationType,EventType,UpdateType> >(subject)
 	{  }
-  virtual ~EventTestHandler() {  }
+  virtual ~IEventTestHandler() {  }
 
   /** This is the test method which decides whether the event fires or
    *  not.

@@ -60,6 +60,14 @@ struct EventInputType {
 	EvenIdType event_id;
 };
 
+/// Mode of event
+enum EventMode {
+  /// fire event only once.
+  single,
+  /// event fires whenever the condition is met.
+  continuous
+};
+
 
 // forward declaration
 template<class ActivationType, class EventType, class EventIdType>
@@ -125,14 +133,6 @@ class IEventClientPattern
 ,	public InputSubject< EventInputType<EventType,EventIdType> >
 {
 public:
-	/// Mode of event
-	enum EventMode {
-	  /// fire event only once.
-	  single,
-	  /// event fires whenever the condition is met.
-	  continuous
-	};
-
     /** Constructor (not wired with a service provider).
      *  connect() / disconnect() can always be used to change
      *  the status of the connection.
