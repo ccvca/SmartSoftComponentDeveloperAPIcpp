@@ -108,7 +108,7 @@ public:
      *    - SMART_ERROR_COMMUNICATION : communication problems, data not transmitted
      *    - SMART_ERROR               : something went wrong, data not transmitted
      */
-    StatusCode send(const DataType& data) = 0;
+    virtual StatusCode send(const DataType& data) = 0;
 };
 
 } /* namespace Smart */

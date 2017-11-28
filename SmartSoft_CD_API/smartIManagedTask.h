@@ -66,7 +66,7 @@ protected:
 		this->stop(true);
 	}
 
-	virtual int svc()
+	virtual int task_execution()
 	{
 		bool stop = false;
 

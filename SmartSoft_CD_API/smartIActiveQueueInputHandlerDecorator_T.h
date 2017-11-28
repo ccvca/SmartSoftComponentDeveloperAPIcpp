@@ -157,7 +157,7 @@ protected:
 	 * process_queue_entry() as long as
 	 * processing_cancelled() returns false.
 	 */
-	virtual int svc() {
+	virtual int task_execution() {
 		while(!this->processing_cancelled()) {
 			this->process_queue_entry();
 		}

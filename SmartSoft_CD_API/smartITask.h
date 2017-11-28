@@ -88,6 +88,15 @@ protected:
      *  @param rel_time relative time duration for the thread to sleep
      */
     virtual void sleep_for(const std::chrono::steady_clock::duration &rel_time) = 0;
+
+    /** Method which runs in a separate thread if activated.
+     *
+     *  The task_execution() method has to be provided (i.e. overloaded) by the user
+     *  and it implements the activity of the task object.
+     *
+     *  @return 0 for all OK or -1 otherwise
+     */
+    virtual int task_execution() = 0;
 public:
 	/// Default constructor
 	ITask(IComponent *component = 0)
@@ -97,15 +106,6 @@ public:
 	/// Default destructor
 	virtual ~ITask()
 	{ }
-
-    /** Method which runs in a separate thread if activated.
-     *
-     *  The svc() method has to be provided (i.e. overloaded) by the user
-     *  and it implements the activity of the task object.
-     *
-     *  @return 0 for all OK or -1 otherwise
-     */
-    virtual int svc (void) = 0;
 
     /** Creates and starts a new thread (if not yet started)
      *

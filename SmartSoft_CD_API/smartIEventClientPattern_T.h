@@ -182,7 +182,7 @@ public:
      *    - SMART_ERROR               : something went wrong, event not activated, <I>id</I> is not
      *                                  a valid activation identifier.
      */
-    virtual StatusCode activate(const EventMode mode, const ActivationType& parameter, EventIdType& id) = 0;
+    virtual StatusCode activate(const EventMode &mode, const ActivationType& parameter, EventIdType& id) = 0;
 
     /** Deactivate the event with the specified identifier.
      *

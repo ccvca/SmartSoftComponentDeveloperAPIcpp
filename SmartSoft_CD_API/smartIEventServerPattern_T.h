@@ -64,21 +64,8 @@ struct TestEventType {
  */
 template<class ActivationType, class EventType, class UpdateType>
 class IEventTestHandler
-:	public IInputHandler< TestEventType<ActivationType,EventType,UpdateType> >
 {
-protected:
-	/** implements IInputHandler
-	 *
-	 *  This handler method delegates the call to the handleQuery handler, thereby
-	 *  extracting the input attributes from the composed QueryServerInputType
-	 */
-	virtual void handle_input(const TestEventType<ActivationType,EventType,UpdateType>& input) {
-		this->testEvent(*input.param, *input.event, input.status);
-	}
 public:
-	IEventTestHandler(InputSubject< TestEventType<ActivationType,EventType,UpdateType> >* subject)
-	:	IInputHandler< TestEventType<ActivationType,EventType,UpdateType> >(subject)
-	{  }
   virtual ~IEventTestHandler() {  }
 
   /** This is the test method which decides whether the event fires or
@@ -135,8 +122,10 @@ public:
 template<class ActivationType, class EventType, class UpdateType, class EventIdType>
 class IEventServerPattern
 :	public IServerPattern
-,	public InputSubject< TestEventType<ActivationType,EventType,UpdateType> >
 {
+protected:
+    /// handler object that contains the test function
+	IEventTestHandler<ActivationType,EventType,UpdateType> *testHandler;
 public:
     /** Default constructor.
      *
@@ -146,8 +135,9 @@ public:
      *  @param component management class of the component
      *  @param service   name of the service
      */
-	IEventServerPattern(IComponent* component, const std::string& service)
+	IEventServerPattern(IComponent* component, const std::string& service, IEventTestHandler<ActivationType,EventType,UpdateType> *testHandler)
 	:	IServerPattern(component, service)
+	,	testHandler(testHandler)
 	{  }
 
     /** Destructor.
