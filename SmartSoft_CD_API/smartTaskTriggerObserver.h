@@ -82,6 +82,10 @@ protected:
 		trigger_cond_var.notify_all();
 	}
 
+public:
+	TaskTriggerObserver(TaskTriggerSubject *subject);
+	virtual ~TaskTriggerObserver();
+
 	virtual StatusCode waitOnTrigger() {
 		std::unique_lock<std::mutex> lock(observer_mutex);
 		if(subject == 0) return SMART_NOTACTIVATED;
@@ -111,10 +115,6 @@ protected:
 			return SMART_OK;
 		}
 	}
-
-public:
-	TaskTriggerObserver(TaskTriggerSubject *subject);
-	virtual ~TaskTriggerObserver();
 };
 
 

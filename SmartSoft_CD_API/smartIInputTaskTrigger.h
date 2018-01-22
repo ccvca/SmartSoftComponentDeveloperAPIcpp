@@ -70,7 +70,8 @@ protected:
 	}
 
 public:
-	IInputTaskTrigger()
+	IInputTaskTrigger(InputSubject<InputType> *subject)
+	:	IInputHandler<InputType>(subject)
 	{ }
 	virtual ~IInputTaskTrigger()
 	{ }
