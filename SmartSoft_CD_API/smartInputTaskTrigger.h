@@ -53,7 +53,7 @@
 namespace Smart {
 
 template <class InputType>
-class IInputTaskTrigger
+class InputTaskTrigger
 :	public IInputHandler<InputType>
 ,	public TaskTriggerSubject
 {
@@ -70,10 +70,10 @@ protected:
 	}
 
 public:
-	IInputTaskTrigger(InputSubject<InputType> *subject)
+	InputTaskTrigger(InputSubject<InputType> *subject)
 	:	IInputHandler<InputType>(subject)
 	{ }
-	virtual ~IInputTaskTrigger()
+	virtual ~InputTaskTrigger()
 	{ }
 };
 
