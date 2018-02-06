@@ -57,6 +57,9 @@ class InputTaskTrigger
 :	public IInputHandler<InputType>
 ,	public TaskTriggerSubject
 {
+private:
+	Smart::StatusCode updateStatus;
+	InputType lastUpdate;
 protected:
 	/** This is the main input-handler method that will be automatically called from the given subject
 	 *  each time the subject receives input-data.
@@ -66,15 +69,24 @@ protected:
 	 *  @param input the input-data reference
 	 */
 	virtual void handle_input(const InputType& input) {
+		this->lastUpdate = input;
 		this->trigger_all_tasks();
 	}
 
 public:
 	InputTaskTrigger(InputSubject<InputType> *subject)
 	:	IInputHandler<InputType>(subject)
-	{ }
+	{
+		updateStatus = SMART_NODATA;
+	}
 	virtual ~InputTaskTrigger()
 	{ }
+
+	inline Smart::StatusCode gatUpdate(InputType &update) {
+		// get a copy of the last update
+		update = lastUpdate;
+		return updateStatus;
+	}
 };
 
 } /* namespace Smart */
