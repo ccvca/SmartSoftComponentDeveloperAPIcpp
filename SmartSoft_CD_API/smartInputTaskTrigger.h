@@ -82,7 +82,7 @@ public:
 	virtual ~InputTaskTrigger()
 	{ }
 
-	inline Smart::StatusCode gatUpdate(InputType &update) {
+	inline Smart::StatusCode getUpdate(InputType &update) {
 		// get a copy of the last update
 		update = lastUpdate;
 		return updateStatus;
