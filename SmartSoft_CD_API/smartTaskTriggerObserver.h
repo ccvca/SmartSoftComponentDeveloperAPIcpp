@@ -131,6 +131,12 @@ protected:
 		}
 	}
 
+public:
+	TaskTriggerSubject()
+	{ }
+	virtual ~TaskTriggerSubject()
+	{ }
+
 	void attach(TaskTriggerObserver *observer) {
 		std::unique_lock<std::mutex> lock(subject_mutex);
 		observers.push_back(observer);
@@ -139,12 +145,6 @@ protected:
 		std::unique_lock<std::mutex> lock(subject_mutex);
 		observers.remove(observer);
 	}
-public:
-	TaskTriggerSubject()
-	{ }
-	virtual ~TaskTriggerSubject()
-	{ }
-
 };
 
 
