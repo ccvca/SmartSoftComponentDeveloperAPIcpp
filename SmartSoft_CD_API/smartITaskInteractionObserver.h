@@ -61,7 +61,7 @@ public:
 	virtual ~ITaskInteractionObserver()
 	{ }
 
-	virtual void update_from(TaskInteractionSubject *subject) = 0;
+	virtual void update_from(const TaskInteractionSubject *subject) = 0;
 };
 
 
