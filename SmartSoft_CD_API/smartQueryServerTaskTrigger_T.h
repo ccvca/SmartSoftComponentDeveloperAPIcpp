@@ -92,7 +92,7 @@ public:
 	}
 
 	inline Smart::StatusCode answer(const QIDType& id, const AnswerType& answer) {
-		return server->answer(id, answer);
+		return this->server->answer(id, answer);
 	}
 };
 
