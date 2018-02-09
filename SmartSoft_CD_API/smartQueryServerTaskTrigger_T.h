@@ -43,53 +43,54 @@
 //
 //===================================================================================
 
-#ifndef SMARTSOFT_INTERFACES_SMARTINPUTTASKTRIGGER_H_
-#define SMARTSOFT_INTERFACES_SMARTINPUTTASKTRIGGER_H_
 
-#include "smartIInputHandler_T.h"
-#include "smartTaskTriggerObserver.h"
+#ifndef SMARTQUERYSERVERTASKTRIGGER_T_H_
+#define SMARTQUERYSERVERTASKTRIGGER_T_H_
 
+#include <list>
+#include <mutex>
+
+#include "smartInputTaskTrigger.h"
+#include "smartIQueryServerPattern_T.h"
 
 namespace Smart {
 
-template <class InputType>
-class InputTaskTrigger
-:	public IInputHandler<InputType>
-,	public TaskTriggerSubject
-{
+template<class RequestType, class AnswerType, class QIDType>
+class QueryServerTaskTrigger : public IQueryServerHandler<RequestType,AnswerType,QIDType> {
 private:
-	Smart::StatusCode updateStatus;
-	InputType lastUpdate;
+	std::mutex requestMutex;
+	std::list<std::pair<QIDType,RequestType>> requestList;
 protected:
-	/** This is the main input-handler method that will be automatically called from the given subject
-	 *  each time the subject receives input-data.
-	 *
-	 *  This method should be implemented in derived classes to provide a data-handling procedure.
-	 *
-	 *  @param input the input-data reference
-	 */
-	virtual void handle_input(const InputType& input) {
-		this->lastUpdate = input;
-		this->updateStatus = Smart::SMART_OK;
-		this->trigger_all_tasks();
+	virtual void handleQuery(const QIDType &id, const RequestType& request) {
+		std::unique_lock<std::mutex> lock (requestMutex);
+		requestList.push_back(std::pair<QIDType,RequestType>(id,request));
 	}
-
 public:
-	InputTaskTrigger(InputSubject<InputType> *subject)
-	:	IInputHandler<InputType>(subject)
-	{
-		updateStatus = SMART_NODATA;
-	}
-	virtual ~InputTaskTrigger()
+	QueryServerTaskTrigger(IQueryServerPattern<RequestType,AnswerType,QIDType>* server)
+	:	server(server)
+	,	IQueryServerHandler<RequestType,AnswerType,QIDType>(server)
+	{ }
+	virtual ~QueryServerTaskTrigger()
 	{ }
 
-	inline Smart::StatusCode getUpdate(InputType &update) {
-		// get a copy of the last update
-		update = lastUpdate;
-		return updateStatus;
+	inline Smart::StatusCode consumeRequest(QIDType& id, RequestType &request) {
+		std::unique_lock<std::mutex> lock (requestMutex);
+		if(!requestList.empty()) {
+			// copy request data
+			id = requestList.front().first;
+			request = requestList.front().second;
+			// consume the current request item
+			requestList.pop_front();
+			return SMART_OK;
+		}
+		return SMART_NODATA;
+	}
+
+	inline Smart::StatusCode answer(const QIDType& id, const AnswerType& answer) {
+		return server->answer(id, answer);
 	}
 };
 
 } /* namespace Smart */
 
-#endif /* SMARTSOFT_INTERFACES_SMARTINPUTTASKTRIGGER_H_ */
+#endif /* SMARTQUERYSERVERTASKTRIGGER_T_H_ */

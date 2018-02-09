@@ -143,6 +143,7 @@ public:
 	}
 	void detach(TaskTriggerObserver *observer) {
 		std::unique_lock<std::mutex> lock(subject_mutex);
+		observer->cancelTrigger();
 		observers.remove(observer);
 	}
 };
