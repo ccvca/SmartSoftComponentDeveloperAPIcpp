@@ -50,20 +50,26 @@
 #include <list>
 #include <mutex>
 
-#include "smartInputTaskTrigger.h"
 #include "smartIQueryServerPattern_T.h"
+#include "smartTaskTriggerObserver.h"
 
 namespace Smart {
 
 template<class RequestType, class AnswerType, class QIDType>
-class QueryServerTaskTrigger : public IQueryServerHandler<RequestType,AnswerType,QIDType> {
+class QueryServerTaskTrigger
+:	public IQueryServerHandler<RequestType,AnswerType,QIDType>
+,	public TaskTriggerSubject
+{
 private:
 	std::mutex requestMutex;
 	std::list<std::pair<QIDType,RequestType>> requestList;
 protected:
 	virtual void handleQuery(const QIDType &id, const RequestType& request) {
 		std::unique_lock<std::mutex> lock (requestMutex);
+		// store the request entry in a list
 		requestList.push_back(std::pair<QIDType,RequestType>(id,request));
+		// trigger all observer tasks
+		this->trigger_all_tasks();
 	}
 public:
 	QueryServerTaskTrigger(IQueryServerPattern<RequestType,AnswerType,QIDType>* server)
