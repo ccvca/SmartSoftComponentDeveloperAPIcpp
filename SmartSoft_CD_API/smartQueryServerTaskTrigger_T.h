@@ -73,8 +73,7 @@ protected:
 	}
 public:
 	QueryServerTaskTrigger(IQueryServerPattern<RequestType,AnswerType,QIDType>* server)
-	:	server(server)
-	,	IQueryServerHandler<RequestType,AnswerType,QIDType>(server)
+	:	IQueryServerHandler<RequestType,AnswerType,QIDType>(server)
 	{ }
 	virtual ~QueryServerTaskTrigger()
 	{ }
