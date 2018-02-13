@@ -60,19 +60,28 @@ class InputTaskTrigger
 private:
 	Smart::StatusCode updateStatus;
 	InputType lastUpdate;
-protected:
+
 	/** This is the main input-handler method that will be automatically called from the given subject
 	 *  each time the subject receives input-data.
-	 *
-	 *  This method should be implemented in derived classes to provide a data-handling procedure.
 	 *
 	 *  @param input the input-data reference
 	 */
 	virtual void handle_input(const InputType& input) {
+		// store a copy of the input object (used by getUpdate method)
 		this->lastUpdate = input;
 		this->updateStatus = Smart::SMART_OK;
+		// inform all associated tasks about a new update
 		this->trigger_all_tasks();
+		// delegate handling of the update to a method overloaded in derived classes
+		this->on_update(input);
 	}
+protected:
+
+	/** This method can be overloaded in derived classes for implementing a passive upcall handler
+	 *
+	 *  @param input the input-data reference
+	 */
+	virtual void handle_update(const InputType& input) { }
 
 public:
 	InputTaskTrigger(InputSubject<InputType> *subject)
