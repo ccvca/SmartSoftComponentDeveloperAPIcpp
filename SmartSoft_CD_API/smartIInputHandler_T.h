@@ -46,10 +46,12 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTIINPUTHANDLER_H_
 #define SMARTSOFT_INTERFACES_SMARTIINPUTHANDLER_H_
 
-#include <list>
+#include <map>
 
 // C++11 mutex
 #include <mutex>
+
+#include "smartPrescaleManager.h"
 
 namespace Smart {
 
@@ -83,8 +85,11 @@ protected:
 	 *  This method encapsulates the <b>attachment</b> of itself to the
 	 *  IInputSubject. This is useful as this method can be called
 	 *  from within the IActiveQueueInputHandlerDecorator.
+	 *
+	 *  @param prescale optionally divides the input-update frequency by this factor
 	 */
-	void attach_self();
+	void attach_self(const unsigned int &prescale=1);
+
 	/** calls subject->detach(this);
 	 *
 	 *  This method encapsulates the <b>detachment</b> of itself from the
@@ -99,11 +104,12 @@ public:
 	 * This constructor will call <b>subject->attach(this)</b> to start observing the given subject.
 	 *
 	 * @param subject the subject (also called model) that this handler is going to observe
+	 * @param prescaleFactor optionally divides the input-update frequency by this factor
 	 */
-	IInputHandler(InputSubject<InputType> *subject)
+	IInputHandler(InputSubject<InputType> *subject, const unsigned int &prescaleFactor=1)
 	:	subject(subject)
 	{
-		this->attach_self();
+		this->attach_self(prescaleFactor);
 	}
 
 	/** The default destructor.
@@ -138,8 +144,9 @@ class InputSubject {
 	friend class IInputHandler<InputType>;
 private:
 	std::mutex observers_mutex;
-	// implement Observer design pattern
-	std::list<IInputHandler<InputType>*> observers;
+
+	// map of observers with individual prescale management
+	std::map<IInputHandler<InputType>*, PrescaleManager> observers;
 protected:
 	/** Attach an IInputHandler<InputType> instance.
 	 *
@@ -147,11 +154,14 @@ protected:
 	 * of an IInputHandler instance. This is possible because
 	 * the IInputHandler is defined as a <i>friend class</i>
 	 * of IInputSubject.
+	 *
+	 * @param handler the InputHandler pointer
+	 * @param prescaleFactor divides the input-update frequency by this factor
 	 */
-	virtual void attach(IInputHandler<InputType> *handler)
+	virtual void attach(IInputHandler<InputType> *handler, const unsigned int &prescaleFactor=1)
 	{
 		std::unique_lock<std::mutex> lock (observers_mutex);
-		observers.push_back(handler);
+		observers[handler] =  prescaleFactor;
 	}
 
 	/** Detach an IInputHandler<InputType> instance.
@@ -160,11 +170,13 @@ protected:
 	 * of an IInputHandler instance. This is possible because
 	 * the IInputHandler is defined as a <i>friend class</i>
 	 * of IInputSubject.
+	 *
+	 * @param handler the InputHandler pointer
 	 */
 	virtual void detach(IInputHandler<InputType> *handler)
 	{
 		std::unique_lock<std::mutex> lock (observers_mutex);
-		observers.remove(handler);
+		observers.erase(handler);
 	}
 
 	/** Notifies all attached IInputHandler instances about incoming data.
@@ -179,7 +191,9 @@ protected:
 	{
 		std::unique_lock<std::mutex> lock (observers_mutex);
 		for(auto it=observers.begin(); it!=observers.end(); it++) {
-			(*it)->handle_input(input);
+			if(it->second.isUpdateDue() == true) {
+				it->first->handle_input(input);
+			}
 		}
 		return !observers.empty();
 	}
@@ -201,9 +215,9 @@ public:
 // and detachment methods
 //////////////////////////////////////////////////////////
 template <class InputType>
-inline void IInputHandler<InputType>::attach_self()
+inline void IInputHandler<InputType>::attach_self(const unsigned int &prescale)
 {
-	subject->attach(this);
+	subject->attach(this, prescale);
 }
 
 template <class InputType>

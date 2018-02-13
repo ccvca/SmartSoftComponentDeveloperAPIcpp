@@ -43,66 +43,41 @@
 //
 //===================================================================================
 
-#ifndef SMARTSOFT_INTERFACES_SMARTINPUTTASKTRIGGER_H_
-#define SMARTSOFT_INTERFACES_SMARTINPUTTASKTRIGGER_H_
-
-#include "smartIInputHandler_T.h"
-#include "smartTaskTriggerObserver.h"
-
+#ifndef SMARTPRESCALEMANAGER_H_
+#define SMARTPRESCALEMANAGER_H_
 
 namespace Smart {
 
-template <class InputType>
-class InputTaskTrigger
-:	public IInputHandler<InputType>
-,	public TaskTriggerSubject
+class PrescaleManager
 {
 private:
-	Smart::StatusCode updateStatus;
-	InputType lastUpdate;
-
-protected:
-	/** This is the main input-handler method that will be automatically called from the given subject
-	 *  each time the subject receives input-data.
-	 *
-	 *  This method can be overloaded in derived classes to implement a customized
-	 *  input-handling strategy.
-	 *
-	 *  @param input the input-data reference
-	 */
-	virtual void handle_input(const InputType& input) {
-		// store a copy of the input object (used by getUpdate method)
-		this->lastUpdate = input;
-		this->updateStatus = Smart::SMART_OK;
-		// inform all associated tasks about a new update
-		this->trigger_all_tasks();
-	}
+	// internal copy of the prescale factor
+	unsigned int prescaleFactor;
+	// internal update counter
+	unsigned int updateCounter;
 
 public:
-	/// Default constructor
-	InputTaskTrigger(InputSubject<InputType> *subject, const unsigned int &prescaleFactor=1)
-	:	IInputHandler<InputType>(subject, prescaleFactor)
-	{
-		updateStatus = SMART_NODATA;
-	}
-	/// Default destructor
-	virtual ~InputTaskTrigger()
-	{ }
+	// default conversion constructor
+	PrescaleManager(const unsigned int &prescaleFactor=1)
+	:	prescaleFactor(prescaleFactor)
+	,	updateCounter(1)
+	{  }
+	// default destructor
+	virtual ~PrescaleManager()
+	{  }
 
-	/** Method to get a copy of the last update (if there was any).
-	 *
-	 * @param update the reference to the InputObject to overwrite
-	 *
-	 * @returns the status code of the last update
-	 *
-	 */
-	inline Smart::StatusCode getUpdate(InputType &update) const {
-		// get a copy of the last update
-		update = lastUpdate;
-		return updateStatus;
+	// method increments the internal update-counter and checks whether the next update is due.
+	inline bool isUpdateDue() {
+		if(updateCounter == prescaleFactor) {
+			updateCounter = 1;
+			return true;
+		} else {
+			updateCounter++;
+			return false;
+		}
 	}
 };
 
 } /* namespace Smart */
 
-#endif /* SMARTSOFT_INTERFACES_SMARTINPUTTASKTRIGGER_H_ */
+#endif /* SMARTPRESCALEMANAGER_H_ */

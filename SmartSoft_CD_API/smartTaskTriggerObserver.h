@@ -47,8 +47,11 @@
 #define SMARTSOFT_INTERFACES_SMARTTASKTRIGGEROBSERVER_H_
 
 #include <smartStatusCode.h>
+#include <smartPrescaleManager.h>
 
-#include <list>
+#include <map>
+
+// C++11 interface
 #include <chrono>
 #include <mutex>
 #include <condition_variable>
@@ -83,7 +86,7 @@ protected:
 	}
 
 public:
-	TaskTriggerObserver(TaskTriggerSubject *subject);
+	TaskTriggerObserver(TaskTriggerSubject *subject, const unsigned int &prescaleFactor=1);
 	virtual ~TaskTriggerObserver();
 
 	virtual StatusCode waitOnTrigger() {
@@ -122,12 +125,14 @@ class TaskTriggerSubject {
 	friend class TaskTriggerObserver;
 private:
 	std::mutex subject_mutex;
-	std::list<TaskTriggerObserver*> observers;
+	std::map<TaskTriggerObserver*, PrescaleManager> observers;
 protected:
 	void trigger_all_tasks() {
 		std::unique_lock<std::mutex> lock(subject_mutex);
 		for(auto it=observers.begin(); it!=observers.end(); it++) {
-			(*it)->signalTrigger();
+			if(it->second.isUpdateDue() == true) {
+				it->first->signalTrigger();
+			}
 		}
 	}
 
@@ -137,26 +142,26 @@ public:
 	virtual ~TaskTriggerSubject()
 	{ }
 
-	void attach(TaskTriggerObserver *observer) {
+	void attach(TaskTriggerObserver *observer, const unsigned int &prescaleFactor=1) {
 		std::unique_lock<std::mutex> lock(subject_mutex);
-		observers.push_back(observer);
+		observers[observer] = prescaleFactor;
 	}
 	void detach(TaskTriggerObserver *observer) {
 		std::unique_lock<std::mutex> lock(subject_mutex);
 		observer->cancelTrigger();
-		observers.remove(observer);
+		observers.erase(observer);
 	}
 };
 
 
 
-inline TaskTriggerObserver::TaskTriggerObserver(TaskTriggerSubject *subject)
+inline TaskTriggerObserver::TaskTriggerObserver(TaskTriggerSubject *subject, const unsigned int &prescaleFactor)
 :	subject(subject)
 ,	trigger_cancelled(false)
 ,	signalled(false)
 {
 	if(subject != 0) {
-		this->subject->attach(this);
+		this->subject->attach(this, prescaleFactor);
 	}
 }
 inline TaskTriggerObserver::~TaskTriggerObserver()
