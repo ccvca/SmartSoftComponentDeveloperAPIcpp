@@ -62,6 +62,15 @@ private:
 	InputType lastUpdate;
 
 protected:
+	/** Store a copy of the last update within the internal object
+	 * @param input the input-data reference
+	 * @param updateStatus the optional update status to set (default is SMART_OK)
+	 */
+	inline void setUpdate(const InputType& input, const Smart::StatusCode &updateStatus = Smart::SMART_OK) {
+		this->lastUpdate = input;
+		this->updateStatus = updateStatus;
+	}
+
 	/** This is the main input-handler method that will be automatically called from the given subject
 	 *  each time the subject receives input-data.
 	 *
@@ -72,8 +81,7 @@ protected:
 	 */
 	virtual void handle_input(const InputType& input) {
 		// store a copy of the input object (used by getUpdate method)
-		this->lastUpdate = input;
-		this->updateStatus = Smart::SMART_OK;
+		this->setUpdate(input);
 		// inform all associated tasks about a new update
 		this->trigger_all_tasks();
 	}

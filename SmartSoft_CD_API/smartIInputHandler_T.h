@@ -99,13 +99,7 @@ protected:
 	void detach_self();
 
 public:
-	/** The default (empty) constructor.
-	 */
-	IInputHandler()
-	:	subject(NULL)
-	{  }
-
-	/** The direct initialization constructor.
+	/** The default constructor.
 	 *
 	 * This constructor will call <b>subject->attach(this)</b> to start observing the given subject.
 	 *
@@ -146,12 +140,45 @@ public:
  */
 template <class InputType>
 class InputSubject {
+	/// allows calling protected attach() and detach() methods
+	friend class IInputHandler<InputType>;
 private:
 	std::mutex observers_mutex;
 
 	// map of observers with individual prescale management
 	std::map<IInputHandler<InputType>*, PrescaleManager> observers;
 protected:
+	/** Attach an IInputHandler<InputType> instance.
+	 *
+	 * This method should be called from within the constructor
+	 * of an IInputHandler instance. This is possible because
+	 * the IInputHandler is defined as a <i>friend class</i>
+	 * of IInputSubject.
+	 *
+	 * @param handler the InputHandler pointer
+	 * @param prescaleFactor divides the input-update frequency by this factor
+	 */
+	virtual void attach(IInputHandler<InputType> *handler, const unsigned int &prescaleFactor=1)
+	{
+		std::unique_lock<std::mutex> lock (observers_mutex);
+		observers[handler] =  prescaleFactor;
+	}
+
+	/** Detach an IInputHandler<InputType> instance.
+	 *
+	 * This method should be called from within the destructor
+	 * of an IInputHandler instance. This is possible because
+	 * the IInputHandler is defined as a <i>friend class</i>
+	 * of IInputSubject.
+	 *
+	 * @param handler the InputHandler pointer
+	 */
+	virtual void detach(IInputHandler<InputType> *handler)
+	{
+		std::unique_lock<std::mutex> lock (observers_mutex);
+		observers.erase(handler);
+	}
+
 	/** Notifies all attached IInputHandler instances about incoming data.
 	 *
 	 *  An instance of IInputSubject should call this method each time new
@@ -180,33 +207,6 @@ public:
 	 */
 	virtual ~InputSubject()
 	{  }
-
-	/** Attach an IInputHandler<InputType> instance.
-	 *
-	 * This method can also be called from within the constructor
-	 * of an IInputHandler instance.
-	 *
-	 * @param handler the InputHandler pointer
-	 * @param prescaleFactor divides the input-update frequency by this factor
-	 */
-	virtual void attach(IInputHandler<InputType> *handler, const unsigned int &prescaleFactor=1)
-	{
-		std::unique_lock<std::mutex> lock (observers_mutex);
-		observers[handler] =  prescaleFactor;
-	}
-
-	/** Detach an IInputHandler<InputType> instance.
-	 *
-	 * This method can also be called from within the destructor
-	 * of an IInputHandler instance.
-	 *
-	 * @param handler the InputHandler pointer
-	 */
-	virtual void detach(IInputHandler<InputType> *handler)
-	{
-		std::unique_lock<std::mutex> lock (observers_mutex);
-		observers.erase(handler);
-	}
 };
 
 
@@ -217,17 +217,13 @@ public:
 template <class InputType>
 inline void IInputHandler<InputType>::attach_self(const unsigned int &prescale)
 {
-	if(subject != NULL) {
-		subject->attach(this, prescale);
-	}
+	subject->attach(this, prescale);
 }
 
 template <class InputType>
 inline void IInputHandler<InputType>::detach_self()
 {
-	if(subject != NULL) {
-		subject->detach(this);
-	}
+	subject->detach(this);
 }
 
 } /* namespace Smart */
