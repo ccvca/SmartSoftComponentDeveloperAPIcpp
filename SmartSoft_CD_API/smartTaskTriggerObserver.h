@@ -123,10 +123,11 @@ public:
 
 class TaskTriggerSubject {
 	friend class TaskTriggerObserver;
-protected:
+private:
 	std::mutex subject_mutex;
 	std::map<TaskTriggerObserver*, PrescaleManager> observers;
 
+protected:
 	void trigger_all_tasks() {
 		std::unique_lock<std::mutex> lock(subject_mutex);
 		for(auto it=observers.begin(); it!=observers.end(); it++) {
