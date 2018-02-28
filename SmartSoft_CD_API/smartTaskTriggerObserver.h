@@ -73,6 +73,11 @@ private:
 protected:
 	TaskTriggerSubject *subject;
 
+	inline void setSubject(TaskTriggerSubject *subject) {
+		std::unique_lock<std::mutex> lock(observer_mutex);
+		this->subject = subject;
+	}
+
 	virtual void signalTrigger() {
 		std::unique_lock<std::mutex> lock(observer_mutex);
 		signalled = true;
@@ -145,10 +150,12 @@ public:
 
 	void attach(TaskTriggerObserver *observer, const unsigned int &prescaleFactor=1) {
 		std::unique_lock<std::mutex> lock(subject_mutex);
+		observer->setSubject(this);
 		observers[observer] = prescaleFactor;
 	}
 	void detach(TaskTriggerObserver *observer) {
 		std::unique_lock<std::mutex> lock(subject_mutex);
+		observer->setSubject(0);
 		observer->cancelTrigger();
 		observers.erase(observer);
 	}
