@@ -78,12 +78,18 @@ protected:
 			if(this->waitOnTrigger() == SMART_CANCELLED) break;
 
 			// call one task iteration
-			if(this->on_execute() != 0) stop = true;
+			if(this->execute_protected_region() != 0) stop = true;
 
 			if(!stop) TaskInteractionSubject::notify_all_tasks();
 		}
 
 		return this->on_exit();
+	}
+
+	/// indirection of the execution method, can be overloaded in derived classes to extend default behavior
+	virtual int execute_protected_region() {
+		// default implementation delegates to on_execute
+		return this->on_execute();
 	}
 public:
 	IManagedTask(IComponent *component, TaskTriggerSubject *trigger=0)
