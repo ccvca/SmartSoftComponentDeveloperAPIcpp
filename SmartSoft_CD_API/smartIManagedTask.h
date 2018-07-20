@@ -57,7 +57,7 @@ namespace Smart {
 class IManagedTask
 :	virtual public ITask
 ,	public TaskTriggerObserver
-,	public TaskInteractionSubject
+//,	public TaskInteractionSubject
 {
 protected:
 	virtual void on_shutdown() {
@@ -80,7 +80,7 @@ protected:
 			// call one task iteration
 			if(this->execute_protected_region() != 0) stop = true;
 
-			if(!stop) TaskInteractionSubject::notify_all_tasks();
+//			if(!stop) TaskInteractionSubject::notify_all_tasks();
 		}
 
 		return this->on_exit();
@@ -95,7 +95,7 @@ public:
 	IManagedTask(IComponent *component, TaskTriggerSubject *trigger=0)
 	:	ITask(component) // virtual base
 	,	TaskTriggerObserver(trigger)
-	,	TaskInteractionSubject()
+//	,	TaskInteractionSubject()
 	{ }
 	virtual ~IManagedTask()
 	{ }
