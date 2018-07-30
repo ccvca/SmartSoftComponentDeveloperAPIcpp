@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the *Component-Developer C++ interface-definition (API)* for use of the *SmartSoft Framework*. Repository covers the API to the SmartSoft Communication Patterns and SmartSoft Component structures. Read more about the [SmartSoft World](http://www.servicerobotik-ulm.de/drupal/?q=node/7).
+This repository contains the *Component-Developer C++ interface-definition (API)* for use of the *SmartSoft Framework*. Repository covers the API to the SmartSoft Communication Patterns and SmartSoft Component structures. Read more about the [SmartSoft World](http://www.servicerobotik-ulm.de/drupal/?q=node/7). See also the [Doxygen API documentation](https://servicerobotics-ulm.github.io/SmartSoftComponentDeveloperAPIcpp/html/index.html).
 
 This API defines class hierarchies with pure virtual methods and specified template parameters. These pure virtual interface-definitions can be used to implement a Framework that conforms to the overall SmartSoft structures using any preferred middleware technology and/or operating-system abstraction. The API uses the *Standard-Template-Library (STD)* and conforms to the **C++11** standard. For available implementations of the SmartSoft Framework, please refer to [http://www.servicerobotik-ulm.de](http://www.servicerobotik-ulm.de).
 
