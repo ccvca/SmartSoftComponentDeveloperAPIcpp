@@ -18,6 +18,16 @@ TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} INTERFACE
 # use the auto-type compile feature (available since C++11)
 TARGET_COMPILE_FEATURES(${PROJECT_NAME} INTERFACE cxx_auto_type)
 
+# set the export-name used in the ${PROJECT_NAME}Config.cmake.in and for exporting and installing the target
+SET(EXPORT_NAME ${PROJECT_NAME}Targets)
+
+# generate CMake package-config file
+CONFIGURE_FILE(
+  ${CMAKE_SOURCE_DIR}/CMakeFiles/${PROJECT_NAME}Config.cmake.in
+  ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+  @ONLY
+)
+
 # generate ConfigVersion file
 INCLUDE(CMakePackageConfigHelpers)
 write_basic_package_version_file(
@@ -28,7 +38,7 @@ write_basic_package_version_file(
 # install library and target-exports
 INSTALL(FILES ${HDRS} DESTINATION include/${PROJECT_NAME})
 # install target and package-config files
-INSTALL(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets)
-INSTALL(EXPORT ${PROJECT_NAME}Targets DESTINATION modules)
-INSTALL(FILES ${PROJECT_NAME}Config.cmake DESTINATION modules)
+INSTALL(TARGETS ${PROJECT_NAME} EXPORT ${EXPORT_NAME})
+INSTALL(EXPORT ${EXPORT_NAME} DESTINATION modules)
+INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake DESTINATION modules)
 INSTALL(FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" DESTINATION modules)
