@@ -43,41 +43,59 @@
 //
 //===================================================================================
 
-#ifndef SMARTICOMMUNICATIONPATTERN_H_
-#define SMARTICOMMUNICATIONPATTERN_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTTASKINTERACTIONOBSERVER_H_
+#define SMARTSOFT_INTERFACES_SMARTTASKINTERACTIONOBSERVER_H_
 
-#include "smartIComponent.h"
+#include <list>
+#include <mutex>
 
 namespace Smart {
 
-/** This is the base class for all communication-patterns.
- *
- * Each ICommunicationPattern needs to implement the
- * IShutdownObserver interface in order for the instance of
- * an IComponent to manage the shutdown procedures of
- * all attached CommunicationPatterns.
- */
-class ICommunicationPattern : public IShutdownObserver {
+// forward declaration
+class TaskInteractionSubject;
+
+class ITaskInteractionObserver {
+public:
+	ITaskInteractionObserver()
+	{ }
+	virtual ~ITaskInteractionObserver()
+	{ }
+
+	virtual void update_from(const TaskInteractionSubject *subject) = 0;
+};
+
+
+
+class TaskInteractionSubject {
+	friend class ITaskTriggerObserver;
+private:
+	std::mutex subject_mutex;
+	std::list<ITaskInteractionObserver*> observers;
+
 protected:
-	/// the internal pointer to the component (can be accessed in derived classes)
-	IComponent *icomponent;
+	virtual void notify_all_tasks() {
+		std::unique_lock<std::mutex> lock(subject_mutex);
+		for(auto it=observers.begin(); it!=observers.end(); it++) {
+			(*it)->update_from(this);
+		}
+	}
 
 public:
-    /** Default Constructor initializing an IShutdownObserver
-     *
-     * @param component  the management class of the component
-     */
-	ICommunicationPattern(IComponent *component)
-	:	IShutdownObserver(component)
-	,	icomponent(component)
-	{  }
+	TaskInteractionSubject()
+	{ }
+	virtual ~TaskInteractionSubject()
+	{ }
 
-	/** Default Destructor
-	 */
-	virtual ~ICommunicationPattern()
-	{  }
+	virtual void attach(ITaskInteractionObserver *observer) {
+		std::unique_lock<std::mutex> lock(subject_mutex);
+		observers.push_back(observer);
+	}
+	virtual void detach(ITaskInteractionObserver *observer) {
+		std::unique_lock<std::mutex> lock(subject_mutex);
+		observers.remove(observer);
+	}
 };
 
 } /* namespace Smart */
 
-#endif /* SMARTICOMMUNICATIONPATTERN_H_ */
+#endif /* SMARTSOFT_INTERFACES_SMARTTASKINTERACTIONOBSERVER_H_ */

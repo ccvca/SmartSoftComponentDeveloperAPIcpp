@@ -43,41 +43,46 @@
 //
 //===================================================================================
 
-#ifndef SMARTICOMMUNICATIONPATTERN_H_
-#define SMARTICOMMUNICATIONPATTERN_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTQUERYSTATUS_H_
+#define SMARTSOFT_INTERFACES_SMARTQUERYSTATUS_H_
 
-#include "smartIComponent.h"
+#include <string>
 
 namespace Smart {
 
-/** This is the base class for all communication-patterns.
- *
- * Each ICommunicationPattern needs to implement the
- * IShutdownObserver interface in order for the instance of
- * an IComponent to manage the shutdown procedures of
- * all attached CommunicationPatterns.
- */
-class ICommunicationPattern : public IShutdownObserver {
-protected:
-	/// the internal pointer to the component (can be accessed in derived classes)
-	IComponent *icomponent;
-
-public:
-    /** Default Constructor initializing an IShutdownObserver
-     *
-     * @param component  the management class of the component
-     */
-	ICommunicationPattern(IComponent *component)
-	:	IShutdownObserver(component)
-	,	icomponent(component)
-	{  }
-
-	/** Default Destructor
+	/** QueryStatus
+	 *
+	 *  QueryStatus used to communicate the current QueryStatus from a QueryServer to a QueryClient
+	 *  for each individual query-request. A query-request can be either still <b>pending</b> if no
+	 *  answer has been yet calculated. If an answer for a specific query-request has been calculated
+	 *  by the QueryServer but this answer has not yet been fetched by the requesting QueryClient
+	 *  then this query-request is marked <b>validanswer</b>. A query-request can become invalidated
+	 *  if the QueryClient disconnects in the meantime.
 	 */
-	virtual ~ICommunicationPattern()
-	{  }
-};
+	enum QueryStatus {
+		/// this indicates a pending query-request (i.e. not yet answered/consumed query-requests)
+		QUERY_PENDING      = 0,
+		/// this indicates a calculated answer that has not yet been consumed
+		QUERY_VALIDANSWER  = 1,
+		/// this indicates a query-request that became invalid due to a closed connection
+		QUERY_DISCONNECTED = 2,
+		/// this indicates a wrong id of a query-request (i.e. a request that does no longer exists)
+		QUERY_WRONGID      = 3
+	};
 
-} /* namespace Smart */
+	/** global function used to convert a QueryStatus into ASCII representation.
+	 *
+	 *  @param qs QueryStatus
+	 */
+	inline std::string QueryStatusString(QueryStatus qs)
+	{
+		if(QUERY_PENDING == qs) return "QUERY_PENDING";
+		else if(QUERY_VALIDANSWER == qs) return "QUERY_VALIDANSWER";
+		else if(QUERY_DISCONNECTED == qs) return "QUERY_DISCONNECTED";
+		else if(QUERY_WRONGID == qs) return "QUERY_WRONGID";
+		else return "NA";
+	}
 
-#endif /* SMARTICOMMUNICATIONPATTERN_H_ */
+} // end namespace Smart
+
+#endif /* SMARTSOFT_INTERFACES_SMARTQUERYSTATUS_H_ */

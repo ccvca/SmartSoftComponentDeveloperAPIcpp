@@ -43,41 +43,41 @@
 //
 //===================================================================================
 
-#ifndef SMARTICOMMUNICATIONPATTERN_H_
-#define SMARTICOMMUNICATIONPATTERN_H_
-
-#include "smartIComponent.h"
+#ifndef SMARTPRESCALEMANAGER_H_
+#define SMARTPRESCALEMANAGER_H_
 
 namespace Smart {
 
-/** This is the base class for all communication-patterns.
- *
- * Each ICommunicationPattern needs to implement the
- * IShutdownObserver interface in order for the instance of
- * an IComponent to manage the shutdown procedures of
- * all attached CommunicationPatterns.
- */
-class ICommunicationPattern : public IShutdownObserver {
-protected:
-	/// the internal pointer to the component (can be accessed in derived classes)
-	IComponent *icomponent;
+class PrescaleManager
+{
+private:
+	// internal copy of the prescale factor
+	unsigned int prescaleFactor;
+	// internal update counter
+	unsigned int updateCounter;
 
 public:
-    /** Default Constructor initializing an IShutdownObserver
-     *
-     * @param component  the management class of the component
-     */
-	ICommunicationPattern(IComponent *component)
-	:	IShutdownObserver(component)
-	,	icomponent(component)
+	// default conversion constructor
+	PrescaleManager(const unsigned int &prescaleFactor=1)
+	:	prescaleFactor(prescaleFactor)
+	,	updateCounter(1)
+	{  }
+	// default destructor
+	virtual ~PrescaleManager()
 	{  }
 
-	/** Default Destructor
-	 */
-	virtual ~ICommunicationPattern()
-	{  }
+	// method increments the internal update-counter and checks whether the next update is due.
+	inline bool isUpdateDue() {
+		if(updateCounter == prescaleFactor) {
+			updateCounter = 1;
+			return true;
+		} else {
+			updateCounter++;
+			return false;
+		}
+	}
 };
 
 } /* namespace Smart */
 
-#endif /* SMARTICOMMUNICATIONPATTERN_H_ */
+#endif /* SMARTPRESCALEMANAGER_H_ */

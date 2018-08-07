@@ -55,43 +55,57 @@ namespace Smart {
  *
  * ITasks should be used to implement user-level threads within a component.
  * ITasks are managed by the provided IComponent instance. For example,
- * during component shutdown, the ITask are automatically triggered to close().
+ * during component shutdown, the ITask are automatically triggered to stop().
  * In this way, user-threads can properly shutdown and clean-up their local resources
  * such as e.g. closing internally used device drivers. Please overload the on_shutdown()
  * upcall method in case you need to perform individual cleanup procedures.
  */
 class ITask : public IShutdownObserver {
 protected:
-	/// internal pointer to the component
-	IComponent *component;
-
 	/** Default implementation of the IShutdownObserver interface
 	 *
-	 * 	The default shutdown procedure is to call the close() method which triggers
+	 * 	The default shutdown procedure is to call the stop() method which triggers
 	 * 	the thread to stop and awaits until it is closed using the internal join method.
 	 */
 	virtual void on_shutdown() {
-		this->close();
+		this->stop();
 	}
-public:
-	/// Default constructor
-	ITask(IComponent *component)
-	:	IShutdownObserver(component)
-	,	component(component)
-	{  }
 
-	/// Default destructor
-	virtual ~ITask()
-	{  }
+    /** Tests whether the thread has been signaled to stop.
+     *
+     * This method allows to implement cooperative thread stopping.
+     *
+     * @return true if stop was called or false otherwise.
+     */
+    virtual bool test_canceled() = 0;
+
+    /** Blocks execution of the calling thread during the span of time specified by rel_time.
+     *
+     *  Thread-sleeping is sometimes platform-specific. This method encapsulates the
+     *  blocking sleep. Calling this method blocks the execution of the calling thread
+     *  for a time specified by rel_time.
+     *
+     *  @param rel_time relative time duration for the thread to sleep
+     */
+    virtual void sleep_for(const std::chrono::steady_clock::duration &rel_time) = 0;
 
     /** Method which runs in a separate thread if activated.
      *
-     *  The svc() method has to be provided (i.e. overloaded) by the user
+     *  The task_execution() method has to be provided (i.e. overloaded) by the user
      *  and it implements the activity of the task object.
      *
      *  @return 0 for all OK or -1 otherwise
      */
-    virtual int svc (void) = 0;
+    virtual int task_execution() = 0;
+public:
+	/// Default constructor
+	ITask(IComponent *component = 0)
+	:	IShutdownObserver(component)
+	{ }
+
+	/// Default destructor
+	virtual ~ITask()
+	{ }
 
     /** Creates and starts a new thread (if not yet started)
      *
@@ -100,7 +114,7 @@ public:
      *
      *  @return 0 on success (and if thread has already been started) or -1 on failure
      */
-    virtual int open () = 0;
+    virtual int start() = 0;
 
     /** Stops the currently active thread (if it was started before)
      *
@@ -113,15 +127,7 @@ public:
      *
      *  @return 0 on success or -1 on failure
      */
-    virtual int close () = 0;
-
-    /** Tests whether the thread has been signaled to stop.
-     *
-     * This method allows to implement cooperative thread stopping.
-     *
-     * @return true if stop was called or false otherwise.
-     */
-    virtual bool test_canceled() = 0;
+    virtual int stop(const bool wait_till_stopped=true) = 0;
 };
 
 } /* namespace Smart */

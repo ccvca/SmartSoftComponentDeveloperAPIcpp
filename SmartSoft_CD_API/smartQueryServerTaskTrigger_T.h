@@ -43,41 +43,59 @@
 //
 //===================================================================================
 
-#ifndef SMARTICOMMUNICATIONPATTERN_H_
-#define SMARTICOMMUNICATIONPATTERN_H_
 
-#include "smartIComponent.h"
+#ifndef SMARTQUERYSERVERTASKTRIGGER_T_H_
+#define SMARTQUERYSERVERTASKTRIGGER_T_H_
+
+#include <list>
+#include <mutex>
+
+#include "smartIQueryServerPattern_T.h"
+#include "smartTaskTriggerObserver.h"
 
 namespace Smart {
 
-/** This is the base class for all communication-patterns.
- *
- * Each ICommunicationPattern needs to implement the
- * IShutdownObserver interface in order for the instance of
- * an IComponent to manage the shutdown procedures of
- * all attached CommunicationPatterns.
- */
-class ICommunicationPattern : public IShutdownObserver {
+template<class RequestType, class AnswerType, class QIDType>
+class QueryServerTaskTrigger
+:	public IQueryServerHandler<RequestType,AnswerType,QIDType>
+,	public TaskTriggerSubject
+{
+private:
+	std::mutex requestMutex;
+	std::list<std::pair<QIDType,RequestType>> requestList;
 protected:
-	/// the internal pointer to the component (can be accessed in derived classes)
-	IComponent *icomponent;
-
+	virtual void handleQuery(const QIDType &id, const RequestType& request) {
+		std::unique_lock<std::mutex> lock (requestMutex);
+		// store the request entry in a list
+		requestList.push_back(std::pair<QIDType,RequestType>(id,request));
+		// trigger all observer tasks
+		this->trigger_all_tasks();
+	}
 public:
-    /** Default Constructor initializing an IShutdownObserver
-     *
-     * @param component  the management class of the component
-     */
-	ICommunicationPattern(IComponent *component)
-	:	IShutdownObserver(component)
-	,	icomponent(component)
-	{  }
+	QueryServerTaskTrigger(IQueryServerPattern<RequestType,AnswerType,QIDType>* server)
+	:	IQueryServerHandler<RequestType,AnswerType,QIDType>(server)
+	{ }
+	virtual ~QueryServerTaskTrigger()
+	{ }
 
-	/** Default Destructor
-	 */
-	virtual ~ICommunicationPattern()
-	{  }
+	inline Smart::StatusCode consumeRequest(QIDType& id, RequestType &request) {
+		std::unique_lock<std::mutex> lock (requestMutex);
+		if(!requestList.empty()) {
+			// copy request data
+			id = requestList.front().first;
+			request = requestList.front().second;
+			// consume the current request item
+			requestList.pop_front();
+			return SMART_OK;
+		}
+		return SMART_NODATA;
+	}
+
+	inline Smart::StatusCode answer(const QIDType& id, const AnswerType& answer) {
+		return this->server->answer(id, answer);
+	}
 };
 
 } /* namespace Smart */
 
-#endif /* SMARTICOMMUNICATIONPATTERN_H_ */
+#endif /* SMARTQUERYSERVERTASKTRIGGER_T_H_ */

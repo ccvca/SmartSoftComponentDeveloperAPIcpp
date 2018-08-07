@@ -43,41 +43,38 @@
 //
 //===================================================================================
 
-#ifndef SMARTICOMMUNICATIONPATTERN_H_
-#define SMARTICOMMUNICATIONPATTERN_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTITIMERMANAGER_H_
+#define SMARTSOFT_INTERFACES_SMARTITIMERMANAGER_H_
 
-#include "smartIComponent.h"
+#include "smartITimerHandler.h"
 
 namespace Smart {
 
-/** This is the base class for all communication-patterns.
- *
- * Each ICommunicationPattern needs to implement the
- * IShutdownObserver interface in order for the instance of
- * an IComponent to manage the shutdown procedures of
- * all attached CommunicationPatterns.
- */
-class ICommunicationPattern : public IShutdownObserver {
-protected:
-	/// the internal pointer to the component (can be accessed in derived classes)
-	IComponent *icomponent;
-
+class ITimerManager {
 public:
-    /** Default Constructor initializing an IShutdownObserver
-     *
-     * @param component  the management class of the component
-     */
-	ICommunicationPattern(IComponent *component)
-	:	IShutdownObserver(component)
-	,	icomponent(component)
-	{  }
+	typedef long TimerId;
 
-	/** Default Destructor
-	 */
-	virtual ~ICommunicationPattern()
-	{  }
+	ITimerManager() { }
+	virtual ~ITimerManager() { }
+
+	virtual TimerId scheduleTimer(
+			ITimerHandler *handler,
+			const std::chrono::steady_clock::duration &first_time,
+			const std::chrono::steady_clock::duration &interval=std::chrono::steady_clock::duration::zero()
+		) = 0;
+
+	virtual int cancelTimer(const TimerId& id) = 0;
+
+	virtual int resetTimerInterval(
+			const TimerId& id,
+			const std::chrono::steady_clock::duration &interval
+		) = 0;
+
+	virtual int cancelTimersOf(ITimerHandler *handler) = 0;
+
+	virtual void cancelAllTimers() = 0;
 };
 
 } /* namespace Smart */
 
-#endif /* SMARTICOMMUNICATIONPATTERN_H_ */
+#endif /* SMARTSOFT_INTERFACES_SMARTITIMERMANAGER_H_ */

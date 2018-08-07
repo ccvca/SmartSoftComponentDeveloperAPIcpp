@@ -43,41 +43,74 @@
 //
 //===================================================================================
 
-#ifndef SMARTICOMMUNICATIONPATTERN_H_
-#define SMARTICOMMUNICATIONPATTERN_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTINPUTTASKTRIGGER_H_
+#define SMARTSOFT_INTERFACES_SMARTINPUTTASKTRIGGER_H_
 
-#include "smartIComponent.h"
+#include "smartIInputHandler_T.h"
+#include "smartTaskTriggerObserver.h"
+
 
 namespace Smart {
 
-/** This is the base class for all communication-patterns.
- *
- * Each ICommunicationPattern needs to implement the
- * IShutdownObserver interface in order for the instance of
- * an IComponent to manage the shutdown procedures of
- * all attached CommunicationPatterns.
- */
-class ICommunicationPattern : public IShutdownObserver {
+template <class InputType>
+class InputTaskTrigger
+:	public IInputHandler<InputType>
+,	public TaskTriggerSubject
+{
+private:
+	Smart::StatusCode updateStatus;
+	InputType lastUpdate;
+
 protected:
-	/// the internal pointer to the component (can be accessed in derived classes)
-	IComponent *icomponent;
+	/** Store a copy of the last update within the internal object
+	 * @param input the input-data reference
+	 * @param updateStatus the optional update status to set (default is SMART_OK)
+	 */
+	inline void setUpdate(const InputType& input, const Smart::StatusCode &updateStatus = Smart::SMART_OK) {
+		this->lastUpdate = input;
+		this->updateStatus = updateStatus;
+	}
+
+	/** This is the main input-handler method that will be automatically called from the given subject
+	 *  each time the subject receives input-data.
+	 *
+	 *  This method can be overloaded in derived classes to implement a customized
+	 *  input-handling strategy.
+	 *
+	 *  @param input the input-data reference
+	 */
+	virtual void handle_input(const InputType& input) {
+		// store a copy of the input object (used by getUpdate method)
+		this->setUpdate(input);
+		// inform all associated tasks about a new update
+		this->trigger_all_tasks();
+	}
 
 public:
-    /** Default Constructor initializing an IShutdownObserver
-     *
-     * @param component  the management class of the component
-     */
-	ICommunicationPattern(IComponent *component)
-	:	IShutdownObserver(component)
-	,	icomponent(component)
-	{  }
+	/// Default constructor
+	InputTaskTrigger(InputSubject<InputType> *subject, const unsigned int &prescaleFactor=1)
+	:	IInputHandler<InputType>(subject, prescaleFactor)
+	{
+		updateStatus = SMART_NODATA;
+	}
+	/// Default destructor
+	virtual ~InputTaskTrigger()
+	{ }
 
-	/** Default Destructor
+	/** Method to get a copy of the last update (if there was any).
+	 *
+	 * @param update the reference to the InputObject to overwrite
+	 *
+	 * @returns the status code of the last update
+	 *
 	 */
-	virtual ~ICommunicationPattern()
-	{  }
+	inline Smart::StatusCode getUpdate(InputType &update) const {
+		// get a copy of the last update
+		update = lastUpdate;
+		return updateStatus;
+	}
 };
 
 } /* namespace Smart */
 
-#endif /* SMARTICOMMUNICATIONPATTERN_H_ */
+#endif /* SMARTSOFT_INTERFACES_SMARTINPUTTASKTRIGGER_H_ */

@@ -50,10 +50,11 @@
 // C++11 mutex
 #include <mutex>
 
+
 namespace Smart {
 
 // forward declaration
-class IShutdownSubject;
+class ShutdownSubject;
 
 
 /** This class implements the <b>Observer</b> part of the Observer design pattern for
@@ -67,7 +68,30 @@ class IShutdownSubject;
  */
 class IShutdownObserver {
 private:
-	IShutdownSubject *subject;
+	/// the internal pointer to the Subject (or model) of the Observer design pattern
+	ShutdownSubject *subject;
+protected:
+
+	/** call this method from within the constructor of derived classes
+	 *
+	 *  The IShutdownObserver interface can be derived pure virtual which means that
+	 *  in these cases the default empty constructor will be called.
+	 *  For the pure virtual derivation, the constructor of the derived class
+	 *  should call this method manually to ensure proper registration of the
+	 *  IShutdownObserver.
+	 *
+	 *  @param subject the subject (i.e. model) of the Observer design pattern
+	 */
+	void attach_self_to(ShutdownSubject *subject);
+
+	/** this method is called within the destructor
+	 *
+	 *  This method is called from within the destructor of this class if the
+	 *  internal subject pointer has been set-up before using the attach_self_to() method.
+	 *
+	 *  @param subject the subject (i.e. model) of the Observer design pattern
+	 */
+	void detach_self_from(ShutdownSubject *subject);
 public:
 	/** The default constructor.
 	 *
@@ -75,13 +99,24 @@ public:
 	 *
 	 * @param subject the subject (also called model) that this Observer is going to observe
 	 */
-	IShutdownObserver(IShutdownSubject *subject);
+	IShutdownObserver(ShutdownSubject *subject = 0)
+	:	subject(subject)
+	{
+		if(subject != 0) {
+			attach_self_to(subject);
+		}
+	}
 
 	/** The default destructor.
 	 *
 	 * This destructor will call <b>subject->detach(this)</b> to stop observing the given subject.
 	 */
-	virtual ~IShutdownObserver();
+	virtual ~IShutdownObserver()
+	{
+		if(this->subject != 0) {
+			this->detach_self_from(subject);
+		}
+	}
 
 	/** This is the main update method that will be automatically called from the given subject
 	 *  each time the subject undergoes a notable change.
@@ -101,7 +136,7 @@ public:
  * should implement the counter-part IShutdownObserver interface (i.e. the on_shutdown() method) thus
  * providing individual cleanup procedures/strategies.
  */
-class IShutdownSubject {
+class ShutdownSubject {
 	/// allows calling protected attach() and detach() methods
 	friend class IShutdownObserver;
 private:
@@ -152,26 +187,28 @@ protected:
 public:
 	/** Default constructor
 	 */
-	IShutdownSubject() {  }
+	ShutdownSubject()
+	{  }
 
 	/** Default destructor
 	 */
-	virtual ~IShutdownSubject() {  }
+	virtual ~ShutdownSubject()
+	{  }
 };
 
 
 ///////////////////////////////////////////////////////////
-// default implementation of IShutdownObserver constructor
-// and destructor
+// default implementation of IShutdownObserver init
+// and fini methods
 //////////////////////////////////////////////////////////
-inline IShutdownObserver::IShutdownObserver(IShutdownSubject *subject)
-:	subject(subject)
+inline void IShutdownObserver::attach_self_to(ShutdownSubject *subject)
 {
-	subject->attach(this);
+	this->subject = subject;
+	this->subject->attach(this);
 }
-inline IShutdownObserver::~IShutdownObserver()
+inline void IShutdownObserver::detach_self_from(ShutdownSubject *subject)
 {
-	subject->detach(this);
+	this->subject->detach(this);
 }
 
 } /* namespace Smart */

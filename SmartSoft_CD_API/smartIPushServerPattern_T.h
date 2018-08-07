@@ -46,6 +46,7 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTIPUSHSERVERPATTERN_T_H_
 #define SMARTSOFT_INTERFACES_SMARTIPUSHSERVERPATTERN_T_H_
 
+#include "smartStatusCode.h"
 #include "smartIServerPattern.h"
 
 namespace Smart {

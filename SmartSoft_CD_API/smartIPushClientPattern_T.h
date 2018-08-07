@@ -49,18 +49,20 @@
 #include "smartIClientPattern.h"
 #include "smartIInputHandler_T.h"
 
+#include <chrono>
+
 namespace Smart {
 
-/** Client part of the Push pattern to provide a flexible push
- *  service. Clients can subscribe to regularly get every n-th
- *  update. This class inherits the API from  IClientPattern.
+/** Client part of the <b>Push</b> pattern to provide a flexible
+ *  publish/subscribe service. Clients can subscribe to regularly
+ *  get every n-th update. This class inherits the API from IClientPattern.
  *
  *  Template parameters
  *    - <b>DataType</b>: Pushed value class (Communication Object)
  *
  */
 template <class DataType>
-class IPushClientPattern : public IClientPattern, public IInputSubject<DataType> {
+class IPushClientPattern : public IClientPattern, public InputSubject<DataType> {
 public:
     /** Constructor (not wired with service provider and not exposed as port).
      *  connect() / disconnect() can always be used to change
@@ -172,7 +174,7 @@ public:
      *                                 to a server.
      *   - SMART_ERROR               : something went completely wrong and no valid data returned.
      */
-    virtual  StatusCode getUpdateWait(DataType& d) = 0;
+    virtual  StatusCode getUpdateWait(DataType& d, const std::chrono::steady_clock::duration &timeout=std::chrono::steady_clock::duration::zero()) = 0;
 };
 
 } /* namespace Smart */

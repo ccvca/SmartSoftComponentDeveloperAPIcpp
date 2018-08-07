@@ -43,8 +43,8 @@
 //
 //===================================================================================
 
-#ifndef SMARTSOFT_INTERFACES_SMARTISTATUSCODE_H_
-#define SMARTSOFT_INTERFACES_SMARTISTATUSCODE_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTSTATUSCODE_H_
+#define SMARTSOFT_INTERFACES_SMARTSTATUSCODE_H_
 
 #include <string>
 
@@ -111,21 +111,14 @@ enum StatusCode {
  *
  *  @param code StatusCode
  */
-inline std::string StatusCodeConversion(StatusCode code)
+inline std::string StatusCodeConversion(const StatusCode &code)
 {
 	  std::string r;
-
-	  if ((code >= SMART_OK) && (code < SMART_STATUS)) {
-	    r = "STATUS: SMART_OK";
-		/*
-		switch (code) {
-	      default:
-	        r = "STATUS: SMART_OK";
-	        break;
-	    }
-		*/
-	  } else if ((code >= SMART_STATUS) && (code < SMART_ERROR)) {
+	  if (code <= SMART_STATUS) {
 	    switch (code) {
+	      case SMART_OK:
+	        r = "STATUS: OK";
+	        break;
 	      case SMART_NODATA:
 	        r = "STATUS: NODATA";
 	        break;
@@ -143,6 +136,9 @@ inline std::string StatusCodeConversion(StatusCode code)
 	        break;
 	      case SMART_NOTACTIVATED:
 	        r = "STATUS: NOTACTIVATED";
+	        break;
+	      case SMART_ACTIVATED:
+	        r = "STATUS: ACTIVATED";
 	        break;
 	      case SMART_NOTALLOWED:
 	        r = "STATUS: NOTALLOWED";
@@ -213,4 +209,4 @@ inline std::ostream &operator<<(std::ostream &os, const StatusCode &status)
 
 } /* namespace Smart */
 
-#endif /* SMARTSOFT_INTERFACES_SMARTISTATUSCODE_H_ */
+#endif /* SMARTSOFT_INTERFACES_SMARTSTATUSCODE_H_ */

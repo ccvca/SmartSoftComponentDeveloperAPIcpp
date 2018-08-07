@@ -43,41 +43,32 @@
 //
 //===================================================================================
 
-#ifndef SMARTICOMMUNICATIONPATTERN_H_
-#define SMARTICOMMUNICATIONPATTERN_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTTIMEDTASKTRIGGER_H_
+#define SMARTSOFT_INTERFACES_SMARTTIMEDTASKTRIGGER_H_
 
-#include "smartIComponent.h"
+#include "smartITimerHandler.h"
+#include "smartTaskTriggerObserver.h"
 
 namespace Smart {
 
-/** This is the base class for all communication-patterns.
- *
- * Each ICommunicationPattern needs to implement the
- * IShutdownObserver interface in order for the instance of
- * an IComponent to manage the shutdown procedures of
- * all attached CommunicationPatterns.
- */
-class ICommunicationPattern : public IShutdownObserver {
+class TimedTaskTrigger
+:	public ITimerHandler
+,	public TaskTriggerSubject
+{
 protected:
-	/// the internal pointer to the component (can be accessed in derived classes)
-	IComponent *icomponent;
+	virtual void timerExpired(const std::chrono::system_clock::time_point &abs_time) {
+		this->trigger_all_tasks();
+	}
 
+	virtual void timerCancelled() { }
+	virtual void timerDeleted() { }
 public:
-    /** Default Constructor initializing an IShutdownObserver
-     *
-     * @param component  the management class of the component
-     */
-	ICommunicationPattern(IComponent *component)
-	:	IShutdownObserver(component)
-	,	icomponent(component)
-	{  }
-
-	/** Default Destructor
-	 */
-	virtual ~ICommunicationPattern()
-	{  }
+	TimedTaskTrigger()
+	{ }
+	virtual ~TimedTaskTrigger()
+	{ }
 };
 
 } /* namespace Smart */
 
-#endif /* SMARTICOMMUNICATIONPATTERN_H_ */
+#endif /* SMARTSOFT_INTERFACES_SMARTTIMEDTASKTRIGGER_H_ */

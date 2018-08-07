@@ -43,41 +43,73 @@
 //
 //===================================================================================
 
-#ifndef SMARTICOMMUNICATIONPATTERN_H_
-#define SMARTICOMMUNICATIONPATTERN_H_
+#ifndef SMARTSOFT_INTERFACES_SMARTIMANAGEDTASK_H_
+#define SMARTSOFT_INTERFACES_SMARTIMANAGEDTASK_H_
 
-#include "smartIComponent.h"
+#include "smartITask.h"
+#include "smartITaskInteractionObserver.h"
+
+#include "smartTaskTriggerObserver.h"
+
 
 namespace Smart {
 
-/** This is the base class for all communication-patterns.
- *
- * Each ICommunicationPattern needs to implement the
- * IShutdownObserver interface in order for the instance of
- * an IComponent to manage the shutdown procedures of
- * all attached CommunicationPatterns.
- */
-class ICommunicationPattern : public IShutdownObserver {
+class IManagedTask
+:	virtual public ITask
+,	public TaskTriggerObserver
+//,	public TaskInteractionSubject
+{
 protected:
-	/// the internal pointer to the component (can be accessed in derived classes)
-	IComponent *icomponent;
+	virtual void on_shutdown() {
+		this->stop(false);
+		this->cancelTrigger();
+		this->stop(true);
+	}
 
+	virtual int task_execution()
+	{
+		bool stop = false;
+
+		if(this->on_entry() != 0) stop = true;
+
+		while(!test_canceled() && !stop)
+		{
+			// wait until the next task-cycle is triggered
+			if(this->waitOnTrigger() == SMART_CANCELLED) break;
+
+			// call one task iteration
+			if(this->execute_protected_region() != 0) stop = true;
+
+//			if(!stop) TaskInteractionSubject::notify_all_tasks();
+		}
+
+		return this->on_exit();
+	}
+
+	/// indirection of the execution method, can be overloaded in derived classes to extend default behavior
+	virtual int execute_protected_region() {
+		// default implementation delegates to on_execute
+		return this->on_execute();
+	}
 public:
-    /** Default Constructor initializing an IShutdownObserver
-     *
-     * @param component  the management class of the component
-     */
-	ICommunicationPattern(IComponent *component)
-	:	IShutdownObserver(component)
-	,	icomponent(component)
-	{  }
+	IManagedTask(IComponent *component, TaskTriggerSubject *trigger=0)
+	:	ITask(component) // virtual base
+	,	TaskTriggerObserver(trigger)
+//	,	TaskInteractionSubject()
+	{ }
+	virtual ~IManagedTask()
+	{ }
 
-	/** Default Destructor
-	 */
-	virtual ~ICommunicationPattern()
-	{  }
+	/// user hook that is called once at the <b>beginning</b> of the internal thread
+	virtual int on_entry() = 0;
+
+	/// user hook that is called periodically in the thread (must be implemented in derived classes)
+	virtual int on_execute() = 0;
+
+	/// user hook that is called once at the <b>end</b> of the thread
+	virtual int on_exit() = 0;
 };
 
 } /* namespace Smart */
 
-#endif /* SMARTICOMMUNICATIONPATTERN_H_ */
+#endif /* SMARTSOFT_INTERFACES_SMARTIMANAGEDTASK_H_ */
