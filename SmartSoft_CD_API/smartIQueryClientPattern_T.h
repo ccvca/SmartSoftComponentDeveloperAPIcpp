@@ -172,6 +172,7 @@ public:
      *
      *  @param id       provides the identifier of the query
      *  @param answer   is set to the answer returned from the server if it was available
+     *  @param timeout is the timeout time to block the method maximally (default value zero block infinitelly)
      *
      *  @return status code:
      *    - SMART_OK           : everything is ok and <I>answer</I> contains the answer

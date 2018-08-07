@@ -162,6 +162,7 @@ public:
      *  or if blocking is not allowed any more at the client.
      *
      *  @param d is set to the newest currently available data
+     *  @param timeout is the timeout time to block the method maximally (default value zero block infinitelly)
      *
      *  @return status code
      *   - SMART_OK                  : everything is ok and just received data is returned.

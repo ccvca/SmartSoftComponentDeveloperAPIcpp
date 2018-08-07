@@ -240,6 +240,7 @@ public:
      *
      *  @param id of the event activation
      *  @param event is set to the returned event if fired (Communication Object)
+     *  @param timeout is the timeout time to block the method maximally (default value zero block infinitelly)
      *
      *  - <b>single mode</b>:
      *      <p>
@@ -301,6 +302,7 @@ public:
      *
      *  @param id of the event activation
      *  @param event is set to the returned event if fired (Communication Object)
+     *  @param timeout is the timeout time to block the method maximally (default value zero block infinitelly)
      *
      *  - <b>single mode</b>:
      *    <p>

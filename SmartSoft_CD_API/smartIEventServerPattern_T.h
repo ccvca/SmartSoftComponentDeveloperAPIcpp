@@ -134,6 +134,7 @@ public:
      *
      *  @param component management class of the component
      *  @param service   name of the service
+     *  @param testHandler is the pointer to an EventTestHandler
      */
 	IEventServerPattern(IComponent* component, const std::string& service, IEventTestHandler<ActivationType,EventType,UpdateType> *testHandler)
 	:	IServerPattern(component, service)
