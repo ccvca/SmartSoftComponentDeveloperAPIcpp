@@ -70,6 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>All</span></a></li>
       <li class="current"><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
       <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
@@ -79,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_b"><span>b</span></a></li>
       <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
+      <li><a href="#index_e"><span>e</span></a></li>
       <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_h"><span>h</span></a></li>
@@ -91,6 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_s"><span>s</span></a></li>
       <li><a href="#index_t"><span>t</span></a></li>
       <li><a href="#index_u"><span>u</span></a></li>
+      <li><a href="#index_w"><span>w</span></a></li>
       <li class="current"><a href="#index_0x7e"><span>~</span></a></li>
     </ul>
   </div>
@@ -113,15 +116,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 &#160;
 
 <h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
+<li>activate()
+: <a class="el" href="classSmart_1_1IEventClientPattern.html#a54d1a4d93b3bd3fdd35cd1170ab8af77">Smart::IEventClientPattern&lt; ActivationType, EventType, EventIdType &gt;</a>
+</li>
 <li>answer()
 : <a class="el" href="classSmart_1_1IQueryServerPattern.html#ae0b36e5d6e988a0739adf58605d91906">Smart::IQueryServerPattern&lt; RequestType, AnswerType, QIDType &gt;</a>
+, <a class="el" href="classSmart_1_1QueryServerTaskTrigger.html#aedef084da8ca0526ac9c219be2c1bd13">Smart::QueryServerTaskTrigger&lt; RequestType, AnswerType, QIDType &gt;</a>
 </li>
 <li>attach()
-: <a class="el" href="classSmart_1_1IInputSubject.html#a40b09c304a8bc726f74275e301ce18a9">Smart::IInputSubject&lt; InputType &gt;</a>
-, <a class="el" href="classSmart_1_1IShutdownSubject.html#afb4fa5db13fbf4e541be1e5cfbc4dbe4">Smart::IShutdownSubject</a>
+: <a class="el" href="classSmart_1_1InputSubject.html#a32816c7332a29064b5bc1236557d4fab">Smart::InputSubject&lt; InputType &gt;</a>
+, <a class="el" href="classSmart_1_1ShutdownSubject.html#a39149218f6a4e130668a3ae0fe67454b">Smart::ShutdownSubject</a>
+, <a class="el" href="classSmart_1_1TaskInteractionSubject.html#a3e894f426d29ebeb1e1e0934d9f47d55">Smart::TaskInteractionSubject</a>
+, <a class="el" href="classSmart_1_1TaskTriggerSubject.html#a861580b12ed21d4b148aa91c6eebe10e">Smart::TaskTriggerSubject</a>
 </li>
 <li>attach_self()
-: <a class="el" href="classSmart_1_1IInputHandler.html#a5194e3b5b38deb1d6c5f0e33c57f3552">Smart::IInputHandler&lt; InputType &gt;</a>
+: <a class="el" href="classSmart_1_1IInputHandler.html#a4edab2d3955f6179fcc571fd2564f305">Smart::IInputHandler&lt; InputType &gt;</a>
+</li>
+<li>attach_self_to()
+: <a class="el" href="classSmart_1_1IShutdownObserver.html#a4a795a5b854315ee161cd465c6ce4a53">Smart::IShutdownObserver</a>
 </li>
 </ul>
 
@@ -136,27 +148,54 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>cancel_processing()
-: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a65d3efa45f0db5dcf56c7a3ad1c44e64">Smart::IActiveQueueInputHandlerDecorator&lt; InputType, TaskImpl &gt;</a>
+: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a67fedd468717ca20fe45ce92988085a3">Smart::IActiveQueueInputHandlerDecorator&lt; InputType &gt;</a>
 </li>
-<li>close()
-: <a class="el" href="classSmart_1_1ITask.html#a9359b4a9bf75bce19ee49b1bafc385ee">Smart::ITask</a>
+<li>cancelAllTimers()
+: <a class="el" href="classSmart_1_1ITimerManager.html#aab66dfbda0326c5c23a73d97c47210e4">Smart::ITimerManager</a>
+</li>
+<li>cancelTimer()
+: <a class="el" href="classSmart_1_1ITimerManager.html#a80790ace971ab43105e0fb0b116c4fb4">Smart::ITimerManager</a>
+</li>
+<li>cancelTimersOf()
+: <a class="el" href="classSmart_1_1ITimerManager.html#acb263a1592d51cadf844aae638ed95fb">Smart::ITimerManager</a>
+</li>
+<li>cancelTrigger()
+: <a class="el" href="classSmart_1_1TaskTriggerObserver.html#aa4c6ea697c8e1e413ffb84298d3e1865">Smart::TaskTriggerObserver</a>
 </li>
 <li>connect()
 : <a class="el" href="classSmart_1_1IClientPattern.html#a808efd9034aa40430d793de89afc0e76">Smart::IClientPattern</a>
+</li>
+<li>consumeRequest()
+: <a class="el" href="classSmart_1_1QueryServerTaskTrigger.html#a5bbe8f016fd40099c50d7a0ab69de201">Smart::QueryServerTaskTrigger&lt; RequestType, AnswerType, QIDType &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
+<li>deactivate()
+: <a class="el" href="classSmart_1_1IEventClientPattern.html#ad2531c5fe345b438cf721acf902509f2">Smart::IEventClientPattern&lt; ActivationType, EventType, EventIdType &gt;</a>
+</li>
 <li>detach()
-: <a class="el" href="classSmart_1_1IInputSubject.html#aa5b083f3bcae2f0d9880ced07d025ebb">Smart::IInputSubject&lt; InputType &gt;</a>
-, <a class="el" href="classSmart_1_1IShutdownSubject.html#a33687c636b351240e0a97f70a2553fbe">Smart::IShutdownSubject</a>
+: <a class="el" href="classSmart_1_1InputSubject.html#a6a67690573123188aa92068c05fd872d">Smart::InputSubject&lt; InputType &gt;</a>
+, <a class="el" href="classSmart_1_1ShutdownSubject.html#a65e6daf9ae0443069a71e4c9248eb9e7">Smart::ShutdownSubject</a>
+, <a class="el" href="classSmart_1_1TaskInteractionSubject.html#af3754f3b8c69b383bd19687280cf0d51">Smart::TaskInteractionSubject</a>
+, <a class="el" href="classSmart_1_1TaskTriggerSubject.html#ac263771667839dc3eaa367e6711701f5">Smart::TaskTriggerSubject</a>
 </li>
 <li>detach_self()
 : <a class="el" href="classSmart_1_1IInputHandler.html#a8344590e4440205bf7dfc1e89f0a86a1">Smart::IInputHandler&lt; InputType &gt;</a>
 </li>
+<li>detach_self_from()
+: <a class="el" href="classSmart_1_1IShutdownObserver.html#ac89abec7de1f7abfac7bea5aaa70a3eb">Smart::IShutdownObserver</a>
+</li>
 <li>disconnect()
 : <a class="el" href="classSmart_1_1IClientPattern.html#a7f945d0007606b60d1c17327cc56627e">Smart::IClientPattern</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
+<li>execute_protected_region()
+: <a class="el" href="classSmart_1_1IManagedTask.html#a2ab20070be32d20f2065eeaaf8a1f6bb">Smart::IManagedTask</a>
 </li>
 </ul>
 
@@ -172,34 +211,54 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>generateNewId()
 : <a class="el" href="classSmart_1_1IUniversalId.html#ae9939c2e91b8ebbaf3389bffc868ad8b">Smart::IUniversalId&lt; IdType &gt;</a>
 </li>
+<li>getEvent()
+: <a class="el" href="classSmart_1_1IEventClientPattern.html#a472aa91ad4afd8e5d17ba6007e96e13f">Smart::IEventClientPattern&lt; ActivationType, EventType, EventIdType &gt;</a>
+</li>
 <li>getName()
 : <a class="el" href="classSmart_1_1ICommunicationObject.html#a808b8cf9359ca4a60788e5244a79707f">Smart::ICommunicationObject</a>
 , <a class="el" href="classSmart_1_1IComponent.html#a064dd6ab3c011eb2666cdc0bae2ff4cb">Smart::IComponent</a>
 </li>
+<li>getNextEvent()
+: <a class="el" href="classSmart_1_1IEventClientPattern.html#a0912acfa105b45df68c8ee8c001c5f6e">Smart::IEventClientPattern&lt; ActivationType, EventType, EventIdType &gt;</a>
+</li>
+<li>getTimerManager()
+: <a class="el" href="classSmart_1_1IComponent.html#ad3894f23f5f4f34c4b811929b46d7d1d">Smart::IComponent</a>
+</li>
 <li>getUpdate()
-: <a class="el" href="classSmart_1_1IPushClientPattern.html#af45b4727d9cd701847d68cb8b2ce2a09">Smart::IPushClientPattern&lt; DataType &gt;</a>
+: <a class="el" href="classSmart_1_1InputTaskTrigger.html#a66841baf1e5877acddceb214b42c6b9e">Smart::InputTaskTrigger&lt; InputType &gt;</a>
+, <a class="el" href="classSmart_1_1IPushClientPattern.html#af45b4727d9cd701847d68cb8b2ce2a09">Smart::IPushClientPattern&lt; DataType &gt;</a>
 </li>
 <li>getUpdateWait()
-: <a class="el" href="classSmart_1_1IPushClientPattern.html#aad89a8fda7ea2361d507db0290390977">Smart::IPushClientPattern&lt; DataType &gt;</a>
+: <a class="el" href="classSmart_1_1IPushClientPattern.html#ae4d8ebad2533129875a92e31fa5e8f5c">Smart::IPushClientPattern&lt; DataType &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_h"></a>- h -</h3><ul>
 <li>handle_input()
-: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#acd441fc40a45aca37bda92727be4ba43">Smart::IActiveQueueInputHandlerDecorator&lt; InputType, TaskImpl &gt;</a>
+: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a8082db39aa5ed2ba8eb0ac76b0ffc451">Smart::IActiveQueueInputHandlerDecorator&lt; InputType &gt;</a>
+, <a class="el" href="classSmart_1_1IEventHandler.html#a2bbaca6e46c40396190e40d9d5b1d90d">Smart::IEventHandler&lt; EventType, EventIdType &gt;</a>
 , <a class="el" href="classSmart_1_1IInputHandler.html#a3ba74c80783b0449b2b8e9d8ae092756">Smart::IInputHandler&lt; InputType &gt;</a>
+, <a class="el" href="classSmart_1_1InputTaskTrigger.html#a6bddaad7a479e82119ea70df0f80f7d1">Smart::InputTaskTrigger&lt; InputType &gt;</a>
 , <a class="el" href="classSmart_1_1IQueryServerHandler.html#a8ea22ea321ba4860624c6a4b5e29cc4b">Smart::IQueryServerHandler&lt; RequestType, AnswerType, QIDType &gt;</a>
+, <a class="el" href="classSmart_1_1ISendServerHandler.html#aba86a6e8c44a20d341ed96f8af4db95e">Smart::ISendServerHandler&lt; DataType &gt;</a>
+</li>
+<li>handleEvent()
+: <a class="el" href="classSmart_1_1IEventHandler.html#a3dd2b7fb55fd6d5d88699297c9907b14">Smart::IEventHandler&lt; EventType, EventIdType &gt;</a>
 </li>
 <li>handleQuery()
 : <a class="el" href="classSmart_1_1IQueryServerHandler.html#aa234909c66d9b61af81a3c66b4f2f136">Smart::IQueryServerHandler&lt; RequestType, AnswerType, QIDType &gt;</a>
+, <a class="el" href="classSmart_1_1QueryServerTaskTrigger.html#a6aebd9404c279695ea75d9d76241fec6">Smart::QueryServerTaskTrigger&lt; RequestType, AnswerType, QIDType &gt;</a>
+</li>
+<li>handleSend()
+: <a class="el" href="classSmart_1_1ISendServerHandler.html#a8cf26f3e273c043d38239045a1a40603">Smart::ISendServerHandler&lt; DataType &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
 <li>IActiveQueueInputHandlerDecorator()
-: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a9d2ee8c916ed9c2f564ee1917c6f0915">Smart::IActiveQueueInputHandlerDecorator&lt; InputType, TaskImpl &gt;</a>
+: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#ac2290b48049bbdefe0de5f2e4b9a0a72">Smart::IActiveQueueInputHandlerDecorator&lt; InputType &gt;</a>
 </li>
 <li>IClientPattern()
 : <a class="el" href="classSmart_1_1IClientPattern.html#ae66f7b99bccf4c0eaa8cc0155b486e2f">Smart::IClientPattern</a>
@@ -213,14 +272,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>IComponent()
 : <a class="el" href="classSmart_1_1IComponent.html#aba813f52ceacc7dd7a142a85c8e169df">Smart::IComponent</a>
 </li>
-<li>IInputHandler()
-: <a class="el" href="classSmart_1_1IInputHandler.html#ad7e93884f1d85ab8118d48bc81acd4cf">Smart::IInputHandler&lt; InputType &gt;</a>
+<li>IEventClientPattern()
+: <a class="el" href="classSmart_1_1IEventClientPattern.html#acc246ea05d3c8621d575e7c2e4fcb888">Smart::IEventClientPattern&lt; ActivationType, EventType, EventIdType &gt;</a>
 </li>
-<li>IInputSubject()
-: <a class="el" href="classSmart_1_1IInputSubject.html#a241bd1cd4b219184a53c6c5f18bda86b">Smart::IInputSubject&lt; InputType &gt;</a>
+<li>IEventHandler()
+: <a class="el" href="classSmart_1_1IEventHandler.html#a58197ef44db631b11ff11424944380a5">Smart::IEventHandler&lt; EventType, EventIdType &gt;</a>
+</li>
+<li>IEventServerPattern()
+: <a class="el" href="classSmart_1_1IEventServerPattern.html#adb58e722ccd06475a98c10a685111239">Smart::IEventServerPattern&lt; ActivationType, EventType, UpdateType, EventIdType &gt;</a>
+</li>
+<li>IInputHandler()
+: <a class="el" href="classSmart_1_1IInputHandler.html#ab4fe242e44d3eed781bca47a8eb5aa38">Smart::IInputHandler&lt; InputType &gt;</a>
+</li>
+<li>IManagedTask()
+: <a class="el" href="classSmart_1_1IManagedTask.html#a165cdb6ad75255795d3b592e0048f4f9">Smart::IManagedTask</a>
+</li>
+<li>InputSubject()
+: <a class="el" href="classSmart_1_1InputSubject.html#a43ac5505e5afc7197fae79ab17aca68d">Smart::InputSubject&lt; InputType &gt;</a>
+</li>
+<li>InputTaskTrigger()
+: <a class="el" href="classSmart_1_1InputTaskTrigger.html#ad0c022c036fb4cb8e217f013584bbce6">Smart::InputTaskTrigger&lt; InputType &gt;</a>
 </li>
 <li>IPushClientPattern()
-: <a class="el" href="classSmart_1_1IPushClientPattern.html#a10c894b3990fda6d8ca0e27085d5e235">Smart::IPushClientPattern&lt; DataType &gt;</a>
+: <a class="el" href="classSmart_1_1IPushClientPattern.html#a5a1d962223cd7745efaba4830eb37baf">Smart::IPushClientPattern&lt; DataType &gt;</a>
 </li>
 <li>IPushServerPattern()
 : <a class="el" href="classSmart_1_1IPushServerPattern.html#a3068991635a547908886efd76dde3959">Smart::IPushServerPattern&lt; DataType &gt;</a>
@@ -234,44 +308,75 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>IQueryServerPattern()
 : <a class="el" href="classSmart_1_1IQueryServerPattern.html#acd1ddaafd211d5d3980e3e43f7c9dcd4">Smart::IQueryServerPattern&lt; RequestType, AnswerType, QIDType &gt;</a>
 </li>
+<li>ISendClientPattern()
+: <a class="el" href="classSmart_1_1ISendClientPattern.html#ae63855c131b279b74ad41e0983075528">Smart::ISendClientPattern&lt; DataType &gt;</a>
+</li>
+<li>ISendServerHandler()
+: <a class="el" href="classSmart_1_1ISendServerHandler.html#ae347dab802084c9f1a02780c10424acb">Smart::ISendServerHandler&lt; DataType &gt;</a>
+</li>
+<li>ISendServerPattern()
+: <a class="el" href="classSmart_1_1ISendServerPattern.html#a83f1ea52e307b2e3f8d7f0bbd1f3786d">Smart::ISendServerPattern&lt; DataType &gt;</a>
+</li>
 <li>IServerPattern()
 : <a class="el" href="classSmart_1_1IServerPattern.html#adc4af955a8e334b9dd13aa3ac38bbe81">Smart::IServerPattern</a>
 </li>
 <li>IShutdownObserver()
-: <a class="el" href="classSmart_1_1IShutdownObserver.html#a53e94c6fc8539d7133edef8aa596991e">Smart::IShutdownObserver</a>
+: <a class="el" href="classSmart_1_1IShutdownObserver.html#a558fe2252b23288bc39d298a9fe647b7">Smart::IShutdownObserver</a>
 </li>
-<li>IShutdownSubject()
-: <a class="el" href="classSmart_1_1IShutdownSubject.html#ada60c1634f7c5e0cb52ac0a1430e42ba">Smart::IShutdownSubject</a>
+<li>isUpdateDue()
+: <a class="el" href="classSmart_1_1PrescaleManager.html#aa4cf8d6a3e4b83963a6d5b58c9ad94b6">Smart::PrescaleManager</a>
 </li>
 <li>ITask()
-: <a class="el" href="classSmart_1_1ITask.html#acfe3e03e09d252411a112bc58ac57dc6">Smart::ITask</a>
+: <a class="el" href="classSmart_1_1ITask.html#ae2fdc86d66c7083d54de1b1ac04309c5">Smart::ITask</a>
+</li>
+<li>ITaskInteractionObserver()
+: <a class="el" href="classSmart_1_1ITaskInteractionObserver.html#a9091ad7fe56760bc1fa027e33f00cc5b">Smart::ITaskInteractionObserver</a>
+</li>
+<li>ITimerHandler()
+: <a class="el" href="classSmart_1_1ITimerHandler.html#aace0acefc332de6cd26ca165756f1c51">Smart::ITimerHandler</a>
+</li>
+<li>ITimerManager()
+: <a class="el" href="classSmart_1_1ITimerManager.html#a341ac8bd8c268153cd1b605260dbc585">Smart::ITimerManager</a>
 </li>
 <li>IUniversalId()
-: <a class="el" href="classSmart_1_1IUniversalId.html#a6c841594c7004798f03d21637291a07c">Smart::IUniversalId&lt; IdType &gt;</a>
+: <a class="el" href="classSmart_1_1IUniversalId.html#a9c3a70fb17930f27b4c5d45c76c11b08">Smart::IUniversalId&lt; IdType &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_n"></a>- n -</h3><ul>
+<li>notify_all_tasks()
+: <a class="el" href="classSmart_1_1TaskInteractionSubject.html#acc5e188fbbf80bede83e0c951d32840f">Smart::TaskInteractionSubject</a>
+</li>
 <li>notify_input()
-: <a class="el" href="classSmart_1_1IInputSubject.html#aa2e68d1e1e1d81147760c66ce11cf10f">Smart::IInputSubject&lt; InputType &gt;</a>
+: <a class="el" href="classSmart_1_1InputSubject.html#a5d89803983ef7bd15c95f6cc66d3aa0b">Smart::InputSubject&lt; InputType &gt;</a>
 </li>
 <li>notify_sutdown()
-: <a class="el" href="classSmart_1_1IShutdownSubject.html#ae7919fafa5d8aa71000578156aa08fa0">Smart::IShutdownSubject</a>
+: <a class="el" href="classSmart_1_1ShutdownSubject.html#a168a49cfca0b60a8b51edbf17f4d2ef6">Smart::ShutdownSubject</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
+<li>on_entry()
+: <a class="el" href="classSmart_1_1IManagedTask.html#ab6632bc1ad49820516b6fdd0a78af46b">Smart::IManagedTask</a>
+</li>
+<li>on_execute()
+: <a class="el" href="classSmart_1_1IManagedTask.html#a019a172393233fe82d83bbd5a9c79ada">Smart::IManagedTask</a>
+</li>
+<li>on_exit()
+: <a class="el" href="classSmart_1_1IManagedTask.html#a119c6862ac29a7e4aad91b5761b3ee37">Smart::IManagedTask</a>
+</li>
 <li>on_shutdown()
-: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a86d1e3b7fd7de821488835d12abde781">Smart::IActiveQueueInputHandlerDecorator&lt; InputType, TaskImpl &gt;</a>
+: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a6b5dbac2994844cf0f7bc8b186e23d13">Smart::IActiveQueueInputHandlerDecorator&lt; InputType &gt;</a>
 , <a class="el" href="classSmart_1_1IClientPattern.html#a7d180697720c5fc031c1860c988592d9">Smart::IClientPattern</a>
+, <a class="el" href="classSmart_1_1IManagedTask.html#a017dc54e020d2b16efb6be950a8868e1">Smart::IManagedTask</a>
 , <a class="el" href="classSmart_1_1IServerPattern.html#aa063834edb0be4d630ca1ca4a40b1e81">Smart::IServerPattern</a>
 , <a class="el" href="classSmart_1_1IShutdownObserver.html#a00d193e80914621ae4db04e12980f306">Smart::IShutdownObserver</a>
 , <a class="el" href="classSmart_1_1ITask.html#aeccb47a0fddf0884e304e175d2d74cf2">Smart::ITask</a>
 </li>
-<li>open()
-: <a class="el" href="classSmart_1_1ITask.html#a440b986bafc67523214dcc5dfe920b70">Smart::ITask</a>
+<li>onActivation()
+: <a class="el" href="classSmart_1_1IEventTestHandler.html#a27934ee8e0d59eeaee273cb058c05356">Smart::IEventTestHandler&lt; ActivationType, EventType, UpdateType &gt;</a>
 </li>
 <li>operator std::string()
 : <a class="el" href="classSmart_1_1IUniversalId.html#a48da7309c8ddcbc90e8d6aa764599753">Smart::IUniversalId&lt; IdType &gt;</a>
@@ -301,14 +406,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
+<li>PrescaleManager()
+: <a class="el" href="classSmart_1_1PrescaleManager.html#a1d84c785c9fb6e7bc1e2d804faee119b">Smart::PrescaleManager</a>
+</li>
 <li>process_queue_entry()
-: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a338d67604298878ee739f821520cdc32">Smart::IActiveQueueInputHandlerDecorator&lt; InputType, TaskImpl &gt;</a>
+: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a84675e60ae3456649e5c3f3da4d3c35a">Smart::IActiveQueueInputHandlerDecorator&lt; InputType &gt;</a>
 </li>
 <li>processing_cancelled()
-: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a3a926b5cd096f78b4fd0b21d6a679267">Smart::IActiveQueueInputHandlerDecorator&lt; InputType, TaskImpl &gt;</a>
+: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a52d7934eb3cff968bc6b3b165ff30fb4">Smart::IActiveQueueInputHandlerDecorator&lt; InputType &gt;</a>
 </li>
 <li>put()
-: <a class="el" href="classSmart_1_1IPushServerPattern.html#ae1f3dc6032cb493f363be89a6fd15d49">Smart::IPushServerPattern&lt; DataType &gt;</a>
+: <a class="el" href="classSmart_1_1IEventServerPattern.html#abfc842952991abaffca4a1c62c07b35d">Smart::IEventServerPattern&lt; ActivationType, EventType, UpdateType, EventIdType &gt;</a>
+, <a class="el" href="classSmart_1_1IPushServerPattern.html#ae1f3dc6032cb493f363be89a6fd15d49">Smart::IPushServerPattern&lt; DataType &gt;</a>
 </li>
 </ul>
 
@@ -324,15 +433,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classSmart_1_1IQueryClientPattern.html#ab7b7141430a4860e7295bd4e354c5026">Smart::IQueryClientPattern&lt; RequestType, AnswerType, QIDType &gt;</a>
 </li>
 <li>queryReceiveWait()
-: <a class="el" href="classSmart_1_1IQueryClientPattern.html#a4ccd96fa8118c754ab49ae1b531e1ac1">Smart::IQueryClientPattern&lt; RequestType, AnswerType, QIDType &gt;</a>
+: <a class="el" href="classSmart_1_1IQueryClientPattern.html#a2a9bdd1e1b8a1084cdf822e5d942476d">Smart::IQueryClientPattern&lt; RequestType, AnswerType, QIDType &gt;</a>
 </li>
 <li>queryRequest()
 : <a class="el" href="classSmart_1_1IQueryClientPattern.html#a428ccee7394c1c693e9b76ae2b795d86">Smart::IQueryClientPattern&lt; RequestType, AnswerType, QIDType &gt;</a>
+</li>
+<li>QueryServerTaskTrigger()
+: <a class="el" href="classSmart_1_1QueryServerTaskTrigger.html#a1049b8ea2428d27aace10790fb1dd807">Smart::QueryServerTaskTrigger&lt; RequestType, AnswerType, QIDType &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>resetTimerInterval()
+: <a class="el" href="classSmart_1_1ITimerManager.html#a5ced520bee0531487abfb73078921505">Smart::ITimerManager</a>
+</li>
 <li>run()
 : <a class="el" href="classSmart_1_1IComponent.html#a3639568e2ecf35ca3bc158529edf8794">Smart::IComponent</a>
 </li>
@@ -340,25 +455,86 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
+<li>scheduleTimer()
+: <a class="el" href="classSmart_1_1ITimerManager.html#aa5c165650bef133d4759ede32bfd7c56">Smart::ITimerManager</a>
+</li>
+<li>send()
+: <a class="el" href="classSmart_1_1ISendClientPattern.html#a8db93c0d1ea2ed612f9cc67bf07b5479">Smart::ISendClientPattern&lt; DataType &gt;</a>
+</li>
 <li>serverInitiatedDisconnect()
 : <a class="el" href="classSmart_1_1IServerPattern.html#a2220e0c209414d458405739c9c42f01f">Smart::IServerPattern</a>
 </li>
+<li>setSubject()
+: <a class="el" href="classSmart_1_1TaskTriggerObserver.html#aad58e612b4b0e90ea3152c927977b6fa">Smart::TaskTriggerObserver</a>
+</li>
+<li>setUpdate()
+: <a class="el" href="classSmart_1_1InputTaskTrigger.html#a753854e9dd4befddee6eba0c306f6004">Smart::InputTaskTrigger&lt; InputType &gt;</a>
+</li>
+<li>ShutdownSubject()
+: <a class="el" href="classSmart_1_1ShutdownSubject.html#ade88901b91b4763c01cc594c72e567bc">Smart::ShutdownSubject</a>
+</li>
+<li>signalTrigger()
+: <a class="el" href="classSmart_1_1TaskTriggerObserver.html#a31a395eae580e84896693ed5f6c450bf">Smart::TaskTriggerObserver</a>
+</li>
+<li>sleep_for()
+: <a class="el" href="classSmart_1_1ITask.html#abf5a547617399edaab0d210ce7e13ca2">Smart::ITask</a>
+</li>
+<li>start()
+: <a class="el" href="classSmart_1_1ITask.html#a4af44b29c6ac31f65f5ce7f1e8a94d6d">Smart::ITask</a>
+</li>
+<li>stop()
+: <a class="el" href="classSmart_1_1ITask.html#ad97b08fd54d94c5d37f3be84eb1f7380">Smart::ITask</a>
+</li>
 <li>subscribe()
 : <a class="el" href="classSmart_1_1IPushClientPattern.html#ad538e0d9767ce0194779f1dca426788f">Smart::IPushClientPattern&lt; DataType &gt;</a>
-</li>
-<li>svc()
-: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#aaf84d09063e364b74477871bd6d4003c">Smart::IActiveQueueInputHandlerDecorator&lt; InputType, TaskImpl &gt;</a>
-, <a class="el" href="classSmart_1_1ITask.html#ac78e4bf85486223c707d0ce7db0b07c8">Smart::ITask</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
+<li>task_execution()
+: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a9381022a864a841350d1601795dec2b2">Smart::IActiveQueueInputHandlerDecorator&lt; InputType &gt;</a>
+, <a class="el" href="classSmart_1_1IManagedTask.html#a1a362c2b2ce66e524541f2bf6a0aa034">Smart::IManagedTask</a>
+, <a class="el" href="classSmart_1_1ITask.html#a8f43a3f9be582b509c999606e981a31d">Smart::ITask</a>
+</li>
+<li>TaskInteractionSubject()
+: <a class="el" href="classSmart_1_1TaskInteractionSubject.html#a61767b5e78496e9f43ee08bb320c0338">Smart::TaskInteractionSubject</a>
+</li>
+<li>TaskTriggerObserver()
+: <a class="el" href="classSmart_1_1TaskTriggerObserver.html#abf82c01d42785720b950cacd0ea0de68">Smart::TaskTriggerObserver</a>
+</li>
+<li>TaskTriggerSubject()
+: <a class="el" href="classSmart_1_1TaskTriggerSubject.html#aad0bd5f6f2a7683cbb8bac1fa6b6468d">Smart::TaskTriggerSubject</a>
+</li>
 <li>test_canceled()
 : <a class="el" href="classSmart_1_1ITask.html#a5d5b7f25f6d7b5c0918bb47b3ae7073f">Smart::ITask</a>
 </li>
+<li>testEvent()
+: <a class="el" href="classSmart_1_1IEventTestHandler.html#a0502a78a8f2343831d98b004c05d557f">Smart::IEventTestHandler&lt; ActivationType, EventType, UpdateType &gt;</a>
+</li>
+<li>TimedTaskTrigger()
+: <a class="el" href="classSmart_1_1TimedTaskTrigger.html#aa2a253f3d629167f4d361f50350389d6">Smart::TimedTaskTrigger</a>
+</li>
+<li>timerCancelled()
+: <a class="el" href="classSmart_1_1ITimerHandler.html#ad838cada411f8deb0d86ba3b5a906722">Smart::ITimerHandler</a>
+, <a class="el" href="classSmart_1_1TimedTaskTrigger.html#acf6a406a5f7351fc9cb1741319473887">Smart::TimedTaskTrigger</a>
+</li>
+<li>timerDeleted()
+: <a class="el" href="classSmart_1_1ITimerHandler.html#a3a339d344af241a49fb62e3798e6ae94">Smart::ITimerHandler</a>
+, <a class="el" href="classSmart_1_1TimedTaskTrigger.html#afc2bbc24fca5979c5f9b442bd2e66c9e">Smart::TimedTaskTrigger</a>
+</li>
+<li>timerExpired()
+: <a class="el" href="classSmart_1_1ITimerHandler.html#a289b8c3b532d573becdb43e8724cca51">Smart::ITimerHandler</a>
+, <a class="el" href="classSmart_1_1TimedTaskTrigger.html#a1e92a5c38b17ec21dd438f64d7fc7309">Smart::TimedTaskTrigger</a>
+</li>
 <li>to_string()
 : <a class="el" href="classSmart_1_1IUniversalId.html#a3504b967e01149544f9c84f92ebabbc5">Smart::IUniversalId&lt; IdType &gt;</a>
+</li>
+<li>trigger_all_tasks()
+: <a class="el" href="classSmart_1_1TaskTriggerSubject.html#a057d4f0731cbe6395b46372b04636ac8">Smart::TaskTriggerSubject</a>
+</li>
+<li>tryEvent()
+: <a class="el" href="classSmart_1_1IEventClientPattern.html#afe6f5f3a58ca6cde39da1bb35eef059f">Smart::IEventClientPattern&lt; ActivationType, EventType, EventIdType &gt;</a>
 </li>
 </ul>
 
@@ -367,12 +543,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>unsubscribe()
 : <a class="el" href="classSmart_1_1IPushClientPattern.html#a297d6d49df2b511267a2edf1c6cffa8f">Smart::IPushClientPattern&lt; DataType &gt;</a>
 </li>
+<li>update_from()
+: <a class="el" href="classSmart_1_1ITaskInteractionObserver.html#ae446a3d26a03057e35dd42b095a2b47d">Smart::ITaskInteractionObserver</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
+<li>waitOnTrigger()
+: <a class="el" href="classSmart_1_1TaskTriggerObserver.html#a81577fd6236de795bd178ff4b7551b30">Smart::TaskTriggerObserver</a>
+</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_0x7e"></a>- ~ -</h3><ul>
 <li>~IActiveQueueInputHandlerDecorator()
-: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a5b04b1df8ec5a1ba315dcf03f5a76113">Smart::IActiveQueueInputHandlerDecorator&lt; InputType, TaskImpl &gt;</a>
+: <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a16a336c3c0de5f330b6e8e002291a7df">Smart::IActiveQueueInputHandlerDecorator&lt; InputType &gt;</a>
 </li>
 <li>~IClientPattern()
 : <a class="el" href="classSmart_1_1IClientPattern.html#a36c1d227148aa061a036402de14291e1">Smart::IClientPattern</a>
@@ -386,11 +572,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>~IComponent()
 : <a class="el" href="classSmart_1_1IComponent.html#a010b60a22beb57eb8c012d4318d068e5">Smart::IComponent</a>
 </li>
+<li>~IEventClientPattern()
+: <a class="el" href="classSmart_1_1IEventClientPattern.html#aad7b30e7b67ec066f79d87570446a546">Smart::IEventClientPattern&lt; ActivationType, EventType, EventIdType &gt;</a>
+</li>
+<li>~IEventHandler()
+: <a class="el" href="classSmart_1_1IEventHandler.html#afcbb3ae00681e31a9073324abc77b2af">Smart::IEventHandler&lt; EventType, EventIdType &gt;</a>
+</li>
+<li>~IEventServerPattern()
+: <a class="el" href="classSmart_1_1IEventServerPattern.html#aaa33eab4f6ed45a723374dd3bca84af9">Smart::IEventServerPattern&lt; ActivationType, EventType, UpdateType, EventIdType &gt;</a>
+</li>
+<li>~IEventTestHandler()
+: <a class="el" href="classSmart_1_1IEventTestHandler.html#ad4fa0b81f9f6e7ec8b43b1a266243e5a">Smart::IEventTestHandler&lt; ActivationType, EventType, UpdateType &gt;</a>
+</li>
 <li>~IInputHandler()
 : <a class="el" href="classSmart_1_1IInputHandler.html#aa3f08ce74e26aed0a82b1b07f2d5b2a2">Smart::IInputHandler&lt; InputType &gt;</a>
 </li>
-<li>~IInputSubject()
-: <a class="el" href="classSmart_1_1IInputSubject.html#a4c94f8d331a4069d4fea6a6c3f7784ca">Smart::IInputSubject&lt; InputType &gt;</a>
+<li>~IManagedTask()
+: <a class="el" href="classSmart_1_1IManagedTask.html#ab93eaf3e9cb1b6a44383dabb892f5db1">Smart::IManagedTask</a>
+</li>
+<li>~InputSubject()
+: <a class="el" href="classSmart_1_1InputSubject.html#a02ef27208f06ee5b009a9ba20cd6c8f8">Smart::InputSubject&lt; InputType &gt;</a>
+</li>
+<li>~InputTaskTrigger()
+: <a class="el" href="classSmart_1_1InputTaskTrigger.html#ad93eb2008efc67447d727f9dad301a0c">Smart::InputTaskTrigger&lt; InputType &gt;</a>
 </li>
 <li>~IPushClientPattern()
 : <a class="el" href="classSmart_1_1IPushClientPattern.html#ab4ca04b7673112d44c37f9440aeb6e83">Smart::IPushClientPattern&lt; DataType &gt;</a>
@@ -407,20 +611,56 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>~IQueryServerPattern()
 : <a class="el" href="classSmart_1_1IQueryServerPattern.html#aa8faae6e6560568b17b9591eb7ea6750">Smart::IQueryServerPattern&lt; RequestType, AnswerType, QIDType &gt;</a>
 </li>
+<li>~ISendClientPattern()
+: <a class="el" href="classSmart_1_1ISendClientPattern.html#a8e0cf4ea272f3dabffdc36f808507a4b">Smart::ISendClientPattern&lt; DataType &gt;</a>
+</li>
+<li>~ISendServerHandler()
+: <a class="el" href="classSmart_1_1ISendServerHandler.html#a27ccb8af0637d31fb1ab2a97ec301540">Smart::ISendServerHandler&lt; DataType &gt;</a>
+</li>
+<li>~ISendServerPattern()
+: <a class="el" href="classSmart_1_1ISendServerPattern.html#ab89d51e815be1dcd16cbe1bead081cea">Smart::ISendServerPattern&lt; DataType &gt;</a>
+</li>
 <li>~IServerPattern()
 : <a class="el" href="classSmart_1_1IServerPattern.html#a4060998540a77968acc2365fc2e0fd5c">Smart::IServerPattern</a>
 </li>
 <li>~IShutdownObserver()
-: <a class="el" href="classSmart_1_1IShutdownObserver.html#a39b13f2dec0f9a48803370aca8e166ad">Smart::IShutdownObserver</a>
-</li>
-<li>~IShutdownSubject()
-: <a class="el" href="classSmart_1_1IShutdownSubject.html#a29404bebe9e2183d3c224bf0800a58f5">Smart::IShutdownSubject</a>
+: <a class="el" href="classSmart_1_1IShutdownObserver.html#a9f9874dc19aa11a4bc523693219dce58">Smart::IShutdownObserver</a>
 </li>
 <li>~ITask()
 : <a class="el" href="classSmart_1_1ITask.html#adedf4ded6889c30061969039d5c90c3e">Smart::ITask</a>
 </li>
+<li>~ITaskInteractionObserver()
+: <a class="el" href="classSmart_1_1ITaskInteractionObserver.html#abf959f34608bbcc9c9a8a9af200c8029">Smart::ITaskInteractionObserver</a>
+</li>
+<li>~ITimerHandler()
+: <a class="el" href="classSmart_1_1ITimerHandler.html#a190df979ac81d70c1d25e70bfb9d139d">Smart::ITimerHandler</a>
+</li>
+<li>~ITimerManager()
+: <a class="el" href="classSmart_1_1ITimerManager.html#a6c892cc1ee9c54213848409decddabc3">Smart::ITimerManager</a>
+</li>
 <li>~IUniversalId()
 : <a class="el" href="classSmart_1_1IUniversalId.html#a40c4ee1520ead1f5e6b55cf575128b67">Smart::IUniversalId&lt; IdType &gt;</a>
+</li>
+<li>~PrescaleManager()
+: <a class="el" href="classSmart_1_1PrescaleManager.html#a2398f078dedda232776959e3d68ed85f">Smart::PrescaleManager</a>
+</li>
+<li>~QueryServerTaskTrigger()
+: <a class="el" href="classSmart_1_1QueryServerTaskTrigger.html#a93f894a84ed334dda2b737d545afa33d">Smart::QueryServerTaskTrigger&lt; RequestType, AnswerType, QIDType &gt;</a>
+</li>
+<li>~ShutdownSubject()
+: <a class="el" href="classSmart_1_1ShutdownSubject.html#a6c8ec380272df6ea002202b24671589b">Smart::ShutdownSubject</a>
+</li>
+<li>~TaskInteractionSubject()
+: <a class="el" href="classSmart_1_1TaskInteractionSubject.html#a29e9dce3e56d85447503f04c4fd8d3a2">Smart::TaskInteractionSubject</a>
+</li>
+<li>~TaskTriggerObserver()
+: <a class="el" href="classSmart_1_1TaskTriggerObserver.html#a26d59cdeb4437372ab4a511f0bbd20b6">Smart::TaskTriggerObserver</a>
+</li>
+<li>~TaskTriggerSubject()
+: <a class="el" href="classSmart_1_1TaskTriggerSubject.html#a810eadc499c7d48128b4166bf2b5736b">Smart::TaskTriggerSubject</a>
+</li>
+<li>~TimedTaskTrigger()
+: <a class="el" href="classSmart_1_1TimedTaskTrigger.html#afbf0625fe790c7460db26192b27cc7bf">Smart::TimedTaskTrigger</a>
 </li>
 </ul>
 </div><!-- contents -->

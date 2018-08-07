@@ -1,20 +1,5 @@
 var searchData=
 [
-  ['_7eiactivequeueinputhandlerdecorator',['~IActiveQueueInputHandlerDecorator',['../classSmart_1_1IActiveQueueInputHandlerDecorator.html#a5b04b1df8ec5a1ba315dcf03f5a76113',1,'Smart::IActiveQueueInputHandlerDecorator']]],
-  ['_7eiclientpattern',['~IClientPattern',['../classSmart_1_1IClientPattern.html#a36c1d227148aa061a036402de14291e1',1,'Smart::IClientPattern']]],
-  ['_7eicommunicationobject',['~ICommunicationObject',['../classSmart_1_1ICommunicationObject.html#a82cab4aa3b4ec90b7d4b7d5ebe3876b8',1,'Smart::ICommunicationObject']]],
-  ['_7eicommunicationpattern',['~ICommunicationPattern',['../classSmart_1_1ICommunicationPattern.html#a058d86b0c5aaadd33d447edc86689cec',1,'Smart::ICommunicationPattern']]],
-  ['_7eicomponent',['~IComponent',['../classSmart_1_1IComponent.html#a010b60a22beb57eb8c012d4318d068e5',1,'Smart::IComponent']]],
-  ['_7eiinputhandler',['~IInputHandler',['../classSmart_1_1IInputHandler.html#aa3f08ce74e26aed0a82b1b07f2d5b2a2',1,'Smart::IInputHandler']]],
-  ['_7eiinputsubject',['~IInputSubject',['../classSmart_1_1IInputSubject.html#a4c94f8d331a4069d4fea6a6c3f7784ca',1,'Smart::IInputSubject']]],
-  ['_7eipushclientpattern',['~IPushClientPattern',['../classSmart_1_1IPushClientPattern.html#ab4ca04b7673112d44c37f9440aeb6e83',1,'Smart::IPushClientPattern']]],
-  ['_7eipushserverpattern',['~IPushServerPattern',['../classSmart_1_1IPushServerPattern.html#aea47b524df78b3e032dc388747f35942',1,'Smart::IPushServerPattern']]],
-  ['_7eiqueryclientpattern',['~IQueryClientPattern',['../classSmart_1_1IQueryClientPattern.html#a7e8e9856ccc1c30f31286f2a1fb396e5',1,'Smart::IQueryClientPattern']]],
-  ['_7eiqueryserverhandler',['~IQueryServerHandler',['../classSmart_1_1IQueryServerHandler.html#a3aaa6149c396f8565da3fe5b3dc2e203',1,'Smart::IQueryServerHandler']]],
-  ['_7eiqueryserverpattern',['~IQueryServerPattern',['../classSmart_1_1IQueryServerPattern.html#aa8faae6e6560568b17b9591eb7ea6750',1,'Smart::IQueryServerPattern']]],
-  ['_7eiserverpattern',['~IServerPattern',['../classSmart_1_1IServerPattern.html#a4060998540a77968acc2365fc2e0fd5c',1,'Smart::IServerPattern']]],
-  ['_7eishutdownobserver',['~IShutdownObserver',['../classSmart_1_1IShutdownObserver.html#a39b13f2dec0f9a48803370aca8e166ad',1,'Smart::IShutdownObserver']]],
-  ['_7eishutdownsubject',['~IShutdownSubject',['../classSmart_1_1IShutdownSubject.html#a29404bebe9e2183d3c224bf0800a58f5',1,'Smart::IShutdownSubject']]],
-  ['_7eitask',['~ITask',['../classSmart_1_1ITask.html#adedf4ded6889c30061969039d5c90c3e',1,'Smart::ITask']]],
-  ['_7eiuniversalid',['~IUniversalId',['../classSmart_1_1IUniversalId.html#a40c4ee1520ead1f5e6b55cf575128b67',1,'Smart::IUniversalId']]]
+  ['unsubscribe',['unsubscribe',['../classSmart_1_1IPushClientPattern.html#a297d6d49df2b511267a2edf1c6cffa8f',1,'Smart::IPushClientPattern']]],
+  ['update_5ffrom',['update_from',['../classSmart_1_1ITaskInteractionObserver.html#ae446a3d26a03057e35dd42b095a2b47d',1,'Smart::ITaskInteractionObserver']]]
 ];

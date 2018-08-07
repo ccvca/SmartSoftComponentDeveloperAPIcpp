@@ -106,15 +106,16 @@ Inheritance diagram for Smart::IInputHandler&lt; InputType &gt;:</div>
  <div class="center">
   <img src="classSmart_1_1IInputHandler.png" usemap="#Smart::IInputHandler_3C_20InputType_20_3E_map" alt=""/>
   <map id="Smart::IInputHandler_3C_20InputType_20_3E_map" name="Smart::IInputHandler&lt; InputType &gt;_map">
-<area href="classSmart_1_1IActiveQueueInputHandlerDecorator.html" title="This class decorates a passive IInputHandler and makes it active (with an active internal queue) ..." alt="Smart::IActiveQueueInputHandlerDecorator&lt; InputType, TaskImpl &gt;" shape="rect" coords="0,56,392,80"/>
+<area href="classSmart_1_1IActiveQueueInputHandlerDecorator.html" title="This class decorates a passive IInputHandler and makes it active (with an active internal queue) ..." alt="Smart::IActiveQueueInputHandlerDecorator&lt; InputType &gt;" shape="rect" coords="0,56,335,80"/>
+<area href="classSmart_1_1InputTaskTrigger.html" alt="Smart::InputTaskTrigger&lt; InputType &gt;" shape="rect" coords="345,56,680,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad7e93884f1d85ab8118d48bc81acd4cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputHandler.html#ad7e93884f1d85ab8118d48bc81acd4cf">IInputHandler</a> (<a class="el" href="classSmart_1_1IInputSubject.html">IInputSubject</a>&lt; InputType &gt; *<a class="el" href="classSmart_1_1IInputHandler.html#a118bcc6fa3230cb4d9300f8ef170bf03">subject</a>)</td></tr>
-<tr class="memdesc:ad7e93884f1d85ab8118d48bc81acd4cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default constructor.  <a href="#ad7e93884f1d85ab8118d48bc81acd4cf">More...</a><br /></td></tr>
-<tr class="separator:ad7e93884f1d85ab8118d48bc81acd4cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4fe242e44d3eed781bca47a8eb5aa38"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputHandler.html#ab4fe242e44d3eed781bca47a8eb5aa38">IInputHandler</a> (<a class="el" href="classSmart_1_1InputSubject.html">InputSubject</a>&lt; InputType &gt; *<a class="el" href="classSmart_1_1IInputHandler.html#a371443569bb50bd5a689c442c0b4f28b">subject</a>, const unsigned int &amp;prescaleFactor=1)</td></tr>
+<tr class="memdesc:ab4fe242e44d3eed781bca47a8eb5aa38"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default constructor.  <a href="#ab4fe242e44d3eed781bca47a8eb5aa38">More...</a><br /></td></tr>
+<tr class="separator:ab4fe242e44d3eed781bca47a8eb5aa38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3f08ce74e26aed0a82b1b07f2d5b2a2"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputHandler.html#aa3f08ce74e26aed0a82b1b07f2d5b2a2">~IInputHandler</a> ()</td></tr>
 <tr class="memdesc:aa3f08ce74e26aed0a82b1b07f2d5b2a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default destructor.  <a href="#aa3f08ce74e26aed0a82b1b07f2d5b2a2">More...</a><br /></td></tr>
 <tr class="separator:aa3f08ce74e26aed0a82b1b07f2d5b2a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,25 +125,25 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a5194e3b5b38deb1d6c5f0e33c57f3552"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputHandler.html#a5194e3b5b38deb1d6c5f0e33c57f3552">attach_self</a> ()</td></tr>
-<tr class="memdesc:a5194e3b5b38deb1d6c5f0e33c57f3552"><td class="mdescLeft">&#160;</td><td class="mdescRight">calls subject-&gt;attach(this);  <a href="#a5194e3b5b38deb1d6c5f0e33c57f3552">More...</a><br /></td></tr>
-<tr class="separator:a5194e3b5b38deb1d6c5f0e33c57f3552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4edab2d3955f6179fcc571fd2564f305"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputHandler.html#a4edab2d3955f6179fcc571fd2564f305">attach_self</a> (const unsigned int &amp;prescale=1)</td></tr>
+<tr class="memdesc:a4edab2d3955f6179fcc571fd2564f305"><td class="mdescLeft">&#160;</td><td class="mdescRight">calls subject-&gt;attach(this);  <a href="#a4edab2d3955f6179fcc571fd2564f305">More...</a><br /></td></tr>
+<tr class="separator:a4edab2d3955f6179fcc571fd2564f305"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8344590e4440205bf7dfc1e89f0a86a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputHandler.html#a8344590e4440205bf7dfc1e89f0a86a1">detach_self</a> ()</td></tr>
 <tr class="memdesc:a8344590e4440205bf7dfc1e89f0a86a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">calls subject-&gt;detach(this);  <a href="#a8344590e4440205bf7dfc1e89f0a86a1">More...</a><br /></td></tr>
 <tr class="separator:a8344590e4440205bf7dfc1e89f0a86a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a118bcc6fa3230cb4d9300f8ef170bf03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSmart_1_1IInputSubject.html">IInputSubject</a>&lt; InputType &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputHandler.html#a118bcc6fa3230cb4d9300f8ef170bf03">subject</a></td></tr>
-<tr class="memdesc:a118bcc6fa3230cb4d9300f8ef170bf03"><td class="mdescLeft">&#160;</td><td class="mdescRight">this is the subject-pointer (can be used in derived classes)  <a href="#a118bcc6fa3230cb4d9300f8ef170bf03">More...</a><br /></td></tr>
-<tr class="separator:a118bcc6fa3230cb4d9300f8ef170bf03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a371443569bb50bd5a689c442c0b4f28b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSmart_1_1InputSubject.html">InputSubject</a>&lt; InputType &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputHandler.html#a371443569bb50bd5a689c442c0b4f28b">subject</a></td></tr>
+<tr class="memdesc:a371443569bb50bd5a689c442c0b4f28b"><td class="mdescLeft">&#160;</td><td class="mdescRight">this is the subject-pointer (can be used in derived classes)  <a href="#a371443569bb50bd5a689c442c0b4f28b">More...</a><br /></td></tr>
+<tr class="separator:a371443569bb50bd5a689c442c0b4f28b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a6bc724e7d3080566d2b416de0175ff67"><td class="memTemplParams" colspan="2">template&lt;class InnerType , class TaskImpl &gt; </td></tr>
-<tr class="memitem:a6bc724e7d3080566d2b416de0175ff67"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputHandler.html#a6bc724e7d3080566d2b416de0175ff67">IActiveQueueInputHandlerDecorator</a></td></tr>
-<tr class="memdesc:a6bc724e7d3080566d2b416de0175ff67"><td class="mdescLeft">&#160;</td><td class="mdescRight">allows acessing protected members  <a href="#a6bc724e7d3080566d2b416de0175ff67">More...</a><br /></td></tr>
-<tr class="separator:a6bc724e7d3080566d2b416de0175ff67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5232b6d7b99dbc7dff41959dc6f96d1"><td class="memTemplParams" colspan="2">template&lt;class InnerType &gt; </td></tr>
+<tr class="memitem:af5232b6d7b99dbc7dff41959dc6f96d1"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputHandler.html#af5232b6d7b99dbc7dff41959dc6f96d1">IActiveQueueInputHandlerDecorator</a></td></tr>
+<tr class="memdesc:af5232b6d7b99dbc7dff41959dc6f96d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">allows acessing protected members  <a href="#af5232b6d7b99dbc7dff41959dc6f96d1">More...</a><br /></td></tr>
+<tr class="separator:af5232b6d7b99dbc7dff41959dc6f96d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class InputType&gt;<br />
@@ -150,9 +151,9 @@ class Smart::IInputHandler&lt; InputType &gt;</h3>
 
 <p>This template class implements the <b>Observer</b> part of the Observer design pattern for implementing a generic data-input-handler (i.e. </p>
 <p>input-data-upcall handler).</p>
-<p>This class implements the <b>Observer</b> part of the Observer design pattern. All the communication-patterns that receive input-data can implement the counterpart <a class="el" href="classSmart_1_1IInputSubject.html" title="This template class implements the Subject (also called Model) part of the Observer design pattern fo...">IInputSubject</a> which can be used by this handler for receiving the input-data. Therefore the abstract method <a class="el" href="classSmart_1_1IInputHandler.html#a3ba74c80783b0449b2b8e9d8ae092756" title="This is the main input-handler method that will be automatically called from the given subject each t...">handle_input()</a> needs to be implemented in derived classes. </p>
+<p>This class implements the <b>Observer</b> part of the Observer design pattern. All the communication-patterns that receive input-data can implement the counterpart IInputSubject which can be used by this handler for receiving the input-data. Therefore the abstract method <a class="el" href="classSmart_1_1IInputHandler.html#a3ba74c80783b0449b2b8e9d8ae092756" title="This is the main input-handler method that will be automatically called from the given subject each t...">handle_input()</a> needs to be implemented in derived classes. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ad7e93884f1d85ab8118d48bc81acd4cf"></a>
+<a class="anchor" id="ab4fe242e44d3eed781bca47a8eb5aa38"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -164,9 +165,19 @@ template&lt;class InputType&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classSmart_1_1IInputHandler.html">Smart::IInputHandler</a>&lt; InputType &gt;::<a class="el" href="classSmart_1_1IInputHandler.html">IInputHandler</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classSmart_1_1IInputSubject.html">IInputSubject</a>&lt; InputType &gt; *&#160;</td>
-          <td class="paramname"><em>subject</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classSmart_1_1InputSubject.html">InputSubject</a>&lt; InputType &gt; *&#160;</td>
+          <td class="paramname"><em>subject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const unsigned int &amp;&#160;</td>
+          <td class="paramname"><em>prescaleFactor</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -181,6 +192,7 @@ template&lt;class InputType&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">subject</td><td>the subject (also called model) that this handler is going to observe </td></tr>
+    <tr><td class="paramname">prescaleFactor</td><td>optionally divides the input-update frequency by this factor </td></tr>
   </table>
   </dd>
 </dl>
@@ -216,7 +228,7 @@ template&lt;class InputType&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a5194e3b5b38deb1d6c5f0e33c57f3552"></a>
+<a class="anchor" id="a4edab2d3955f6179fcc571fd2564f305"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -228,7 +240,8 @@ template&lt;class InputType &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classSmart_1_1IInputHandler.html">Smart::IInputHandler</a>&lt; InputType &gt;::attach_self </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const unsigned int &amp;&#160;</td>
+          <td class="paramname"><em>prescale</em> = <code>1</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -240,7 +253,13 @@ template&lt;class InputType &gt; </div>
 </div><div class="memdoc">
 
 <p>calls subject-&gt;attach(this); </p>
-<p>This method encapsulates the <b>attachment</b> of itself to the <a class="el" href="classSmart_1_1IInputSubject.html" title="This template class implements the Subject (also called Model) part of the Observer design pattern fo...">IInputSubject</a>. This is useful as this method can be called from within the <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html" title="This class decorates a passive IInputHandler and makes it active (with an active internal queue) ...">IActiveQueueInputHandlerDecorator</a>. </p>
+<p>This method encapsulates the <b>attachment</b> of itself to the IInputSubject. This is useful as this method can be called from within the <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html" title="This class decorates a passive IInputHandler and makes it active (with an active internal queue) ...">IActiveQueueInputHandlerDecorator</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prescale</td><td>optionally divides the input-update frequency by this factor </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -268,7 +287,7 @@ template&lt;class InputType &gt; </div>
 </div><div class="memdoc">
 
 <p>calls subject-&gt;detach(this); </p>
-<p>This method encapsulates the <b>detachment</b> of itself from the <a class="el" href="classSmart_1_1IInputSubject.html" title="This template class implements the Subject (also called Model) part of the Observer design pattern fo...">IInputSubject</a>. This is useful as this method can be called from within the <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html" title="This class decorates a passive IInputHandler and makes it active (with an active internal queue) ...">IActiveQueueInputHandlerDecorator</a>. </p>
+<p>This method encapsulates the <b>detachment</b> of itself from the IInputSubject. This is useful as this method can be called from within the <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html" title="This class decorates a passive IInputHandler and makes it active (with an active internal queue) ...">IActiveQueueInputHandlerDecorator</a>. </p>
 
 </div>
 </div>
@@ -305,18 +324,18 @@ template&lt;class InputType&gt; </div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#acd441fc40a45aca37bda92727be4ba43">Smart::IActiveQueueInputHandlerDecorator&lt; InputType, TaskImpl &gt;</a>, and <a class="el" href="classSmart_1_1IQueryServerHandler.html#a8ea22ea321ba4860624c6a4b5e29cc4b">Smart::IQueryServerHandler&lt; RequestType, AnswerType, QIDType &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classSmart_1_1IEventHandler.html#a2bbaca6e46c40396190e40d9d5b1d90d">Smart::IEventHandler&lt; EventType, EventIdType &gt;</a>, <a class="el" href="classSmart_1_1IActiveQueueInputHandlerDecorator.html#a8082db39aa5ed2ba8eb0ac76b0ffc451">Smart::IActiveQueueInputHandlerDecorator&lt; InputType &gt;</a>, <a class="el" href="classSmart_1_1IQueryServerHandler.html#a8ea22ea321ba4860624c6a4b5e29cc4b">Smart::IQueryServerHandler&lt; RequestType, AnswerType, QIDType &gt;</a>, <a class="el" href="classSmart_1_1InputTaskTrigger.html#a6bddaad7a479e82119ea70df0f80f7d1">Smart::InputTaskTrigger&lt; InputType &gt;</a>, and <a class="el" href="classSmart_1_1ISendServerHandler.html#aba86a6e8c44a20d341ed96f8af4db95e">Smart::ISendServerHandler&lt; DataType &gt;</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a class="anchor" id="a6bc724e7d3080566d2b416de0175ff67"></a>
+<a class="anchor" id="af5232b6d7b99dbc7dff41959dc6f96d1"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class InputType&gt; </div>
 <div class="memtemplate">
-template&lt;class InnerType , class TaskImpl &gt; </div>
+template&lt;class InnerType &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -337,7 +356,7 @@ template&lt;class InnerType , class TaskImpl &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a118bcc6fa3230cb4d9300f8ef170bf03"></a>
+<a class="anchor" id="a371443569bb50bd5a689c442c0b4f28b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -347,7 +366,7 @@ template&lt;class InputType&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classSmart_1_1IInputSubject.html">IInputSubject</a>&lt;InputType&gt;* <a class="el" href="classSmart_1_1IInputHandler.html">Smart::IInputHandler</a>&lt; InputType &gt;::subject</td>
+          <td class="memname"><a class="el" href="classSmart_1_1InputSubject.html">InputSubject</a>&lt;InputType&gt;* <a class="el" href="classSmart_1_1IInputHandler.html">Smart::IInputHandler</a>&lt; InputType &gt;::subject</td>
         </tr>
       </table>
   </td>

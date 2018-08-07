@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['query',['query',['../classSmart_1_1IQueryClientPattern.html#a23b87f12949f29ab5e8a2e93796d56e7',1,'Smart::IQueryClientPattern']]],
-  ['querydiscard',['queryDiscard',['../classSmart_1_1IQueryClientPattern.html#a85b25fc1984c398116f2ec8fc8ee3d6c',1,'Smart::IQueryClientPattern']]],
-  ['queryreceive',['queryReceive',['../classSmart_1_1IQueryClientPattern.html#ab7b7141430a4860e7295bd4e354c5026',1,'Smart::IQueryClientPattern']]],
-  ['queryreceivewait',['queryReceiveWait',['../classSmart_1_1IQueryClientPattern.html#a4ccd96fa8118c754ab49ae1b531e1ac1',1,'Smart::IQueryClientPattern']]],
-  ['queryrequest',['queryRequest',['../classSmart_1_1IQueryClientPattern.html#a428ccee7394c1c693e9b76ae2b795d86',1,'Smart::IQueryClientPattern']]],
-  ['querystatusstring',['QueryStatusString',['../namespaceSmart.html#a220ac96abe6f6d9cd1c2b4f6c22e0540',1,'Smart']]]
+  ['prescalemanager',['PrescaleManager',['../classSmart_1_1PrescaleManager.html#a1d84c785c9fb6e7bc1e2d804faee119b',1,'Smart::PrescaleManager']]],
+  ['process_5fqueue_5fentry',['process_queue_entry',['../classSmart_1_1IActiveQueueInputHandlerDecorator.html#a84675e60ae3456649e5c3f3da4d3c35a',1,'Smart::IActiveQueueInputHandlerDecorator']]],
+  ['processing_5fcancelled',['processing_cancelled',['../classSmart_1_1IActiveQueueInputHandlerDecorator.html#a52d7934eb3cff968bc6b3b165ff30fb4',1,'Smart::IActiveQueueInputHandlerDecorator']]],
+  ['put',['put',['../classSmart_1_1IEventServerPattern.html#abfc842952991abaffca4a1c62c07b35d',1,'Smart::IEventServerPattern::put()'],['../classSmart_1_1IPushServerPattern.html#ae1f3dc6032cb493f363be89a6fd15d49',1,'Smart::IPushServerPattern::put()']]]
 ];

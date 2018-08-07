@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Client part of the Push pattern to provide a flexible push service.  
+<p>Client part of the <b>Push</b> pattern to provide a flexible publish/subscribe service.  
  <a href="classSmart_1_1IPushClientPattern.html#details">More...</a></p>
 
 <p><code>#include &lt;smartIPushClientPattern_T.h&gt;</code></p>
@@ -104,7 +104,7 @@ Inheritance diagram for Smart::IPushClientPattern&lt; DataType &gt;:</div>
   <img src="classSmart_1_1IPushClientPattern.png" usemap="#Smart::IPushClientPattern_3C_20DataType_20_3E_map" alt=""/>
   <map id="Smart::IPushClientPattern_3C_20DataType_20_3E_map" name="Smart::IPushClientPattern&lt; DataType &gt;_map">
 <area href="classSmart_1_1IClientPattern.html" title="This is the base class for all client-patterns implementing a connection-oriented communication..." alt="Smart::IClientPattern" shape="rect" coords="0,112,231,136"/>
-<area href="classSmart_1_1IInputSubject.html" alt="Smart::IInputSubject&lt; DataType &gt;" shape="rect" coords="241,112,472,136"/>
+<area href="classSmart_1_1InputSubject.html" alt="Smart::InputSubject&lt; DataType &gt;" shape="rect" coords="241,112,472,136"/>
 <area href="classSmart_1_1ICommunicationPattern.html" title="This is the base class for all communication-patterns. " alt="Smart::ICommunicationPattern" shape="rect" coords="0,56,231,80"/>
 <area href="classSmart_1_1IShutdownObserver.html" title="This class implements the Observer part of the Observer design pattern for implementing a uniform shu..." alt="Smart::IShutdownObserver" shape="rect" coords="0,0,231,24"/>
 </map>
@@ -112,10 +112,10 @@ Inheritance diagram for Smart::IPushClientPattern&lt; DataType &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a10c894b3990fda6d8ca0e27085d5e235"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IPushClientPattern.html#a10c894b3990fda6d8ca0e27085d5e235">IPushClientPattern</a> (<a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *<a class="el" href="classSmart_1_1ICommunicationPattern.html#aed0d074961e9128e11b2508cd94f5f17">component</a>)</td></tr>
+<tr class="memitem:a10c894b3990fda6d8ca0e27085d5e235"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IPushClientPattern.html#a10c894b3990fda6d8ca0e27085d5e235">IPushClientPattern</a> (<a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *component)</td></tr>
 <tr class="memdesc:a10c894b3990fda6d8ca0e27085d5e235"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor (not wired with service provider and not exposed as port).  <a href="#a10c894b3990fda6d8ca0e27085d5e235">More...</a><br /></td></tr>
 <tr class="separator:a10c894b3990fda6d8ca0e27085d5e235"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a1d962223cd7745efaba4830eb37baf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IPushClientPattern.html#a5a1d962223cd7745efaba4830eb37baf">IPushClientPattern</a> (<a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *<a class="el" href="classSmart_1_1ICommunicationPattern.html#aed0d074961e9128e11b2508cd94f5f17">component</a>, const std::string &amp;server, const std::string &amp;service)</td></tr>
+<tr class="memitem:a5a1d962223cd7745efaba4830eb37baf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IPushClientPattern.html#a5a1d962223cd7745efaba4830eb37baf">IPushClientPattern</a> (<a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *component, const std::string &amp;server, const std::string &amp;service)</td></tr>
 <tr class="memdesc:a5a1d962223cd7745efaba4830eb37baf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connection Constructor (implicitly wiring with specified service provider).  <a href="#a5a1d962223cd7745efaba4830eb37baf">More...</a><br /></td></tr>
 <tr class="separator:a5a1d962223cd7745efaba4830eb37baf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4ca04b7673112d44c37f9440aeb6e83"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IPushClientPattern.html#ab4ca04b7673112d44c37f9440aeb6e83">~IPushClientPattern</a> ()</td></tr>
@@ -130,14 +130,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af45b4727d9cd701847d68cb8b2ce2a09"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceSmart.html#a0c5dfa0d01eb43e3a13e1b67c206f15b">StatusCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IPushClientPattern.html#af45b4727d9cd701847d68cb8b2ce2a09">getUpdate</a> (DataType &amp;d)=0</td></tr>
 <tr class="memdesc:af45b4727d9cd701847d68cb8b2ce2a09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Non-blocking call to immediately return the latest available data buffered at the client side from the most recent update.  <a href="#af45b4727d9cd701847d68cb8b2ce2a09">More...</a><br /></td></tr>
 <tr class="separator:af45b4727d9cd701847d68cb8b2ce2a09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad89a8fda7ea2361d507db0290390977"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceSmart.html#a0c5dfa0d01eb43e3a13e1b67c206f15b">StatusCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IPushClientPattern.html#aad89a8fda7ea2361d507db0290390977">getUpdateWait</a> (DataType &amp;d)=0</td></tr>
-<tr class="memdesc:aad89a8fda7ea2361d507db0290390977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocking call which waits until the next update is received.  <a href="#aad89a8fda7ea2361d507db0290390977">More...</a><br /></td></tr>
-<tr class="separator:aad89a8fda7ea2361d507db0290390977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4d8ebad2533129875a92e31fa5e8f5c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceSmart.html#a0c5dfa0d01eb43e3a13e1b67c206f15b">StatusCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IPushClientPattern.html#ae4d8ebad2533129875a92e31fa5e8f5c">getUpdateWait</a> (DataType &amp;d, const std::chrono::steady_clock::duration &amp;timeout=std::chrono::steady_clock::duration::zero())=0</td></tr>
+<tr class="memdesc:ae4d8ebad2533129875a92e31fa5e8f5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocking call which waits until the next update is received.  <a href="#ae4d8ebad2533129875a92e31fa5e8f5c">More...</a><br /></td></tr>
+<tr class="separator:ae4d8ebad2533129875a92e31fa5e8f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classSmart_1_1IClientPattern"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classSmart_1_1IClientPattern')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSmart_1_1IClientPattern.html">Smart::IClientPattern</a></td></tr>
-<tr class="memitem:ae66f7b99bccf4c0eaa8cc0155b486e2f inherit pub_methods_classSmart_1_1IClientPattern"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IClientPattern.html#ae66f7b99bccf4c0eaa8cc0155b486e2f">IClientPattern</a> (<a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *<a class="el" href="classSmart_1_1ICommunicationPattern.html#aed0d074961e9128e11b2508cd94f5f17">component</a>)</td></tr>
+<tr class="memitem:ae66f7b99bccf4c0eaa8cc0155b486e2f inherit pub_methods_classSmart_1_1IClientPattern"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IClientPattern.html#ae66f7b99bccf4c0eaa8cc0155b486e2f">IClientPattern</a> (<a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *component)</td></tr>
 <tr class="memdesc:ae66f7b99bccf4c0eaa8cc0155b486e2f inherit pub_methods_classSmart_1_1IClientPattern"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default Constructor (not yet connecting with any service provider).  <a href="#ae66f7b99bccf4c0eaa8cc0155b486e2f">More...</a><br /></td></tr>
 <tr class="separator:ae66f7b99bccf4c0eaa8cc0155b486e2f inherit pub_methods_classSmart_1_1IClientPattern"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18f2a52bb4e7f1f15f05437b9e18e9c0 inherit pub_methods_classSmart_1_1IClientPattern"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IClientPattern.html#a18f2a52bb4e7f1f15f05437b9e18e9c0">IClientPattern</a> (<a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *<a class="el" href="classSmart_1_1ICommunicationPattern.html#aed0d074961e9128e11b2508cd94f5f17">component</a>, const std::string &amp;server, const std::string &amp;service)</td></tr>
+<tr class="memitem:a18f2a52bb4e7f1f15f05437b9e18e9c0 inherit pub_methods_classSmart_1_1IClientPattern"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IClientPattern.html#a18f2a52bb4e7f1f15f05437b9e18e9c0">IClientPattern</a> (<a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *component, const std::string &amp;server, const std::string &amp;service)</td></tr>
 <tr class="memdesc:a18f2a52bb4e7f1f15f05437b9e18e9c0 inherit pub_methods_classSmart_1_1IClientPattern"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connection Constructor (implicitly connecting with specified service provider).  <a href="#a18f2a52bb4e7f1f15f05437b9e18e9c0">More...</a><br /></td></tr>
 <tr class="separator:a18f2a52bb4e7f1f15f05437b9e18e9c0 inherit pub_methods_classSmart_1_1IClientPattern"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36c1d227148aa061a036402de14291e1 inherit pub_methods_classSmart_1_1IClientPattern"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IClientPattern.html#a36c1d227148aa061a036402de14291e1">~IClientPattern</a> ()</td></tr>
@@ -153,26 +153,26 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af67a2757eb3087a2a35fa538e702fc66 inherit pub_methods_classSmart_1_1IClientPattern"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow or abort and reject blocking calls.  <a href="#af67a2757eb3087a2a35fa538e702fc66">More...</a><br /></td></tr>
 <tr class="separator:af67a2757eb3087a2a35fa538e702fc66 inherit pub_methods_classSmart_1_1IClientPattern"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classSmart_1_1ICommunicationPattern"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classSmart_1_1ICommunicationPattern')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSmart_1_1ICommunicationPattern.html">Smart::ICommunicationPattern</a></td></tr>
-<tr class="memitem:a541cecc6b32852bcc6400043ebbb5e76 inherit pub_methods_classSmart_1_1ICommunicationPattern"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1ICommunicationPattern.html#a541cecc6b32852bcc6400043ebbb5e76">ICommunicationPattern</a> (<a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *<a class="el" href="classSmart_1_1ICommunicationPattern.html#aed0d074961e9128e11b2508cd94f5f17">component</a>)</td></tr>
+<tr class="memitem:a541cecc6b32852bcc6400043ebbb5e76 inherit pub_methods_classSmart_1_1ICommunicationPattern"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1ICommunicationPattern.html#a541cecc6b32852bcc6400043ebbb5e76">ICommunicationPattern</a> (<a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *component)</td></tr>
 <tr class="memdesc:a541cecc6b32852bcc6400043ebbb5e76 inherit pub_methods_classSmart_1_1ICommunicationPattern"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default Constructor initializing an <a class="el" href="classSmart_1_1IShutdownObserver.html" title="This class implements the Observer part of the Observer design pattern for implementing a uniform shu...">IShutdownObserver</a>.  <a href="#a541cecc6b32852bcc6400043ebbb5e76">More...</a><br /></td></tr>
 <tr class="separator:a541cecc6b32852bcc6400043ebbb5e76 inherit pub_methods_classSmart_1_1ICommunicationPattern"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a058d86b0c5aaadd33d447edc86689cec inherit pub_methods_classSmart_1_1ICommunicationPattern"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1ICommunicationPattern.html#a058d86b0c5aaadd33d447edc86689cec">~ICommunicationPattern</a> ()</td></tr>
 <tr class="memdesc:a058d86b0c5aaadd33d447edc86689cec inherit pub_methods_classSmart_1_1ICommunicationPattern"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default Destructor.  <a href="#a058d86b0c5aaadd33d447edc86689cec">More...</a><br /></td></tr>
 <tr class="separator:a058d86b0c5aaadd33d447edc86689cec inherit pub_methods_classSmart_1_1ICommunicationPattern"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classSmart_1_1IShutdownObserver"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classSmart_1_1IShutdownObserver')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSmart_1_1IShutdownObserver.html">Smart::IShutdownObserver</a></td></tr>
-<tr class="memitem:a53e94c6fc8539d7133edef8aa596991e inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IShutdownObserver.html#a53e94c6fc8539d7133edef8aa596991e">IShutdownObserver</a> (<a class="el" href="classSmart_1_1IShutdownSubject.html">IShutdownSubject</a> *subject)</td></tr>
-<tr class="memdesc:a53e94c6fc8539d7133edef8aa596991e inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default constructor.  <a href="#a53e94c6fc8539d7133edef8aa596991e">More...</a><br /></td></tr>
-<tr class="separator:a53e94c6fc8539d7133edef8aa596991e inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39b13f2dec0f9a48803370aca8e166ad inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IShutdownObserver.html#a39b13f2dec0f9a48803370aca8e166ad">~IShutdownObserver</a> ()</td></tr>
-<tr class="memdesc:a39b13f2dec0f9a48803370aca8e166ad inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default destructor.  <a href="#a39b13f2dec0f9a48803370aca8e166ad">More...</a><br /></td></tr>
-<tr class="separator:a39b13f2dec0f9a48803370aca8e166ad inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classSmart_1_1IInputSubject"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classSmart_1_1IInputSubject')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSmart_1_1IInputSubject.html">Smart::IInputSubject&lt; DataType &gt;</a></td></tr>
-<tr class="memitem:a241bd1cd4b219184a53c6c5f18bda86b inherit pub_methods_classSmart_1_1IInputSubject"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputSubject.html#a241bd1cd4b219184a53c6c5f18bda86b">IInputSubject</a> ()</td></tr>
-<tr class="memdesc:a241bd1cd4b219184a53c6c5f18bda86b inherit pub_methods_classSmart_1_1IInputSubject"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a241bd1cd4b219184a53c6c5f18bda86b">More...</a><br /></td></tr>
-<tr class="separator:a241bd1cd4b219184a53c6c5f18bda86b inherit pub_methods_classSmart_1_1IInputSubject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c94f8d331a4069d4fea6a6c3f7784ca inherit pub_methods_classSmart_1_1IInputSubject"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputSubject.html#a4c94f8d331a4069d4fea6a6c3f7784ca">~IInputSubject</a> ()</td></tr>
-<tr class="memdesc:a4c94f8d331a4069d4fea6a6c3f7784ca inherit pub_methods_classSmart_1_1IInputSubject"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="#a4c94f8d331a4069d4fea6a6c3f7784ca">More...</a><br /></td></tr>
-<tr class="separator:a4c94f8d331a4069d4fea6a6c3f7784ca inherit pub_methods_classSmart_1_1IInputSubject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a558fe2252b23288bc39d298a9fe647b7 inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IShutdownObserver.html#a558fe2252b23288bc39d298a9fe647b7">IShutdownObserver</a> (<a class="el" href="classSmart_1_1ShutdownSubject.html">ShutdownSubject</a> *subject=0)</td></tr>
+<tr class="memdesc:a558fe2252b23288bc39d298a9fe647b7 inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default constructor.  <a href="#a558fe2252b23288bc39d298a9fe647b7">More...</a><br /></td></tr>
+<tr class="separator:a558fe2252b23288bc39d298a9fe647b7 inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f9874dc19aa11a4bc523693219dce58 inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IShutdownObserver.html#a9f9874dc19aa11a4bc523693219dce58">~IShutdownObserver</a> ()</td></tr>
+<tr class="memdesc:a9f9874dc19aa11a4bc523693219dce58 inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default destructor.  <a href="#a9f9874dc19aa11a4bc523693219dce58">More...</a><br /></td></tr>
+<tr class="separator:a9f9874dc19aa11a4bc523693219dce58 inherit pub_methods_classSmart_1_1IShutdownObserver"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classSmart_1_1InputSubject"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classSmart_1_1InputSubject')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSmart_1_1InputSubject.html">Smart::InputSubject&lt; DataType &gt;</a></td></tr>
+<tr class="memitem:a43ac5505e5afc7197fae79ab17aca68d inherit pub_methods_classSmart_1_1InputSubject"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1InputSubject.html#a43ac5505e5afc7197fae79ab17aca68d">InputSubject</a> ()</td></tr>
+<tr class="memdesc:a43ac5505e5afc7197fae79ab17aca68d inherit pub_methods_classSmart_1_1InputSubject"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a43ac5505e5afc7197fae79ab17aca68d">More...</a><br /></td></tr>
+<tr class="separator:a43ac5505e5afc7197fae79ab17aca68d inherit pub_methods_classSmart_1_1InputSubject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02ef27208f06ee5b009a9ba20cd6c8f8 inherit pub_methods_classSmart_1_1InputSubject"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1InputSubject.html#a02ef27208f06ee5b009a9ba20cd6c8f8">~InputSubject</a> ()</td></tr>
+<tr class="memdesc:a02ef27208f06ee5b009a9ba20cd6c8f8 inherit pub_methods_classSmart_1_1InputSubject"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="#a02ef27208f06ee5b009a9ba20cd6c8f8">More...</a><br /></td></tr>
+<tr class="separator:a02ef27208f06ee5b009a9ba20cd6c8f8 inherit pub_methods_classSmart_1_1InputSubject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -180,16 +180,23 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a7d180697720c5fc031c1860c988592d9 inherit pro_methods_classSmart_1_1IClientPattern"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IClientPattern.html#a7d180697720c5fc031c1860c988592d9">on_shutdown</a> ()</td></tr>
 <tr class="memdesc:a7d180697720c5fc031c1860c988592d9 inherit pro_methods_classSmart_1_1IClientPattern"><td class="mdescLeft">&#160;</td><td class="mdescRight">implements individual shutdown strategy The default behavior for each client during component shutdown is to call <a class="el" href="classSmart_1_1IClientPattern.html#a7f945d0007606b60d1c17327cc56627e" title="Disconnect the service requestor from the service provider. ">disconnect()</a> which automatically disconnects the current client instance.  <a href="#a7d180697720c5fc031c1860c988592d9">More...</a><br /></td></tr>
 <tr class="separator:a7d180697720c5fc031c1860c988592d9 inherit pro_methods_classSmart_1_1IClientPattern"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classSmart_1_1IInputSubject"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classSmart_1_1IInputSubject')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classSmart_1_1IInputSubject.html">Smart::IInputSubject&lt; DataType &gt;</a></td></tr>
-<tr class="memitem:a40b09c304a8bc726f74275e301ce18a9 inherit pro_methods_classSmart_1_1IInputSubject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputSubject.html#a40b09c304a8bc726f74275e301ce18a9">attach</a> (<a class="el" href="classSmart_1_1IInputHandler.html">IInputHandler</a>&lt; DataType &gt; *handler)</td></tr>
-<tr class="memdesc:a40b09c304a8bc726f74275e301ce18a9 inherit pro_methods_classSmart_1_1IInputSubject"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach an IInputHandler&lt;InputType&gt; instance.  <a href="#a40b09c304a8bc726f74275e301ce18a9">More...</a><br /></td></tr>
-<tr class="separator:a40b09c304a8bc726f74275e301ce18a9 inherit pro_methods_classSmart_1_1IInputSubject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5b083f3bcae2f0d9880ced07d025ebb inherit pro_methods_classSmart_1_1IInputSubject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputSubject.html#aa5b083f3bcae2f0d9880ced07d025ebb">detach</a> (<a class="el" href="classSmart_1_1IInputHandler.html">IInputHandler</a>&lt; DataType &gt; *handler)</td></tr>
-<tr class="memdesc:aa5b083f3bcae2f0d9880ced07d025ebb inherit pro_methods_classSmart_1_1IInputSubject"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach an IInputHandler&lt;InputType&gt; instance.  <a href="#aa5b083f3bcae2f0d9880ced07d025ebb">More...</a><br /></td></tr>
-<tr class="separator:aa5b083f3bcae2f0d9880ced07d025ebb inherit pro_methods_classSmart_1_1IInputSubject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2e68d1e1e1d81147760c66ce11cf10f inherit pro_methods_classSmart_1_1IInputSubject"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IInputSubject.html#aa2e68d1e1e1d81147760c66ce11cf10f">notify_input</a> (const DataType &amp;input)</td></tr>
-<tr class="memdesc:aa2e68d1e1e1d81147760c66ce11cf10f inherit pro_methods_classSmart_1_1IInputSubject"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifies all attached IInputHandler instances about incoming data.  <a href="#aa2e68d1e1e1d81147760c66ce11cf10f">More...</a><br /></td></tr>
-<tr class="separator:aa2e68d1e1e1d81147760c66ce11cf10f inherit pro_methods_classSmart_1_1IInputSubject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classSmart_1_1IShutdownObserver"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classSmart_1_1IShutdownObserver')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classSmart_1_1IShutdownObserver.html">Smart::IShutdownObserver</a></td></tr>
+<tr class="memitem:a4a795a5b854315ee161cd465c6ce4a53 inherit pro_methods_classSmart_1_1IShutdownObserver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IShutdownObserver.html#a4a795a5b854315ee161cd465c6ce4a53">attach_self_to</a> (<a class="el" href="classSmart_1_1ShutdownSubject.html">ShutdownSubject</a> *subject)</td></tr>
+<tr class="memdesc:a4a795a5b854315ee161cd465c6ce4a53 inherit pro_methods_classSmart_1_1IShutdownObserver"><td class="mdescLeft">&#160;</td><td class="mdescRight">call this method from within the constructor of derived classes  <a href="#a4a795a5b854315ee161cd465c6ce4a53">More...</a><br /></td></tr>
+<tr class="separator:a4a795a5b854315ee161cd465c6ce4a53 inherit pro_methods_classSmart_1_1IShutdownObserver"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac89abec7de1f7abfac7bea5aaa70a3eb inherit pro_methods_classSmart_1_1IShutdownObserver"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IShutdownObserver.html#ac89abec7de1f7abfac7bea5aaa70a3eb">detach_self_from</a> (<a class="el" href="classSmart_1_1ShutdownSubject.html">ShutdownSubject</a> *subject)</td></tr>
+<tr class="memdesc:ac89abec7de1f7abfac7bea5aaa70a3eb inherit pro_methods_classSmart_1_1IShutdownObserver"><td class="mdescLeft">&#160;</td><td class="mdescRight">this method is called within the destructor  <a href="#ac89abec7de1f7abfac7bea5aaa70a3eb">More...</a><br /></td></tr>
+<tr class="separator:ac89abec7de1f7abfac7bea5aaa70a3eb inherit pro_methods_classSmart_1_1IShutdownObserver"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classSmart_1_1InputSubject"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classSmart_1_1InputSubject')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classSmart_1_1InputSubject.html">Smart::InputSubject&lt; DataType &gt;</a></td></tr>
+<tr class="memitem:a32816c7332a29064b5bc1236557d4fab inherit pro_methods_classSmart_1_1InputSubject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1InputSubject.html#a32816c7332a29064b5bc1236557d4fab">attach</a> (<a class="el" href="classSmart_1_1IInputHandler.html">IInputHandler</a>&lt; DataType &gt; *handler, const unsigned int &amp;prescaleFactor=1)</td></tr>
+<tr class="memdesc:a32816c7332a29064b5bc1236557d4fab inherit pro_methods_classSmart_1_1InputSubject"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach an IInputHandler&lt;InputType&gt; instance.  <a href="#a32816c7332a29064b5bc1236557d4fab">More...</a><br /></td></tr>
+<tr class="separator:a32816c7332a29064b5bc1236557d4fab inherit pro_methods_classSmart_1_1InputSubject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a67690573123188aa92068c05fd872d inherit pro_methods_classSmart_1_1InputSubject"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1InputSubject.html#a6a67690573123188aa92068c05fd872d">detach</a> (<a class="el" href="classSmart_1_1IInputHandler.html">IInputHandler</a>&lt; DataType &gt; *handler)</td></tr>
+<tr class="memdesc:a6a67690573123188aa92068c05fd872d inherit pro_methods_classSmart_1_1InputSubject"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detach an IInputHandler&lt;InputType&gt; instance.  <a href="#a6a67690573123188aa92068c05fd872d">More...</a><br /></td></tr>
+<tr class="separator:a6a67690573123188aa92068c05fd872d inherit pro_methods_classSmart_1_1InputSubject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d89803983ef7bd15c95f6cc66d3aa0b inherit pro_methods_classSmart_1_1InputSubject"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1InputSubject.html#a5d89803983ef7bd15c95f6cc66d3aa0b">notify_input</a> (const DataType &amp;input)</td></tr>
+<tr class="memdesc:a5d89803983ef7bd15c95f6cc66d3aa0b inherit pro_methods_classSmart_1_1InputSubject"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifies all attached IInputHandler instances about incoming data.  <a href="#a5d89803983ef7bd15c95f6cc66d3aa0b">More...</a><br /></td></tr>
+<tr class="separator:a5d89803983ef7bd15c95f6cc66d3aa0b inherit pro_methods_classSmart_1_1InputSubject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classSmart_1_1IClientPattern"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classSmart_1_1IClientPattern')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classSmart_1_1IClientPattern.html">Smart::IClientPattern</a></td></tr>
 <tr class="memitem:a22287e8083c537aee1fd482fdedfbbe3 inherit pro_attribs_classSmart_1_1IClientPattern"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1IClientPattern.html#a22287e8083c537aee1fd482fdedfbbe3">connectionServerName</a></td></tr>
 <tr class="memdesc:a22287e8083c537aee1fd482fdedfbbe3 inherit pro_attribs_classSmart_1_1IClientPattern"><td class="mdescLeft">&#160;</td><td class="mdescRight">the server-name used for the last connection (can be used in derived classes)  <a href="#a22287e8083c537aee1fd482fdedfbbe3">More...</a><br /></td></tr>
@@ -201,15 +208,15 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memdesc:aac7d0a7ba27842c36f67adf220a3f625 inherit pro_attribs_classSmart_1_1IClientPattern"><td class="mdescLeft">&#160;</td><td class="mdescRight">the flag indicating the current blocking state of this client (can be used in derived classes)  <a href="#aac7d0a7ba27842c36f67adf220a3f625">More...</a><br /></td></tr>
 <tr class="separator:aac7d0a7ba27842c36f67adf220a3f625 inherit pro_attribs_classSmart_1_1IClientPattern"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classSmart_1_1ICommunicationPattern"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classSmart_1_1ICommunicationPattern')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classSmart_1_1ICommunicationPattern.html">Smart::ICommunicationPattern</a></td></tr>
-<tr class="memitem:aed0d074961e9128e11b2508cd94f5f17 inherit pro_attribs_classSmart_1_1ICommunicationPattern"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1ICommunicationPattern.html#aed0d074961e9128e11b2508cd94f5f17">component</a></td></tr>
-<tr class="memdesc:aed0d074961e9128e11b2508cd94f5f17 inherit pro_attribs_classSmart_1_1ICommunicationPattern"><td class="mdescLeft">&#160;</td><td class="mdescRight">the internal pointer to the component (can be accessed in derived classes)  <a href="#aed0d074961e9128e11b2508cd94f5f17">More...</a><br /></td></tr>
-<tr class="separator:aed0d074961e9128e11b2508cd94f5f17 inherit pro_attribs_classSmart_1_1ICommunicationPattern"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abef72528505882229d4b52a9220bb011 inherit pro_attribs_classSmart_1_1ICommunicationPattern"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSmart_1_1IComponent.html">IComponent</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmart_1_1ICommunicationPattern.html#abef72528505882229d4b52a9220bb011">icomponent</a></td></tr>
+<tr class="memdesc:abef72528505882229d4b52a9220bb011 inherit pro_attribs_classSmart_1_1ICommunicationPattern"><td class="mdescLeft">&#160;</td><td class="mdescRight">the internal pointer to the component (can be accessed in derived classes)  <a href="#abef72528505882229d4b52a9220bb011">More...</a><br /></td></tr>
+<tr class="separator:abef72528505882229d4b52a9220bb011 inherit pro_attribs_classSmart_1_1ICommunicationPattern"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class DataType&gt;<br />
 class Smart::IPushClientPattern&lt; DataType &gt;</h3>
 
-<p>Client part of the Push pattern to provide a flexible push service. </p>
+<p>Client part of the <b>Push</b> pattern to provide a flexible publish/subscribe service. </p>
 <p>Clients can subscribe to regularly get every n-th update. This class inherits the API from <a class="el" href="classSmart_1_1IClientPattern.html" title="This is the base class for all client-patterns implementing a connection-oriented communication...">IClientPattern</a>.</p>
 <p>Template parameters</p><ul>
 <li><b>DataType</b>: Pushed value class (Communication Object) </li>
@@ -376,7 +383,7 @@ template&lt;class DataType &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="aad89a8fda7ea2361d507db0290390977"></a>
+<a class="anchor" id="ae4d8ebad2533129875a92e31fa5e8f5c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -389,8 +396,18 @@ template&lt;class DataType &gt; </div>
           <td class="memname">virtual <a class="el" href="namespaceSmart.html#a0c5dfa0d01eb43e3a13e1b67c206f15b">StatusCode</a> <a class="el" href="classSmart_1_1IPushClientPattern.html">Smart::IPushClientPattern</a>&lt; DataType &gt;::getUpdateWait </td>
           <td>(</td>
           <td class="paramtype">DataType &amp;&#160;</td>
-          <td class="paramname"><em>d</em></td><td>)</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const std::chrono::steady_clock::duration &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>std::chrono::steady_clock::duration::zero()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -404,7 +421,8 @@ template&lt;class DataType &gt; </div>
 <p>Blocking is aborted with the appropriate status if either the server gets deactivated, the client gets unsubscribed or disconnected or if blocking is not allowed any more at the client.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">d</td><td>is set to the newest currently available data</td></tr>
+    <tr><td class="paramname">d</td><td>is set to the newest currently available data </td></tr>
+    <tr><td class="paramname">timeout</td><td>is the timeout time to block the method maximally (default value zero block infinitelly)</td></tr>
   </table>
   </dd>
 </dl>

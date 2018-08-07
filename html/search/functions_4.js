@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['from_5fstring',['from_string',['../classSmart_1_1IUniversalId.html#a69005fc50e4efac54473c532bfd1bc4a',1,'Smart::IUniversalId']]]
+  ['execute_5fprotected_5fregion',['execute_protected_region',['../classSmart_1_1IManagedTask.html#a2ab20070be32d20f2065eeaaf8a1f6bb',1,'Smart::IManagedTask']]]
 ];
