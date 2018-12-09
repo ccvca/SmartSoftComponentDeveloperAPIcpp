@@ -13,6 +13,7 @@ ADD_LIBRARY(${PROJECT_NAME} INTERFACE)
 TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} INTERFACE
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>  # <prefix>/include/SmartSoft_CD_API
+  $<INSTALL_INTERFACE:include>
 )
 
 # use the auto-type compile feature (available since C++11)
