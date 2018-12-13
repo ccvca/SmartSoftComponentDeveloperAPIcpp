@@ -103,6 +103,10 @@ public:
 			if(signalled == false) {
 				trigger_cond_var.wait(lock);
 			}
+			if(trigger_cancelled)
+			{
+				return SMART_CANCELLED;
+			}
 			signalled = false;
 			return SMART_OK;
 		}
@@ -118,6 +122,10 @@ public:
 				if(trigger_cond_var.wait_for(lock, timeout)==std::cv_status::timeout) {
 					return SMART_TIMEOUT;
 				}
+			}
+			if(trigger_cancelled)
+			{
+				return SMART_CANCELLED;
 			}
 			signalled = false;
 			return SMART_OK;
