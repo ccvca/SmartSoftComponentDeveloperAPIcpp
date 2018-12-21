@@ -1,5 +1,10 @@
 # SmartSoft Component-Developer API for C++
 
+This repository is maintained by Servicerobotik Ulm. For more information see:
+
+* Big picture: relation of repositories: https://wiki.servicerobotik-ulm.de/download
+* SRRC Technical Wiki on SmartSoft and SmartMDSD Toolchain: https://wiki.servicerobotik-ulm.de
+
 ## Overview
 
 This repository contains the *Component-Developer C++ interface-definition (API)* for use of the *SmartSoft Framework*. Repository covers the API to the SmartSoft Communication Patterns and SmartSoft Component structures. Read more about the [SmartSoft World](http://www.servicerobotik-ulm.de/drupal/?q=node/7). See also the [Doxygen API documentation](https://servicerobotics-ulm.github.io/SmartSoftComponentDeveloperAPIcpp/html/index.html).
