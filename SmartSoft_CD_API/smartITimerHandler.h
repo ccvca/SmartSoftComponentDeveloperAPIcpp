@@ -55,10 +55,10 @@ public:
 	ITimerHandler() { }
 	virtual ~ITimerHandler() { }
 
-	virtual void timerExpired(const std::chrono::system_clock::time_point &abs_time) = 0;
+	virtual void timerExpired(const std::chrono::system_clock::time_point &abs_time, const void * arg) = 0;
 
 	virtual void timerCancelled() = 0;
-	virtual void timerDeleted() = 0;
+	virtual void timerDeleted(const void * arg) = 0;
 };
 
 } /* namespace Smart */

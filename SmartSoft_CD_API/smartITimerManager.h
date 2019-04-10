@@ -59,11 +59,12 @@ public:
 
 	virtual TimerId scheduleTimer(
 			ITimerHandler *handler,
+			const void *act,
 			const std::chrono::steady_clock::duration &first_time,
 			const std::chrono::steady_clock::duration &interval=std::chrono::steady_clock::duration::zero()
 		) = 0;
 
-	virtual int cancelTimer(const TimerId& id) = 0;
+	virtual int cancelTimer(const TimerId& id, const void **act=0) = 0;
 
 	virtual int resetTimerInterval(
 			const TimerId& id,

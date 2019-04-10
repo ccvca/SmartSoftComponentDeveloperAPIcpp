@@ -56,12 +56,12 @@ class TimedTaskTrigger
 ,	public TaskTriggerSubject
 {
 protected:
-	virtual void timerExpired(const std::chrono::system_clock::time_point &abs_time) {
+	virtual void timerExpired(const std::chrono::system_clock::time_point &abs_time, const void * arg) override {
 		this->trigger_all_tasks();
 	}
 
-	virtual void timerCancelled() { }
-	virtual void timerDeleted() { }
+	virtual void timerCancelled() override { }
+	virtual void timerDeleted(const void * arg) override { }
 public:
 	TimedTaskTrigger()
 	{ }
