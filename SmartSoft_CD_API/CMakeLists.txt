@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
 # this is the SmartSoft Component-Developer (short CD) C++ API
 PROJECT(SmartSoft_CD_API VERSION 1.0)
