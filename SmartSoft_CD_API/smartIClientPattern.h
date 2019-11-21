@@ -50,6 +50,7 @@
 #include "smartICommunicationPattern.h"
 
 #include <string>
+#include <atomic>
 
 namespace Smart {
 
@@ -63,24 +64,36 @@ namespace Smart {
  * management.
  */
 class IClientPattern : public ICommunicationPattern {
+private:
+	// this boolean flag indicates that the client is in the process of shutting down
+	std::atomic<bool> shutting_down;
 protected:
 	/// the server-name used for the last connection (can be used in derived classes)
 	std::string connectionServerName;
 	/// the service-name used for the last connection (can be used in derived classes)
 	std::string connectionServiceName;
 	/// the flag indicating the current blocking state of this client (can be used in derived classes)
-	bool is_blocking;
+	std::atomic<bool> is_blocking;
+
+	// this helper method can be used in derived classes to check whether the client is
+	// in the process of shutting down, which can be useful to stop initiating new communications
+	inline bool is_shutting_down() const {
+		return shutting_down;
+	}
 
 	/** implements individual shutdown strategy
 	 * The default behavior for each client during component shutdown
 	 * is to call disconnect() which automatically disconnects
 	 * the current client instance.
 	 */
-	virtual void on_shutdown() {
+	virtual void on_shutdown() override {
 		// default behavior is to disconnect
 		// all clients connected to this server
+		this->shutting_down = true;
 		this->disconnect();
 	}
+
+	IClientPattern() = delete;
 
 public:
     /** Default Constructor (not yet connecting with any service provider).
@@ -91,6 +104,7 @@ public:
      */
 	IClientPattern(IComponent *component)
 	:	ICommunicationPattern(component)
+	,	shutting_down(false)
 	,	connectionServerName("")
 	,	connectionServiceName("")
 	,	is_blocking(true)
@@ -110,19 +124,17 @@ public:
      */
 	IClientPattern(IComponent *component, const std::string& server, const std::string& service)
 	:	ICommunicationPattern(component)
+	,	shutting_down(false)
 	,	connectionServerName(server)
 	,	connectionServiceName(service)
 	,	is_blocking(true)
 	{
-		// perform autoconnect in derived classes
+		// implement autoconnect in derived classes
 	}
 
 	/** Default destructor.
 	 */
-	virtual ~IClientPattern()
-	{
-		// perform disconnect() in derived classes
-	}
+	virtual ~IClientPattern() = default;
 
     /** Connect this service requestor to the denoted service provider. An
      *  already established connection is first disconnected. See disconnect()

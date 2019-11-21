@@ -48,16 +48,19 @@
 
 #include "smartIClientPattern.h"
 #include "smartIInputHandler_T.h"
-
-#include <chrono>
+#include "smartChronoAliases.h"
+#include "smartICorrelationId.h"
 
 namespace Smart {
 
+// this is the middleware-independent shared-pointer Alias (hides internal, middleware-specific ID implementation)
+using EventIdPtr = CorrelationIdPtr;
+
 /// struct used by IEventHandler and IEventClientPattern internally
-template<class EventType, class EvenIdType>
+template<class EventType>
 struct EventInputType {
 	EventType event;
-	EvenIdType event_id;
+	EventIdPtr event_id;
 };
 
 /// Mode of event
@@ -70,7 +73,7 @@ enum EventMode {
 
 
 // forward declaration
-template<class ActivationType, class EventType, class EventIdType>
+template<class ActivationType, class EventType>
 class IEventClientPattern;
 
 /** Handler class to process fired events asynchronously at the client.
@@ -82,8 +85,8 @@ class IEventClientPattern;
  *
  *  Demonstrated in <a href="/drupal/?q=node/51#fifth-example">fifth example</a>
  */
-template<class EventType, class EventIdType>
-class IEventHandler : public IInputHandler< EventInputType<EventType,EventIdType> > {
+template<class EventType>
+class IEventHandler : public IInputHandler< EventInputType<EventType> > {
 protected:
 	/** implements IInputHandler
 	 *
@@ -91,16 +94,15 @@ protected:
 	 *
 	 *  @param input the input data-object
 	 */
-	virtual void handle_input(const EventInputType<EventType,EventIdType>& input) {
+	virtual void handle_input(const EventInputType<EventType>& input) {
 		this->handleEvent(input.event_id, input.event);
 	}
 public:
-	IEventHandler(InputSubject< EventInputType<EventType,EventIdType> > *subject)
-	:	IInputHandler< EventInputType<EventType,EventIdType> >(subject)
+	IEventHandler(InputSubject< EventInputType<EventType> > *subject)
+	:	IInputHandler< EventInputType<EventType> >(subject)
 	{ }
 
-  // User interface
-   virtual ~IEventHandler() { }
+   virtual ~IEventHandler() = default;
 
   /** Handler which is called by the event client pattern with every
    *  fired event.
@@ -112,7 +114,7 @@ public:
    *  @param event is the event answer class (Communication Object)
    *         received due to the firing of the activation with identifier id.
    */
-  virtual void handleEvent(const EventIdType &id, const EventType& event) = 0;
+  virtual void handleEvent(const EventIdPtr &id, const EventType& event) = 0;
 };
 
 
@@ -127,10 +129,10 @@ public:
  *
  *  Demonstrated in <a href="/drupal/?q=node/51#fifth-example">fifth example</a>
  */
-template<class ActivationType, class EventType, class EventIdType>
+template<class ActivationType, class EventType>
 class IEventClientPattern
 :	public IClientPattern
-,	public InputSubject< EventInputType<EventType,EventIdType> >
+,	public InputSubject< EventInputType<EventType> >
 {
 public:
     /** Constructor (not wired with a service provider).
@@ -182,7 +184,7 @@ public:
      *    - SMART_ERROR               : something went wrong, event not activated, <I>id</I> is not
      *                                  a valid activation identifier.
      */
-    virtual StatusCode activate(const EventMode &mode, const ActivationType& parameter, EventIdType& id) = 0;
+    virtual StatusCode activate(const EventMode &mode, const ActivationType& parameter, EventIdPtr& id) = 0;
 
     /** Deactivate the event with the specified identifier.
      *
@@ -203,7 +205,7 @@ public:
      * (Hint: can not return SMART_DISCONNECTED since then each event is for sure also
      *        deactivated resulting in SMART_WRONGID)
      */
-    virtual StatusCode deactivate(const EventIdType &id) = 0;
+    virtual StatusCode deactivate(const EventIdPtr id) = 0;
 
     /** Check whether event has already fired and return immediately
      *  with status information.
@@ -227,7 +229,7 @@ public:
      *      - SMART_ACTIVE            : currently there is no unconsumed event available.
      *      - SMART_WRONGID           : there is no activation available with this <I>id</I>
      */
-    virtual StatusCode tryEvent(const EventIdType &id) = 0;
+    virtual StatusCode tryEvent(const EventIdPtr id) = 0;
 
     /** Blocking call which waits for the event to fire and then consumes the event.
      *
@@ -290,7 +292,7 @@ public:
      *                                <I>event</I> not valid.
      *     </p>
      */
-    virtual StatusCode getEvent(const EventIdType &id, EventType& event, const std::chrono::steady_clock::duration &timeout=std::chrono::steady_clock::duration::zero()) = 0;
+    virtual StatusCode getEvent(const EventIdPtr id, EventType& event, const Duration &timeout=Duration::max()) = 0;
 
     /** Blocking call which waits for the next event.
      *
@@ -348,7 +350,7 @@ public:
      *                              <I>event</I> not valid.
      *    </p>
      */
-    virtual StatusCode getNextEvent(const EventIdType &id, EventType& event, const std::chrono::steady_clock::duration &timeout=std::chrono::steady_clock::duration::zero()) = 0;
+    virtual StatusCode getNextEvent(const EventIdPtr id, EventType& event, const Duration &timeout=Duration::max()) = 0;
 };
 
 } /* namespace Smart */

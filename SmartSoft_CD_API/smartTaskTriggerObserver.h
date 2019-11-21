@@ -46,13 +46,13 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTTASKTRIGGEROBSERVER_H_
 #define SMARTSOFT_INTERFACES_SMARTTASKTRIGGEROBSERVER_H_
 
-#include <smartStatusCode.h>
-#include <smartPrescaleManager.h>
+#include "smartStatusCode.h"
+#include "smartPrescaleManager.h"
+#include "smartChronoAliases.h"
 
 #include <map>
 
 // C++11 interface
-#include <chrono>
 #include <mutex>
 #include <condition_variable>
 
@@ -96,7 +96,7 @@ public:
 
 	virtual StatusCode waitOnTrigger() {
 		std::unique_lock<std::mutex> lock(observer_mutex);
-		if(subject == 0) return SMART_NOTACTIVATED;
+		if(subject == nullptr) return SMART_NOTACTIVATED;
 		if(trigger_cancelled == true) {
 			return SMART_CANCELLED;
 		} else {
@@ -108,9 +108,9 @@ public:
 		}
 	}
 
-	virtual StatusCode waitOnTrigger(const std::chrono::steady_clock::duration &timeout) {
+	virtual StatusCode waitOnTrigger(const Duration &timeout) {
 		std::unique_lock<std::mutex> lock(observer_mutex);
-		if(subject == 0) return SMART_NOTACTIVATED;
+		if(subject == nullptr) return SMART_NOTACTIVATED;
 		if(trigger_cancelled == true) {
 			return SMART_CANCELLED;
 		} else {
@@ -135,9 +135,9 @@ private:
 protected:
 	void trigger_all_tasks() {
 		std::unique_lock<std::mutex> lock(subject_mutex);
-		for(auto it=observers.begin(); it!=observers.end(); it++) {
-			if(it->second.isUpdateDue() == true) {
-				it->first->signalTrigger();
+		for(auto observer: observers) {
+			if(observer.second.isUpdateDue() == true) {
+				observer.first->signalTrigger();
 			}
 		}
 	}
@@ -155,7 +155,7 @@ public:
 	}
 	void detach(TaskTriggerObserver *observer) {
 		std::unique_lock<std::mutex> lock(subject_mutex);
-		observer->setSubject(0);
+		observer->setSubject(nullptr);
 		observer->cancelTrigger();
 		observers.erase(observer);
 	}
@@ -168,13 +168,13 @@ inline TaskTriggerObserver::TaskTriggerObserver(TaskTriggerSubject *subject, con
 ,	trigger_cancelled(false)
 ,	signalled(false)
 {
-	if(subject != 0) {
+	if(subject != nullptr) {
 		this->subject->attach(this, prescaleFactor);
 	}
 }
 inline TaskTriggerObserver::~TaskTriggerObserver()
 {
-	if(subject != 0) {
+	if(subject != nullptr) {
 		this->subject->detach(this);
 	}
 }

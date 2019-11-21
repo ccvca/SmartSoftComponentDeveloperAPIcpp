@@ -46,27 +46,21 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTIEVENTSERVERPATTERN_T_H_
 #define SMARTSOFT_INTERFACES_SMARTIEVENTSERVERPATTERN_T_H_
 
+#include <memory>
+
 #include "smartIInputHandler_T.h"
 #include "smartIServerPattern.h"
 
 namespace Smart {
 
-/// struct used by IEventHandler and IEventClientPattern internally
-template<class ActivationType, class EventType, class UpdateType>
-struct TestEventType {
-	ActivationType *param;
-	EventType *event;
-	UpdateType status;
-};
-
 /** Condition Test Handler (decides at server whether event fires or not).
  *
  */
-template<class ActivationType, class EventType, class UpdateType>
+template<class ActivationType, class EventType, class UpdateType=EventType>
 class IEventTestHandler
 {
 public:
-  virtual ~IEventTestHandler() {  }
+  virtual ~IEventTestHandler() = default;
 
   /** This is the test method which decides whether the event fires or
    *  not.
@@ -119,14 +113,31 @@ public:
 
 
 
-template<class ActivationType, class EventType, class UpdateType, class EventIdType>
+template<class ActivationType, class EventType, class UpdateType=EventType>
 class IEventServerPattern
 :	public IServerPattern
 {
+private:
+	std::shared_ptr<IEventTestHandler<ActivationType,EventType,UpdateType>> testHandler;
 protected:
-    /// handler object that contains the test function
-	IEventTestHandler<ActivationType,EventType,UpdateType> *testHandler;
+
+	void onActivation(const ActivationType& p) {
+		if (testHandler) {
+			testHandler->onActivation(p);
+		}
+	}
+
+	bool testEvent(ActivationType& p, EventType& e, const UpdateType& s) {
+		if (testHandler) {
+			return testHandler->testEvent(p, e, s);
+		}
+		return false;
+	}
 public:
+	// be aware of nondependent types when using this alias in derived classes
+	// see: https://isocpp.org/wiki/faq/templates#nondependent-name-lookup-types
+	using IEventTestHandlerPtr = std::shared_ptr<IEventTestHandler<ActivationType,EventType,UpdateType>>;
+
     /** Default constructor.
      *
      *  Note that a handler has to be supplied. Without a handler, the
@@ -134,9 +145,9 @@ public:
      *
      *  @param component management class of the component
      *  @param service   name of the service
-     *  @param testHandler is the pointer to an EventTestHandler
+     *  @param testHandler is a shared-pointer to an EventTestHandler
      */
-	IEventServerPattern(IComponent* component, const std::string& service, IEventTestHandler<ActivationType,EventType,UpdateType> *testHandler)
+	IEventServerPattern(IComponent* component, const std::string& service, IEventTestHandlerPtr testHandler)
 	:	IServerPattern(component, service)
 	,	testHandler(testHandler)
 	{  }
@@ -146,7 +157,7 @@ public:
      *  such that all pending queries are handled correctly at client side
      *  even when the service provider disappears during pending queries.
      */
-	virtual ~IEventServerPattern() {  }
+	virtual ~IEventServerPattern() = default;
 
     /** Initiate testing the event conditions for the activations.
      *

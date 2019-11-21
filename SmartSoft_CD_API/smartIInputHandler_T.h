@@ -190,23 +190,18 @@ protected:
 	virtual bool notify_input(const InputType& input)
 	{
 		std::unique_lock<std::mutex> lock (observers_mutex);
-		for(auto it=observers.begin(); it!=observers.end(); it++) {
-			if(it->second.isUpdateDue() == true) {
-				it->first->handle_input(input);
+		for(auto observer: observers) {
+			if(observer.second.isUpdateDue() == true) {
+				observer.first->handle_input(input);
 			}
 		}
 		return !observers.empty();
 	}
 
 public:
-	/** Default constructor
-	 */
-	InputSubject()
-	{  }
 	/** Default destructor
 	 */
-	virtual ~InputSubject()
-	{  }
+	virtual ~InputSubject() = default;
 };
 
 

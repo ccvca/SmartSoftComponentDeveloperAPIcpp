@@ -1,6 +1,6 @@
 //===================================================================================
 //
-//  Copyright (C) 2017 Alex Lotz, Dennis Stampfer, Matthias Lutz, Christian Schlegel
+//  Copyright (C) 2019 Alex Lotz, Dennis Stampfer, Matthias Lutz, Christian Schlegel
 //
 //        lotz@hs-ulm.de
 //        stampfer@hs-ulm.de
@@ -46,34 +46,68 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTITIMERMANAGER_H_
 #define SMARTSOFT_INTERFACES_SMARTITIMERMANAGER_H_
 
+#include "smartChronoAliases.h"
 #include "smartITimerHandler.h"
 
 namespace Smart {
 
 class ITimerManager {
 public:
-	typedef long TimerId;
+	using TimerId = long int;
 
-	ITimerManager() { }
-	virtual ~ITimerManager() { }
+	virtual ~ITimerManager() = default;
 
-	virtual TimerId scheduleTimer(
-			ITimerHandler *handler,
-			const void *act,
-			const std::chrono::steady_clock::duration &first_time,
-			const std::chrono::steady_clock::duration &interval=std::chrono::steady_clock::duration::zero()
-		) = 0;
+	/** Schedule a timer.
+	 *
+	 *  @param  handler       The handler that will be called when the timer
+	 *                        expires.
+	 *  @param  act           a value that will be passed to the handler (see Asynchronous Completion Token (ACT), POSA2)
+	 *  @param  oneshot_time  relative time for the first timer expiration
+	 *  @param  interval      Interval for periodic timers. A single shot timer
+	 *                        is scheduled by default.
+	 *
+	 * @return timer_id: -1 on failure. Unique time id else. This id
+	 *                      can be used to cancel a timer before it
+	 *                      expires with cancelTimer() and to change
+	 *                      the the interval of a timer with
+	 *                      resetTimerInterval().
+	 */
+	virtual TimerId scheduleTimer(ITimerHandler *handler,
+			const void *act, // Asynchronous Completion Token (ACT), see POSA2
+			const Duration &oneshot_time, const Duration &interval = Duration::zero()) = 0;
 
-	virtual int cancelTimer(const TimerId& id, const void **act=0) = 0;
+	/** Cancel a single timer.
+	 *
+	 *  @param  timer_id   to cancel
+	 *  @param  act        a pointer (to a pointer) to retrieve the act that was given on
+	 *                     scheduleTimer(). Can be used to release resources
+	 *                     (see Asynchronous Completion Token (ACT), POSA2).
+	 *                     owned by act. If act == nullptr, nothing is retrieved.
+	 *  @return 0 on success
+	 *  @return -1 on error
+	 */
+	virtual int cancelTimer(const TimerId& timer_id, const void **act = nullptr) = 0;
 
-	virtual int resetTimerInterval(
-			const TimerId& id,
-			const std::chrono::steady_clock::duration &interval
-		) = 0;
+	/** Resets the interval of a timer.
+	 *
+	 *  @param timer_id     to change
+	 *  @param interval     new timer interval (relative to the current time)
+	 *  @return 0 on success
+	 *  @return -1 on error
+	 */
+	virtual int resetTimerInterval(const TimerId& timer_id, const Duration &interval) = 0;
 
+	/** Cancel all timers associated with a handler
+	 *
+	 *  @param handler     cancel timers associated with this handler
+	 *
+	 *  @return number of timers canceled.
+	 */
 	virtual int cancelTimersOf(ITimerHandler *handler) = 0;
 
-	virtual void cancelAllTimers() = 0;
+	/** Delete all currently scheduled timers.
+	 */
+	virtual void deleteAllTimers() = 0;
 };
 
 } /* namespace Smart */

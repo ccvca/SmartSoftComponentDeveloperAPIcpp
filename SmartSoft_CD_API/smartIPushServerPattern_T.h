@@ -81,8 +81,7 @@ public:
      *  such that all connected and subscribed clients are unsubscribed and
      *  disconnected properly.
      */
-	virtual ~IPushServerPattern()
-	{  }
+	virtual ~IPushServerPattern() = default;
 
     /** Provide new data which is sent to all subscribed clients
      *  taking into account their individual prescale factors.

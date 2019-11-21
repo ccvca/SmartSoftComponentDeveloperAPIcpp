@@ -48,6 +48,7 @@
 
 #include "smartIShutdownObserver.h"
 #include "smartIComponent.h"
+#include "smartChronoAliases.h"
 
 namespace Smart {
 
@@ -85,9 +86,9 @@ protected:
      *  blocking sleep. Calling this method blocks the execution of the calling thread
      *  for a time specified by rel_time.
      *
-     *  @param rel_time relative time duration for the thread to sleep
+     *  @param duration relative time duration for the thread to sleep
      */
-    virtual void sleep_for(const std::chrono::steady_clock::duration &rel_time) = 0;
+    virtual void sleep_for(const Duration &duration) = 0;
 
     /** Method which runs in a separate thread if activated.
      *
@@ -99,13 +100,12 @@ protected:
     virtual int task_execution() = 0;
 public:
 	/// Default constructor
-	ITask(IComponent *component = 0)
+	ITask(IComponent *component = nullptr)
 	:	IShutdownObserver(component)
-	{ }
+	{  }
 
 	/// Default destructor
-	virtual ~ITask()
-	{ }
+	virtual ~ITask() = default;
 
     /** Creates and starts a new thread (if not yet started)
      *

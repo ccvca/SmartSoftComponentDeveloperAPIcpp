@@ -47,17 +47,21 @@
 #define SMARTSOFT_INTERFACES_SMARTIQUERYCLIENTPATTERN_T_H_
 
 #include "smartIClientPattern.h"
+#include "smartChronoAliases.h"
+#include "smartICorrelationId.h"
 
 namespace Smart {
+
+// this is the middleware-independent shared-pointer Alias (hides internal, middleware-specific ID implementation)
+using QueryIdPtr = CorrelationIdPtr;
 
 /** The client part of Query pattern to perform two-way (request-response) communication.
  *
  *  Template parameters
  *    - <b>RequestType</b>: request class (Communication Object)
  *    - <b>AnswerType</b>: answer (reply) class (Communication Object)
- *    - <b>QIDType</b>: the QueryId type that encapsulates the middleware-specific unique IDs
  */
-template<class RequestType, class AnswerType, class QIDType>
+template<class RequestType, class AnswerType>
 class IQueryClientPattern : public IClientPattern {
 public:
     /** Constructor (not wired with any service provider).
@@ -113,7 +117,19 @@ public:
      *    - SMART_ERROR_COMMUNICATION : communication problems, <I>answer</I> is not valid.
      *    - SMART_ERROR               : something went wrong, <I>answer</I> is not valid.
      */
-    virtual StatusCode query(const RequestType& request, AnswerType& answer) = 0;
+    virtual StatusCode query(const RequestType& request, AnswerType& answer)
+    {
+    	QueryIdPtr id;
+		auto result = this->queryRequest(request, id);
+		if(result != StatusCode::SMART_OK) return result;
+
+		result = this->queryReceiveWait(id, answer);
+		if(result == StatusCode::SMART_CANCELLED) {
+			this->queryDiscard(id);
+		}
+
+		return result;
+    }
 
     /** Asynchronous Query.
      *
@@ -132,7 +148,7 @@ public:
      *    - SMART_ERROR_COMMUNICATION : communication problems, <I>id</I> is not valid.
      *    - SMART_ERROR               : something went wrong, <I>id</I> is not valid.
      */
-    virtual StatusCode queryRequest(const RequestType& request, QIDType& id) = 0;
+    virtual StatusCode queryRequest(const RequestType& request, QueryIdPtr& id) = 0;
 
     /** Check if answer is available.
      *
@@ -159,7 +175,7 @@ public:
      *                           not valid any longer.
      *
      */
-    virtual StatusCode queryReceive(const QIDType& id, AnswerType& answer) = 0;
+    virtual StatusCode queryReceive(const QueryIdPtr id, AnswerType& answer) = 0;
 
     /** Wait for reply.
      *
@@ -172,7 +188,7 @@ public:
      *
      *  @param id       provides the identifier of the query
      *  @param answer   is set to the answer returned from the server if it was available
-     *  @param timeout is the timeout time to block the method maximally (default value zero block infinitelly)
+     *  @param timeout is the timeout time to block the method maximally (default value max blocks infinitely)
      *
      *  @return status code:
      *    - SMART_OK           : everything is ok and <I>answer</I> contains the answer
@@ -190,7 +206,7 @@ public:
      *                           not valid any longer.
      *
      */
-    virtual StatusCode queryReceiveWait(const QIDType& id, AnswerType& answer, const std::chrono::steady_clock::duration &timeout=std::chrono::steady_clock::duration::zero()) = 0;
+    virtual StatusCode queryReceiveWait(const QueryIdPtr id, AnswerType& answer, const Duration &timeout=Duration::max()) = 0;
 
     /** Discard the pending answer with the identifier <I>id</I>
      *
@@ -215,7 +231,7 @@ public:
      *    - SMART_ERROR        : something went wrong, <I>id</I> not valid any longer.
      *
      */
-    virtual StatusCode queryDiscard(const QIDType& id) = 0;
+    virtual StatusCode queryDiscard(const QueryIdPtr id) = 0;
 };
 
 } /* namespace Smart */

@@ -94,8 +94,7 @@ public:
 		updateStatus = SMART_NODATA;
 	}
 	/// Default destructor
-	virtual ~InputTaskTrigger()
-	{ }
+	virtual ~InputTaskTrigger() = default;
 
 	/** Method to get a copy of the last update (if there was any).
 	 *

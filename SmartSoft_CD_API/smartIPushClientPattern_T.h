@@ -48,8 +48,7 @@
 
 #include "smartIClientPattern.h"
 #include "smartIInputHandler_T.h"
-
-#include <chrono>
+#include "smartChronoAliases.h"
 
 namespace Smart {
 
@@ -95,8 +94,7 @@ public:
      *  The destructor calls disconnect() and therefore properly cleans up
      *  every pending data reception and removes the instance from the set of wireable ports.
      */
-    virtual ~IPushClientPattern()
-    {  }
+    virtual ~IPushClientPattern() = default;
 
     /** Subscribe at the server to periodically get every n-th update. A
      *  newly subscribed client gets the next available new data and is
@@ -113,7 +111,7 @@ public:
      *    - SMART_ERROR_COMMUNICATION : communication problems, not subscribed
      *    - SMART_ERROR               : something went wrong, not subscribed
      */
-    virtual StatusCode subscribe(const int &prescale = 1) = 0;
+    virtual StatusCode subscribe(const unsigned int &prescale = 1) = 0;
 
     /** Unsubscribe to get no more updates. All blocking calls are aborted with the appropriate
      *  status and yet received and still buffered data is deleted to avoid returning old data.
@@ -162,7 +160,7 @@ public:
      *  or if blocking is not allowed any more at the client.
      *
      *  @param d is set to the newest currently available data
-     *  @param timeout is the timeout time to block the method maximally (default value zero block infinitelly)
+     *  @param timeout is the timeout time to block the method maximally (default value max blocks infinitely)
      *
      *  @return status code
      *   - SMART_OK                  : everything is ok and just received data is returned.
@@ -175,7 +173,7 @@ public:
      *                                 to a server.
      *   - SMART_ERROR               : something went completely wrong and no valid data returned.
      */
-    virtual  StatusCode getUpdateWait(DataType& d, const std::chrono::steady_clock::duration &timeout=std::chrono::steady_clock::duration::zero()) = 0;
+    virtual  StatusCode getUpdateWait(DataType& d, const Duration &timeout = Duration::max()) = 0;
 };
 
 } /* namespace Smart */

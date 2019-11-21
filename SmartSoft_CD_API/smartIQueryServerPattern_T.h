@@ -46,22 +46,21 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTIQUERYSERVERPATTERN_T_H_
 #define SMARTSOFT_INTERFACES_SMARTIQUERYSERVERPATTERN_T_H_
 
+#include <memory>
+
 #include "smartIInputHandler_T.h"
 #include "smartIServerPattern.h"
 #include "smartQueryStatus.h"
+#include "smartICorrelationId.h"
 
 namespace Smart {
 
-// forward declaration
-template<class RequestType, class AnswerType, class QIDType>
-class IQueryServerPattern;
+// this is the middleware-independent shared-pointer Alias (hides internal, middleware-specific ID implementation)
+using QueryIdPtr = CorrelationIdPtr;
 
-/// struct used by IQueryServerHandler and IQueryServerPattern internally
-template<class RequestType, class QIDType>
-struct QueryServerInputType {
-	RequestType request;
-	QIDType query_id;
-};
+// forward declaration
+template<class RequestType, class AnswerType>
+class IQueryServerPattern;
 
 /** Handler Class for QueryServer for incoming requests.
  *
@@ -70,61 +69,38 @@ struct QueryServerInputType {
  *  subclassing and providing a pointer to an IQueryServerPattern
  *  to this handler.
  */
-template<class RequestType, class AnswerType, class QIDType>
-class IQueryServerHandler : public IInputHandler< QueryServerInputType<RequestType,QIDType> >
+template<class RequestType, class AnswerType>
+class IQueryServerHandler
 {
-protected:
-	/// use this pointer in your derived class to call <b>"server->answer(...)"</b>
-	IQueryServerPattern<RequestType,AnswerType,QIDType>* server;
-
-	/** implements IInputHandler
-	 *
-	 *  This handler method delegates the call to the handleQuery handler, thereby
-	 *  extracting the input attributes from the composed QueryServerInputType
-	 */
-	virtual void handle_input(const QueryServerInputType<RequestType,QIDType>& input) {
-		this->handleQuery(input.query_id, input.request);
-	}
-
 public:
-	/** Default constructor
-	 *
-	 * This constructor automatically registers itself to the denoted
-	 * QueryServer such that all incoming query-requests within the QueryServer
-	 * automatically will trigger the method handleQuery().
-	 *
-	 * @param server the pointer to the QueryServer whose queries need to be processed.
-	 *
-	 */
-	IQueryServerHandler(IQueryServerPattern<RequestType,AnswerType,QIDType>* server)
-	:	IInputHandler< QueryServerInputType<RequestType,QIDType> >(server)
-	,	server(server)
-	{  }
 
 	/** Default destructor
 	 */
-	virtual ~IQueryServerHandler()
-	{  }
+	virtual ~IQueryServerHandler() = default;
 
-  /** Handler method for an incoming query request.
-   *
-   *  This method is called by the query-server every time
-   *  a new query request is received. It must be provided by the
-   *  component developer to handle incoming requests. Since the
-   *  method is executed by the communication thread, it must be
-   *  very fast and non-blocking. Within this handler, use the
-   *  provided <b>server</b> pointer to provide an answer like
-   *  this: <b>"server->answer(...)"</b>.
-   *
-   *  Usually the request and the id will be inserted into a queue
-   *  and another working thread processes the request and provides
-   *  the result. The ThreadedQueryHandler decorator provides such
-   *  a processing pattern.
-   *
-   *  @param id       id of new query
-   *  @param request the request itself
-   */
-  virtual void handleQuery(const QIDType &id, const RequestType& request) = 0;
+	// these aliases can be used in derived classes to simplify creation of the constructors
+	using IQueryServer = IQueryServerPattern<RequestType,AnswerType>;
+
+	/** Handler method for an incoming query request.
+	 *
+	 *  This method is called by the query-server every time
+	 *  a new query request is received. It must be provided by the
+	 *  component developer to handle incoming requests. Since the
+	 *  method is executed by the communication thread, it must be
+	 *  very fast and non-blocking. Within this handler, use the
+	 *  provided <b>server</b> pointer to provide an answer like
+	 *  this: <b>"server->answer(...)"</b>.
+	 *
+	 *  Usually the request and the id will be inserted into a queue
+	 *  and another working thread processes the request and provides
+	 *  the result. The ThreadedQueryHandler decorator provides such
+	 *  a processing pattern.
+	 *
+	 *  @param server   a reference to the related query server pattern for calling the answer(...) method from within the handler
+	 *  @param id       id of new query
+	 *  @param request  the request itself
+	 */
+	virtual void handleQuery(IQueryServer &server, const QueryIdPtr &id, const RequestType& request) = 0;
 };
 
 
@@ -133,14 +109,32 @@ public:
  *  Template parameters
  *    - <b>RequestType</b>: request class (Communication Object)
  *    - <b>AnswerType</b>: answer (reply) class (Communication Object)
- *    - <b>QIDType</b>: the QueryId that should be implemented for each middleware by subclassing IQueryId
  */
-template<class RequestType, class AnswerType, class QIDType>
+template<class RequestType, class AnswerType>
 class IQueryServerPattern
 :	public IServerPattern
-,	public InputSubject< QueryServerInputType<RequestType,QIDType> >
+,	public InputSubject<std::pair<QueryIdPtr,RequestType>>
 {
+private:
+	std::shared_ptr<IQueryServerHandler<RequestType,AnswerType>> query_handler;
+protected:
+	/// please call this method in derived classes from within the middleware-specific data handler
+	void handleQuery(const QueryIdPtr id, const RequestType& request) {
+		//TODO: this copy should not be necessary, however, there seems to be a bug somewhere
+		// that corrupts the request object within the handleQuery call so the follow-up
+		// notify_input call causes a segmentation fault, the local copy is just
+		// a workaround and should be fixed
+		std::pair<QueryIdPtr,RequestType> local_copy(id,request);
+		if(query_handler) {
+			query_handler->handleQuery(*this, id, request);
+		}
+		this->notify_input(local_copy);
+	}
 public:
+	// be aware of nondependent types when using this alias in derived classes
+	// see: https://isocpp.org/wiki/faq/templates#nondependent-name-lookup-types
+	using IQueryServerHandlerPtr = std::shared_ptr<Smart::IQueryServerHandler<RequestType,AnswerType>>;
+
     /** Default constructor.
      *
      *  Note that a handler has to be supplied. Without a handler, the
@@ -149,8 +143,9 @@ public:
      *  @param component management class of the component
      *  @param service   name of the service
      */
-	IQueryServerPattern(IComponent* component, const std::string& service)
+	IQueryServerPattern(IComponent* component, const std::string& service, IQueryServerHandlerPtr query_handler = nullptr)
 	:	IServerPattern(component, service)
+	,	query_handler(query_handler)
 	{  }
 
     /** Destructor.
@@ -158,7 +153,7 @@ public:
      *  such that all pending queries are handled correctly at client side
      *  even when the service provider disappears during pending queries.
      */
-	virtual ~IQueryServerPattern() {  }
+	virtual ~IQueryServerPattern() = default;
 
     /** Provide answer to be sent back to the requestor.
      *
@@ -175,7 +170,7 @@ public:
      *    - SMART_ERROR_COMMUNICATION : communication problems
      *    - SMART_ERROR               : something went wrong
      */
-    virtual StatusCode answer(const QIDType& id, const AnswerType& answer) = 0;
+    virtual StatusCode answer(const QueryIdPtr id, const AnswerType& answer) = 0;
 };
 
 } /* namespace Smart */

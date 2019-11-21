@@ -46,6 +46,7 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTISERVERPATTERN_H_
 #define SMARTSOFT_INTERFACES_SMARTISERVERPATTERN_H_
 
+#include <atomic>
 #include "smartICommunicationPattern.h"
 
 namespace Smart {
@@ -65,9 +66,18 @@ namespace Smart {
  * the destructor.
  */
 class IServerPattern : public ICommunicationPattern {
+private:
+	// this boolean flag indicates that the client is in the process of shutting down
+	std::atomic<bool> shutting_down;
 protected:
 	/// the current serviceName (can be used in derived classes)
 	std::string serviceName;
+
+	// this helper method can be used in derived classes to check whether the server is
+	// in the process of shutting down, which can be useful to stop initiating new communications
+	inline bool is_shutting_down() const {
+		return shutting_down;
+	}
 
 	/** implements individual shutdown strategy.
 	 *
@@ -78,6 +88,7 @@ protected:
 	virtual void on_shutdown() {
 		// default behavior is to disconnect
 		// all clients connected to this server
+		this->shutting_down = true;
 		this->serverInitiatedDisconnect();
 	}
 
@@ -102,6 +113,7 @@ public:
      */
 	IServerPattern(IComponent* component, const std::string& serviceName)
 	:	ICommunicationPattern(component)
+	,	shutting_down(false)
 	,	serviceName(serviceName)
 	{  }
 

@@ -99,10 +99,10 @@ public:
 	 *
 	 * @param subject the subject (also called model) that this Observer is going to observe
 	 */
-	IShutdownObserver(ShutdownSubject *subject = 0)
+	IShutdownObserver(ShutdownSubject *subject = nullptr)
 	:	subject(subject)
 	{
-		if(subject != 0) {
+		if(subject != nullptr) {
 			attach_self_to(subject);
 		}
 	}
@@ -113,7 +113,7 @@ public:
 	 */
 	virtual ~IShutdownObserver()
 	{
-		if(this->subject != 0) {
+		if(this->subject != nullptr) {
 			this->detach_self_from(subject);
 		}
 	}
@@ -179,8 +179,8 @@ protected:
 	 */
 	virtual void notify_sutdown() {
 		std::unique_lock<std::mutex> lock (observers_mutex);
-		for(auto it=observers.begin(); it!=observers.end(); it++) {
-			(*it)->on_shutdown();
+		for(auto observer: observers) {
+			observer->on_shutdown();
 		}
 	}
 

@@ -57,7 +57,6 @@ namespace Smart {
 class IManagedTask
 :	virtual public ITask
 ,	public TaskTriggerObserver
-//,	public TaskInteractionSubject
 {
 protected:
 	virtual void on_shutdown() {
@@ -79,8 +78,6 @@ protected:
 
 			// call one task iteration
 			if(this->execute_protected_region() != 0) stop = true;
-
-//			if(!stop) TaskInteractionSubject::notify_all_tasks();
 		}
 
 		return this->on_exit();
@@ -92,13 +89,11 @@ protected:
 		return this->on_execute();
 	}
 public:
-	IManagedTask(IComponent *component, TaskTriggerSubject *trigger=0)
+	IManagedTask(IComponent *component, TaskTriggerSubject *trigger=nullptr)
 	:	ITask(component) // virtual base
 	,	TaskTriggerObserver(trigger)
-//	,	TaskInteractionSubject()
 	{ }
-	virtual ~IManagedTask()
-	{ }
+	virtual ~IManagedTask() = default;
 
 	/// user hook that is called once at the <b>beginning</b> of the internal thread
 	virtual int on_entry() = 0;

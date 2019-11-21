@@ -56,10 +56,7 @@ class TaskInteractionSubject;
 
 class ITaskInteractionObserver {
 public:
-	ITaskInteractionObserver()
-	{ }
-	virtual ~ITaskInteractionObserver()
-	{ }
+	virtual ~ITaskInteractionObserver() = default;
 
 	virtual void update_from(const TaskInteractionSubject *subject) = 0;
 };
@@ -75,16 +72,13 @@ private:
 protected:
 	virtual void notify_all_tasks() {
 		std::unique_lock<std::mutex> lock(subject_mutex);
-		for(auto it=observers.begin(); it!=observers.end(); it++) {
-			(*it)->update_from(this);
+		for(auto observer: observers) {
+			observer->update_from(this);
 		}
 	}
 
 public:
-	TaskInteractionSubject()
-	{ }
-	virtual ~TaskInteractionSubject()
-	{ }
+	virtual ~TaskInteractionSubject() = default;
 
 	virtual void attach(ITaskInteractionObserver *observer) {
 		std::unique_lock<std::mutex> lock(subject_mutex);

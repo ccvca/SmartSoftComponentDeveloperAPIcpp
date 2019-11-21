@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
 # this is the SmartSoft Component-Developer (short CD) C++ API
-PROJECT(SmartSoft_CD_API VERSION 1.0)
+PROJECT(SmartSoft_CD_API VERSION 1.1)
 
 # collect header files
 FILE(GLOB HDRS *.h)

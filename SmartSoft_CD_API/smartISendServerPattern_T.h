@@ -46,6 +46,8 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTISENDSERVERPATTERN_T_H_
 #define SMARTSOFT_INTERFACES_SMARTISENDSERVERPATTERN_T_H_
 
+#include <memory>
+
 #include "smartIInputHandler_T.h"
 #include "smartIServerPattern.h"
 
@@ -63,50 +65,25 @@ class ISendServerPattern;
  *  class with the SendServer.
  */
 template <class DataType>
-class ISendServerHandler : public IInputHandler<DataType> {
-protected:
-	/** implements IInputHandler
-	 *
-	 *  This handler method delegates the call to the handleSend() method.
-	 *
-	 *  @param input the input data-object
-	 */
-	virtual void handle_input(const DataType& input) {
-		this->handleSend(input);
-	}
-
+class ISendServerHandler {
 public:
-  /** Default constructor.
-   *
-   *  The constructor requires the server pointer to register itself
-   *  for handling incoming send commands.
-   *
-   *  @param server the pointer to the ISendServerPattern instance
-   *
-   */
-  ISendServerHandler(ISendServerPattern<DataType> *server)
-  : IInputHandler<DataType>(server)
-  { }
+	virtual ~ISendServerHandler() = default;
 
-  /// Default destructor.
-  virtual ~ISendServerHandler()
-  { }
-
-  /** Handler method for an incoming command.
-   *
-   *  This method is called by the ISendServerPattern every time
-   *  a new data is received. It must be provided by the component
-   *  developer to handle incoming data. Since the method is
-   *  executed by the communication thread, it must be very fast
-   *  and non-blocking.
-   *
-   *  Usually the data will be inserted into a queue and another
-   *  working thread processes the command. The IActiveQueueInputHandlerDecorator
-   *  provides such a processing pattern.
-   *
-   *  @param data communicated DataType object (Communication Object)
-   */
-  virtual void handleSend(const DataType& data) = 0;
+	/** Handler method for an incoming command.
+	 *
+	 *  This method is called by the ISendServerPattern every time
+	 *  a new data is received. It must be provided by the component
+	 *  developer to handle incoming data. Since the method is
+	 *  executed by the communication thread, it must be very fast
+	 *  and non-blocking.
+	 *
+	 *  Usually the data will be inserted into a queue and another
+	 *  working thread processes the command. The IActiveQueueInputHandlerDecorator
+	 *  provides such a processing pattern.
+	 *
+	 *  @param data communicated DataType object (Communication Object)
+	 */
+	virtual void handleSend(const DataType& data) = 0;
 };
 
 
@@ -136,7 +113,22 @@ class ISendServerPattern
 :	public IServerPattern
 ,	public InputSubject<DataType>
 {
+private:
+	std::shared_ptr<ISendServerHandler<DataType>> send_handler;
+protected:
+	/// please call this method in derived classes from within the middleware-specific data handler
+	void handleSend(const DataType& data) {
+		if(send_handler) {
+			send_handler->handleSend(data);
+		}
+		this->notify_input(data);
+	}
 public:
+	// be aware of nondependent types when using this alias in derived classes
+	// see: https://isocpp.org/wiki/faq/templates#nondependent-name-lookup-types
+	using ISendServerHandlerPtr = std::shared_ptr<Smart::ISendServerHandler<DataType>>;
+
+
     /** Default constructor.
      *
      *  Note that a handler has to be supplied. Without a handler, the
@@ -144,9 +136,11 @@ public:
      *
      *  @param component management class of the component
      *  @param service   name of the service
+     *  @param handler   is a pointer to the send-handler
      */
-	ISendServerPattern(IComponent* component, const std::string& service)
+	ISendServerPattern(IComponent* component, const std::string& service, ISendServerHandlerPtr handler = nullptr)
 	:	IServerPattern(component, service)
+	,	send_handler(handler)
 	{ }
 
 	/** Destructor.
@@ -154,8 +148,7 @@ public:
 	 *  such that all pending sends are handled correctly at client side
 	 *  even when the service provider disappears during pending sends.
 	 */
-	virtual ~ISendServerPattern()
-	{ }
+	virtual ~ISendServerPattern() = default;
 };
 
 } /* namespace Smart */

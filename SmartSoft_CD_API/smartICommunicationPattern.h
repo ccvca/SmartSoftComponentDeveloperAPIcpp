@@ -62,6 +62,12 @@ protected:
 	/// the internal pointer to the component (can be accessed in derived classes)
 	IComponent *icomponent;
 
+	// this class should not be copied
+	ICommunicationPattern(const ICommunicationPattern &) = delete;
+	ICommunicationPattern& operator=(const ICommunicationPattern &) = delete;
+
+	// creating a communication pattern without a component is not allowed
+	ICommunicationPattern() = delete;
 public:
     /** Default Constructor initializing an IShutdownObserver
      *
@@ -74,8 +80,7 @@ public:
 
 	/** Default Destructor
 	 */
-	virtual ~ICommunicationPattern()
-	{  }
+	virtual ~ICommunicationPattern() = default;
 };
 
 } /* namespace Smart */

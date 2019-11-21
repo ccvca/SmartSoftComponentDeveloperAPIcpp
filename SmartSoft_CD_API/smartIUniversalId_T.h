@@ -125,8 +125,7 @@ public:
 	}
 
 	/// Default destructor
-	virtual ~IUniversalId()
-	{  }
+	virtual ~IUniversalId() = default;
 
 	/// conversion operator to std::string
 	virtual operator std::string() const {

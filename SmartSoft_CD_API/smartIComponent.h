@@ -70,10 +70,13 @@ namespace Smart {
  */
 class IComponent : public ShutdownSubject {
 protected:
-	/// the internal blocking flag
-	bool is_blocking;
 	/// the internal component-name
 	std::string componentName;
+	/// the internal blocking flag
+	bool is_blocking;
+
+	// at the minimum a component name should be provided, so empty initialization is prohibited
+	IComponent() = delete;
 
 public:
 	/** Default constructor initializes the component with a given component-name.
@@ -89,8 +92,7 @@ public:
 	/** Destructor.
 	 *
 	 */
-	virtual ~IComponent()
-	{  }
+	virtual ~IComponent() = default;
 
 	/** Runs the SmartSoft framework within a component which includes handling
 	 *  intercomponent communication etc. This method is called in the main()-routine
@@ -103,6 +105,8 @@ public:
 	 *    - SMART_OK: gracefully terminated
 	 */
 	virtual StatusCode run(void) = 0;
+
+	virtual void signal_shutdown(void) = 0;
 
 	/** Allow or abort and reject blocking calls in communication patterns of this component.
 	 *

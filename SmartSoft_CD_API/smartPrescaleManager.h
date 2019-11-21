@@ -48,6 +48,14 @@
 
 namespace Smart {
 
+/** This helper class allows dividing an update frequency by a given factor.
+ *
+ * Often data arrives at input ports at a certain periodic update frequency.
+ * Clients however often are not interested in all updates but in a subset
+ * of updates. The lower rate can be specified in the component model and
+ * this class helps in realizing this subdivided update frequency.
+ *
+ */
 class PrescaleManager
 {
 private:
@@ -57,14 +65,19 @@ private:
 	unsigned int updateCounter;
 
 public:
-	// default conversion constructor
-	PrescaleManager(const unsigned int &prescaleFactor=1)
+	/** default initialization constructor
+	 * @param prescaleFactor divides the update frequency by this value
+	 */
+	PrescaleManager(const unsigned int &prescaleFactor = 1)
 	:	prescaleFactor(prescaleFactor)
 	,	updateCounter(1)
 	{  }
-	// default destructor
-	virtual ~PrescaleManager()
-	{  }
+
+	PrescaleManager& operator=(const unsigned int &prescaleFactor) {
+		this->prescaleFactor = prescaleFactor;
+		this->updateCounter = 1;
+		return *this;
+	}
 
 	// method increments the internal update-counter and checks whether the next update is due.
 	inline bool isUpdateDue() {

@@ -26,3 +26,4 @@ ADD_SUBDIRECTORY(doc)
 # build target for the SmartSoft Component-Developer API
 ADD_SUBDIRECTORY(SmartSoft_CD_API)
 
+ADD_SUBDIRECTORY(gtests)

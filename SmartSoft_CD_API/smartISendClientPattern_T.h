@@ -94,8 +94,7 @@ public:
      *
      *  The destructor calls disconnect().
      */
-	virtual ~ISendClientPattern()
-	{  }
+	virtual ~ISendClientPattern() = default;
 
     /** Perform a one-way communication. Appropriate status codes make
      *  sure that the information has been transferred.

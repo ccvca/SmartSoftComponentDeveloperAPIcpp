@@ -46,19 +46,44 @@
 #ifndef SMARTSOFT_INTERFACES_SMARTITIMERHANDLER_H_
 #define SMARTSOFT_INTERFACES_SMARTITIMERHANDLER_H_
 
-#include <chrono>
+#include "smartChronoAliases.h"
 
 namespace Smart {
 
 class ITimerHandler {
 public:
-	ITimerHandler() { }
-	virtual ~ITimerHandler() { }
+	virtual ~ITimerHandler() = default;
 
-	virtual void timerExpired(const std::chrono::system_clock::time_point &abs_time, const void * arg) = 0;
+	/** hook called on timer expiration
+	 *  @param  abs_time   the time-point of the current timeout (which is independent of when the thread actually executed this method)
+	 *  @param  act        a pointer (to a pointer) to retrieve the act that was given on
+	 *                     scheduleTimer(). Can be used to release resources
+	 *                     (see Asynchronous Completion Token (ACT), POSA2).
+	 */
+	virtual void timerExpired(const TimePoint &abs_time, const void * act) = 0;
 
+	/** hook called when the timer is cancelled
+	 *
+	 *  Whenever the cancel method of the timer manager is triggered for a timer that is associated with this handler,
+	 *  then this method is called. Be aware that this method might be called from within a different thread than
+	 *  the timerExpired method, so make sure you do not concurrently write the same data from within the different
+	 *  handler methods.
+	 */
 	virtual void timerCancelled() = 0;
-	virtual void timerDeleted(const void * arg) = 0;
+
+	/** hook called when the timer is deleted
+	 *
+	 *  Typically when the TimerManager is commanded to shut-down,
+	 *  it calls all associated timers to clean-up their resources using this callback.
+	 *  Be aware that this method might be called from within a different thread than
+	 *  the timerExpired method, so make sure you do not concurrently write the same data
+	 *  from within the different handler methods.
+	 *
+	 *  @param  act        a pointer (to a pointer) to retrieve the act that was given on
+	 *                     scheduleTimer(). Can be used to release resources
+	 *                     (see Asynchronous Completion Token (ACT), POSA2).
+	 */
+	virtual void timerDeleted(const void * act) = 0;
 };
 
 } /* namespace Smart */

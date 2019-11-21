@@ -55,30 +55,30 @@
 
 namespace Smart {
 
-template<class RequestType, class AnswerType, class QIDType>
+template<class RequestType, class AnswerType>
 class QueryServerTaskTrigger
-:	public IQueryServerHandler<RequestType,AnswerType,QIDType>
+:	public IInputHandler<std::pair<Smart::QueryIdPtr,RequestType>>
 ,	public TaskTriggerSubject
 {
 private:
 	std::mutex requestMutex;
-	std::list<std::pair<QIDType,RequestType>> requestList;
+	using InputType = std::pair<Smart::QueryIdPtr,RequestType>;
+	std::list<InputType> requestList;
 protected:
-	virtual void handleQuery(const QIDType &id, const RequestType& request) {
+	virtual void handle_input(const InputType& input) override {
 		std::unique_lock<std::mutex> lock (requestMutex);
 		// store the request entry in a list
-		requestList.push_back(std::pair<QIDType,RequestType>(id,request));
+		requestList.push_back(input);
 		// trigger all observer tasks
 		this->trigger_all_tasks();
 	}
 public:
-	QueryServerTaskTrigger(IQueryServerPattern<RequestType,AnswerType,QIDType>* server)
-	:	IQueryServerHandler<RequestType,AnswerType,QIDType>(server)
+	QueryServerTaskTrigger(IQueryServerPattern<RequestType,AnswerType>* server)
+	:	IInputHandler<std::pair<Smart::QueryIdPtr,RequestType>>(server)
 	{ }
-	virtual ~QueryServerTaskTrigger()
-	{ }
+	virtual ~QueryServerTaskTrigger() = default;
 
-	inline Smart::StatusCode consumeRequest(QIDType& id, RequestType &request) {
+	inline Smart::StatusCode consumeRequest(Smart::QueryIdPtr& id, RequestType &request) {
 		std::unique_lock<std::mutex> lock (requestMutex);
 		if(!requestList.empty()) {
 			// copy request data
@@ -91,7 +91,7 @@ public:
 		return SMART_NODATA;
 	}
 
-	inline Smart::StatusCode answer(const QIDType& id, const AnswerType& answer) {
+	inline Smart::StatusCode answer(const Smart::QueryIdPtr& id, const AnswerType& answer) {
 		return this->server->answer(id, answer);
 	}
 };

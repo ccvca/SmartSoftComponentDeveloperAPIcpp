@@ -58,13 +58,9 @@ namespace Smart {
  */
 class ICommunicationObject {
 public:
-	/** Default constructor.
-	 */
-	ICommunicationObject() {  }
-
 	/** Default destructor.
 	 */
-	virtual ~ICommunicationObject() {  }
+	virtual ~ICommunicationObject() = default;
 
 	/** The ASCII name of the communication-object.
 	 *
