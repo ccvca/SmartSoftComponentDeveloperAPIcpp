@@ -140,13 +140,14 @@ public:
      *  Note that a handler has to be supplied. Without a handler, the
      *  QueryServer could not accept a query.
      *
-     *  @param component management class of the component
-     *  @param service   name of the service
+     *  @param component     management class of the component
+     *  @param service       name of the service
+     *  @param query_handler an optional query_handler
      */
-	IQueryServerPattern(IComponent* component, const std::string& service, IQueryServerHandlerPtr query_handler = nullptr)
-	:	IServerPattern(component, service)
-	,	query_handler(query_handler)
-	{  }
+    IQueryServerPattern(IComponent* component, const std::string& service, IQueryServerHandlerPtr query_handler = nullptr)
+    :   IServerPattern(component, service)
+    ,   query_handler(query_handler)
+    {  }
 
     /** Destructor.
      *  Properly disconnects all service requestors in case of destruction
