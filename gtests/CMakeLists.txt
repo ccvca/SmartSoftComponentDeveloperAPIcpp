@@ -3,14 +3,14 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 # we keep the SmartSoft API Version and the Tests Version in sync
 PROJECT(SmartSoftTests VERSION 1.1)
 
-FIND_PACKAGE(GTest QUIET)
+FIND_PACKAGE(GTest QUIET NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
 
 IF(GTest_FOUND)
   # the SmartSoft_CD_API's generic tests are implemented as header-only library and can be easily reused
   # to test different middleware mappings
   ADD_LIBRARY(${PROJECT_NAME} INTERFACE)
 
-  TARGET_LINK_LIBRARIES(${PROJECT_NAME} INTERFACE SmartSoft_CD_API gtest pthread)
+  TARGET_LINK_LIBRARIES(${PROJECT_NAME} INTERFACE SmartSoft_CD_API GTest::gtest pthread)
   # define include paths for the target
   TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} INTERFACE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
