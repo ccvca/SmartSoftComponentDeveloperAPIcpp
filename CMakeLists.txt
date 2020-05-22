@@ -6,6 +6,7 @@ PROJECT(SmartSoftFramework)
 IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   # SET(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR} CACHE PATH "Set default SmartSoft install prefix" FORCE)
   SET(CMAKE_INSTALL_PREFIX $ENV{SMART_ROOT_ACE} CACHE PATH "Set default SmartSoft install prefix" FORCE)
+  MESSAGE("Setting install prefix to SMART_ROOT_ACE: " $ENV{SMART_ROOT_ACE})
 ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 # create uninstall configuration file
