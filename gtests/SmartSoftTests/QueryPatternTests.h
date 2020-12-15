@@ -108,6 +108,7 @@ protected:
 	}
 
 	void TearDown() override {
+		id.reset();
 		queryClient.reset();
 		queryServer.reset();
 		queryHandler.reset();
